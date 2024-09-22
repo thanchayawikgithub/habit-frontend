@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class ProfileController extends GetxController {
-  //TODO: Implement ProfileController
+class SignupController extends GetxController {
+  //TODO: Implement HabitController
 
   final count = 0.obs;
 

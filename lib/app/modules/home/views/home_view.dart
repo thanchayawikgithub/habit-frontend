@@ -8,7 +8,7 @@ import 'package:habit_frontend/app/modules/home/widgets/your_goals.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  const HomeView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +23,7 @@ class HomeView extends GetView<HomeController> {
               children: [
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       'Hello,',
                       style:
                           TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -37,12 +37,12 @@ class HomeView extends GetView<HomeController> {
                     )
                   ],
                 ),
-                SizedBox(height: 16),
-                ProgressCard(),
-                SizedBox(height: 10),
-                TodayHabit(),
-                SizedBox(height: 10),
-                YourGoals()
+                const SizedBox(height: 16),
+                const ProgressCard(),
+                const SizedBox(height: 10),
+                const TodayHabit(),
+                const SizedBox(height: 10),
+                const YourGoals()
               ],
             ),
           ),

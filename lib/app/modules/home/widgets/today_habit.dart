@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
 
 class TodayHabit extends StatelessWidget {
-  const TodayHabit({Key? key}) : super(key: key);
+  const TodayHabit({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -17,14 +17,14 @@ class TodayHabit extends StatelessWidget {
       child: Container(
         width: MediaQuery.of(context).size.width,
         height: 300,
-        padding: EdgeInsets.all(16),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text(
+                const Text(
                   'Today Habit',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
@@ -37,7 +37,7 @@ class TodayHabit extends StatelessWidget {
                 )
               ],
             ),
-            SizedBox(
+            const SizedBox(
               height: 12,
             ),
             Expanded(
@@ -45,7 +45,8 @@ class TodayHabit extends StatelessWidget {
                 itemCount: todayHabits.length,
                 itemBuilder: (context, index) {
                   return Container(
-                    margin: EdgeInsets.only(bottom: 8), // Space between items
+                    margin:
+                        const EdgeInsets.only(bottom: 8), // Space between items
                     decoration: BoxDecoration(
                       color: Colors.grey[100], // Grey background
                       borderRadius:
@@ -55,7 +56,7 @@ class TodayHabit extends StatelessWidget {
                       minVerticalPadding: 16,
                       title: Text(
                         todayHabits[index].title,
-                        style: TextStyle(fontWeight: FontWeight.w500),
+                        style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
                       trailing: Checkbox(
                         value: false, // Set this based on your state

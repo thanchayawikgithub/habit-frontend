@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import '../controllers/habit_controller.dart';
 
 class HabitView extends GetView<HabitController> {
-  const HabitView({Key? key}) : super(key: key);
+  const HabitView({super.key});
   @override
   Widget build(BuildContext context) {
     return Scaffold(
