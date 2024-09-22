@@ -1,41 +1,29 @@
 import 'package:flutter/material.dart';
 
-import 'package:habit_frontend/app/modules/habit/views/habit_view.dart';
-import 'package:habit_frontend/app/modules/home/views/home_view.dart';
-import 'package:habit_frontend/app/modules/profile/views/profile_view.dart';
-
 class BottomAppBarWidget extends StatefulWidget {
+  const BottomAppBarWidget({super.key});
   @override
   _BottomAppBarWidgetState createState() => _BottomAppBarWidgetState();
-  const BottomAppBarWidget({super.key});
 }
 
 class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
-  int _currentIndex = 0; // เก็บค่า index ของปุ่มที่ถูกเลือก
+  int _currentIndex = 0;
 
+  // ฟังก์ชันนี้จะนำทางไปยัง route ตาม index ของ BottomNavigationBarItem
   void _onItemTapped(int index) {
     setState(() {
-      _currentIndex = index; // อัพเดต index
+      _currentIndex = index;
     });
 
     switch (index) {
       case 0:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HomeView()),
-        );
+        Navigator.pushNamed(context, '/home');
         break;
       case 1:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => HabitView()),
-        );
+        Navigator.pushNamed(context, '/habit');
         break;
       case 2:
-        Navigator.push(
-          context,
-          MaterialPageRoute(builder: (context) => ProfileView()),
-        );
+        Navigator.pushNamed(context, '/profile');
         break;
     }
   }
