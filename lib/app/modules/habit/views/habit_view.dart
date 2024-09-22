@@ -10,7 +10,7 @@ import '../controllers/habit_controller.dart';
 class HabitView extends GetView<HabitController> {
   HabitView({super.key});
 
-  final List<HabitItem> habitData = [
+  final habitData = [
     HabitItem(
       id: 1,
       title: 'Journaling everyday',
@@ -55,8 +55,8 @@ class HabitView extends GetView<HabitController> {
     ),
   ];
 
-  void indexHabit() {
-    final habit = habitData.indexed;
+  void indexHabit(int index, HabitItem habit) {
+    habitData[index] = habit;
   }
 
   @override
@@ -64,6 +64,7 @@ class HabitView extends GetView<HabitController> {
     return Scaffold(
         bottomNavigationBar: BottomAppBarWidget(),
         appBar: AppBar(
+          automaticallyImplyLeading: false,
           title: Text(
             'Progress',
             style: TextStyle(
@@ -128,13 +129,16 @@ class HabitView extends GetView<HabitController> {
                                 TextButton(
                                   onPressed: () {
                                     // ใส่ฟังก์ชันที่ต้องการทำงานเมื่อกดปุ่ม
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                          builder: (context) => GoalsView(
-                                                habit: HabitView(),
-                                              )),
-                                    );
+                                    // Navigator.push(
+                                    //   context,
+                                    //   MaterialPageRoute(
+                                    //       builder: (context) => GoalsView(
+                                    //             habit:,
+                                    //           )),
+                                    // );
+                                    Get.to(() => GoalsView(
+                                          habit: HabitView(),
+                                        ));
                                   },
                                   child: Text(
                                     'See All',

@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:habit_frontend/app/modules/habit/views/Habit_Item.dart';
+import 'package:habit_frontend/app/modules/habit/views/goals_detail.dart';
 import 'package:habit_frontend/app/modules/habit/views/habit_view.dart';
 
 class GoalsView extends StatefulWidget {
@@ -8,6 +11,10 @@ class GoalsView extends StatefulWidget {
   @override
   _GoalsViewState createState() => _GoalsViewState();
 }
+
+// void indexHabit(int index, HabitItem habit) {
+//   habit.habitData[index] = habit;
+// }
 
 class _GoalsViewState extends State<GoalsView> {
   String? selectedValue; // Variable to store the selected dropdown value
@@ -54,6 +61,17 @@ class _GoalsViewState extends State<GoalsView> {
                 // Action to perform when an item is tapped
                 print("Tapped on index: $index");
                 // You can navigate to a detailed view or perform another action here
+                // Navigator.push(
+                //   context,
+                //   MaterialPageRoute(
+                //       builder: (context) => GoalsDetail(
+                //             habit: HabitView(),
+                //           )),
+                // );
+                Get.to(() => GoalsDetail(
+                      habit: widget.habit, // ส่งข้อมูล habit ทั้งหมด
+                      index: index,
+                    ));
               },
               child: HabitItem(
                 title: habits.title,
