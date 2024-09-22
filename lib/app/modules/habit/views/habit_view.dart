@@ -136,9 +136,7 @@ class HabitView extends GetView<HabitController> {
                                     //             habit:,
                                     //           )),
                                     // );
-                                    Get.to(() => GoalsView(
-                                          habit: HabitView(),
-                                        ));
+                                    Navigator.pushNamed(context, '/goals');
                                   },
                                   child: Text(
                                     'See All',
@@ -212,13 +210,7 @@ class HabitView extends GetView<HabitController> {
                               child: TextButton(
                                 onPressed: () {
                                   // ใส่ฟังก์ชันที่ต้องการทำงานเมื่อกดปุ่ม
-                                  Navigator.push(
-                                    context,
-                                    MaterialPageRoute(
-                                        builder: (context) => GoalsView(
-                                              habit: HabitView(),
-                                            )),
-                                  );
+                                  Navigator.pushNamed(context, '/goals');
                                 },
                                 child: Text(
                                   'See All',

@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/habit/views/goals_detail.dart';
 import 'package:habit_frontend/app/modules/habit/views/goals_view.dart';
 import 'package:habit_frontend/app/modules/signup/bindings/signup_binding.dart';
 import 'package:habit_frontend/app/modules/signup/views/signup_view.dart';
@@ -48,5 +49,12 @@ class AppPages {
       page: () => GoalsView(habit: HabitView()),
       binding: HabitBinding(),
     ),
+    // GetPage(
+    //   name: _Paths.GOALS,
+    //   page: () => GoalsDetail(
+    //      ,
+    //   ),
+    //   binding: HabitBinding(),
+    // ),
   ];
 }
