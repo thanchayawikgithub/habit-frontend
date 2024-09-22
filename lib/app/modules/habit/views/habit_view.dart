@@ -8,7 +8,7 @@ import 'package:habit_frontend/app/modules/habit/views/goals_view.dart';
 import '../controllers/habit_controller.dart';
 
 class HabitView extends GetView<HabitController> {
-  HabitView({Key? key}) : super(key: key);
+  HabitView({super.key});
 
   final List<HabitItem> habitData = [
     HabitItem(
