@@ -27,7 +27,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.HABIT,
-      page: () => const HabitView(),
+      page: () => HabitView(),
       binding: HabitBinding(),
     ),
     GetPage(
