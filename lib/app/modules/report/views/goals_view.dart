@@ -1,27 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-import 'package:habit_frontend/app/modules/habit/views/Habit_Item.dart';
-import 'package:habit_frontend/app/modules/habit/views/goals_detail.dart';
-import 'package:habit_frontend/app/modules/habit/views/habit_view.dart';
+import 'package:habit_frontend/app/modules/report/views/widget/report_list.dart';
+import 'package:habit_frontend/app/modules/report/views/widget/report_widget.dart';
 
 class GoalsView extends StatefulWidget {
-  const GoalsView({super.key, required this.habit});
-  final HabitView habit;
+  const GoalsView({super.key, required this.report});
+  final ReportList report;
   @override
   _GoalsViewState createState() => _GoalsViewState();
 }
 
-// void indexHabit(int index, HabitItem habit) {
-//   habit.habitData[index] = habit;
+// void indexReport(int index, ReportItem report) {
+//   report.reportData[index] = report;
 // }
 
 class _GoalsViewState extends State<GoalsView> {
   String? selectedValue; // Variable to store the selected dropdown value
   List<String> dropdownItems = [
     "All",
-    "Option 2",
-    "Option 3"
   ]; // Dropdown options
 
   @override
@@ -53,34 +50,24 @@ class _GoalsViewState extends State<GoalsView> {
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: ListView.builder(
-          itemCount: widget.habit.habitData.length,
+          itemCount: widget.report.reportData.length,
           itemBuilder: (context, index) {
-            final habits = widget.habit.habitData[index];
+            final reports = widget.report.reportData[index];
             return InkWell(
-              onTap: () {
-                // Action to perform when an item is tapped
-                print("Tapped on index: $index");
-                // You can navigate to a detailed view or perform another action here
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //       builder: (context) => GoalsDetail(
-                //             habit: HabitView(),
-                //           )),
-                // );
-                Get.to(() => GoalsDetail(
-                      habit: widget.habit, // ส่งข้อมูล habit ทั้งหมด
-                      index: index,
-                    ));
-              },
-              child: HabitItem(
-                title: habits.title,
-                progress: habits.progress,
-                target: habits.target,
-                status: habits.status,
-                id: habits.id,
-              ),
-            );
+                onTap: () {
+                  // Action to perform when an item is tapped
+                  print("Tapped on index: $index");
+                  // Get.to(
+                  //   () => GoalsDetail(
+                  //     index: 1,
+                  //     report: ReportView(ReportList()),
+                  //   ),
+                  // );
+                  Get.toNamed('/goals_detail/${index}');
+                },
+                child: ReportWidget(
+                  report: reports, // Pass the individual Report object
+                ));
           },
         ),
       ),

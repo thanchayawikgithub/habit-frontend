@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 
 class BottomAppBarWidget extends StatefulWidget {
   const BottomAppBarWidget({super.key});
@@ -24,7 +23,7 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
         // Navigator.pushNamed(context, '/home');
         break;
       case 1:
-        Get.toNamed('/habit');
+        Get.toNamed('/progress');
         // Navigator.pushNamed(context, '/habit');
         break;
       case 2:
@@ -43,8 +42,11 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
       onTap: _onItemTapped,
       showUnselectedLabels: false,
       showSelectedLabels: false,
-      items: const [
-        BottomNavigationBarItem(label: "Home", icon: Icon(Icons.home)),
+      items: [
+        BottomNavigationBarItem(
+          label: "Home",
+          icon: Icon(Icons.home),
+        ),
         BottomNavigationBarItem(label: "Habit", icon: Icon(Icons.heart_broken)),
         BottomNavigationBarItem(
             label: "Profile", icon: Icon(Icons.account_circle))

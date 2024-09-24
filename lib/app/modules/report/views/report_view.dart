@@ -2,62 +2,16 @@ import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
-import 'package:habit_frontend/app/modules/habit/views/Habit_Item.dart';
-import 'package:habit_frontend/app/modules/habit/views/goals_view.dart';
 
-import '../controllers/habit_controller.dart';
+import 'package:habit_frontend/app/modules/report/report.dart';
+import 'package:habit_frontend/app/modules/report/views/widget/report_list.dart';
+import 'package:habit_frontend/app/modules/report/views/widget/report_widget.dart';
 
-class HabitView extends GetView<HabitController> {
-  HabitView({super.key});
+import '../controllers/report_controller.dart';
 
-  final habitData = [
-    HabitItem(
-      id: 1,
-      title: 'Journaling everyday',
-      progress: 100,
-      target: '7 from 7 days target',
-      status: 'Achieved',
-    ),
-    HabitItem(
-      id: 2,
-      title: 'Cooking Practice',
-      progress: 100,
-      target: '7 from 7 days target',
-      status: 'Achieved',
-    ),
-    HabitItem(
-      id: 3,
-      title: 'Vitamin',
-      progress: 70,
-      target: '5 from 7 days target',
-      status: 'Unachieved',
-    ),
-    HabitItem(
-      id: 4,
-      title: 'Exercise',
-      progress: 90,
-      target: '6 from 7 days target',
-      status: 'Unachieved',
-    ),
-    HabitItem(
-      id: 5,
-      title: 'Meditation',
-      progress: 60,
-      target: '4 from 7 days target',
-      status: 'Achieved',
-    ),
-    HabitItem(
-      id: 6,
-      title: 'Reading Books',
-      progress: 80,
-      target: '5 from 7 days target',
-      status: 'Achieved',
-    ),
-  ];
-
-  void indexHabit(int index, HabitItem habit) {
-    habitData[index] = habit;
-  }
+class ReportView extends GetView<ReportController> {
+  ReportView(this.reportList, {super.key});
+  final ReportList reportList;
 
   @override
   Widget build(BuildContext context) {
@@ -169,11 +123,11 @@ class HabitView extends GetView<HabitController> {
                                 text: const TextSpan(
                                   children: [
                                     TextSpan(
-                                      text: '✔ 11 Habits goal has achieved\n',
+                                      text: '✔ 11 Reports goal has achieved\n',
                                       style: TextStyle(color: Colors.purple),
                                     ),
                                     TextSpan(
-                                      text: '✘ 6 Habits goal hasn\'t achieved',
+                                      text: '✘ 6 Reports goal hasn\'t achieved',
                                       style: TextStyle(color: Colors.grey),
                                     ),
                                   ],
@@ -181,21 +135,18 @@ class HabitView extends GetView<HabitController> {
                               ),
                             ])),
                             const SizedBox(height: 20),
-                            // ListView of Habit Items
+                            // ListView of Report Items
                             SizedBox(
                               height: 300,
                               child: ListView.builder(
-                                itemCount: habitData.length,
+                                itemCount: reportList.reportData.length,
                                 itemBuilder: (context, index) {
-                                  final habit = habitData[index];
+                                  final reports = reportList.reportData[index];
                                   return Padding(
-                                    padding: const EdgeInsets.all(8.0),
-                                    child: HabitItem(
-                                      title: habit.title,
-                                      progress: habit.progress,
-                                      target: habit.target,
-                                      status: habit.status,
-                                      id: habit.id,
+                                    padding: const EdgeInsets.all(0.0),
+                                    child: ReportWidget(
+                                      report:
+                                          reports, // Pass the individual Report object
                                     ),
                                   );
                                 },

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:habit_frontend/app/modules/habit/views/habit_view.dart';
+import 'package:habit_frontend/app/modules/report/views/report_view.dart';
 
 class GoalsDetail extends StatelessWidget {
-  final HabitView habit;
+  final ReportView report;
   final int index;
-  const GoalsDetail({super.key, required this.habit, required this.index});
+  const GoalsDetail({super.key, required this.report, required this.index});
 
   @override
   Widget build(BuildContext context) {
-    final habits = habit.habitData[index];
+    final reports = report.reportList.reportData[index];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Goals : ${habits.title}',
+        title: Text('Goals : ${reports.title}',
             style: const TextStyle(fontSize: 24)),
       ),
       body: Container(
@@ -23,7 +23,7 @@ class GoalsDetail extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                    'Goals : ${habits.title}',
+                    'Goals : ${reports.title}',
                     style: const TextStyle(
                       fontSize: 19,
                       fontWeight: FontWeight.bold,
@@ -31,7 +31,7 @@ class GoalsDetail extends StatelessWidget {
                   ),
                   Container(
                     decoration: BoxDecoration(
-                      color: habits.status == 'Achieved'
+                      color: reports.status == 'Achieved'
                           ? Colors.green[100]
                           : Colors.grey[300],
                       borderRadius: BorderRadius.circular(12),
@@ -41,9 +41,9 @@ class GoalsDetail extends StatelessWidget {
                     child: Row(
                       children: [
                         Text(
-                          habits.status,
+                          reports.status,
                           style: TextStyle(
-                            color: habits.status == 'Achieved'
+                            color: reports.status == 'Achieved'
                                 ? Colors.green
                                 : Colors.grey,
                           ),

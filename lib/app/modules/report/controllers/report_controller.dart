@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
 
-class HabitController extends GetxController {
-  //TODO: Implement HabitController
+class ReportController extends GetxController {
+  //TODO: Implement ReportController
 
   final count = 0.obs;
 
