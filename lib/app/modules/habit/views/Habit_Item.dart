@@ -8,7 +8,8 @@ class HabitItem extends StatelessWidget {
   final String target;
   final String status;
 
-  HabitItem({
+  const HabitItem({
+    super.key,
     required this.id,
     required this.title,
     required this.progress,

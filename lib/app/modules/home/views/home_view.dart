@@ -13,7 +13,7 @@ class HomeView extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomAppBarWidget(),
+        bottomNavigationBar: const BottomAppBarWidget(),
         body: SingleChildScrollView(
           child: Container(
             color: Colors.grey[100],

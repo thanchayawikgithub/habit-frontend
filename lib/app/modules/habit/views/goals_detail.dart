@@ -12,10 +12,7 @@ class GoalsDetail extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Goals : ${habits.title}',
-            style: const TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            )),
+            style: const TextStyle(fontSize: 24)),
       ),
       body: Container(
         child: Padding(
