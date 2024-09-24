@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 
 class BottomAppBarWidget extends StatefulWidget {
   const BottomAppBarWidget({super.key});
+
   @override
   _BottomAppBarWidgetState createState() => _BottomAppBarWidgetState();
 }
@@ -17,13 +20,16 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
 
     switch (index) {
       case 0:
-        Navigator.pushNamed(context, '/home');
+        Get.toNamed('/home');
+        // Navigator.pushNamed(context, '/home');
         break;
       case 1:
-        Navigator.pushNamed(context, '/habit');
+        Get.toNamed('/habit');
+        // Navigator.pushNamed(context, '/habit');
         break;
       case 2:
-        Navigator.pushNamed(context, '/profile');
+        Get.toNamed('/profile');
+        // Navigator.pushNamed(context, '/profile');
         break;
     }
   }
@@ -31,6 +37,8 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return BottomNavigationBar(
+      selectedItemColor: Colors.purple,
+      unselectedItemColor: Colors.grey,
       currentIndex: _currentIndex,
       onTap: _onItemTapped,
       showUnselectedLabels: false,

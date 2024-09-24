@@ -49,10 +49,11 @@ class AppPages {
       page: () => GoalsView(habit: HabitView()),
       binding: HabitBinding(),
     ),
+    //goals_detail
     // GetPage(
-    //   name: _Paths.GOALS,
+    //   name: _Paths.GOALSDETAIL,
     //   page: () => GoalsDetail(
-    //      ,
+    //     habit: HabitView(), index: ,
     //   ),
     //   binding: HabitBinding(),
     // ),
