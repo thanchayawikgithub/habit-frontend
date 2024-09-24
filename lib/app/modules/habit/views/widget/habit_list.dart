@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:habit_frontend/app/modules/habit/views/Habit_Item.dart';
 
 class HabitList extends StatelessWidget {
-  HabitList({Key? key, required this.habitItem}) : super(key: key);
+  const HabitList({super.key, required this.habitItem});
   final HabitItem habitItem;
   @override
   Widget build(BuildContext context) {
@@ -11,7 +11,7 @@ class HabitList extends StatelessWidget {
       child: Row(
         children: [
           // Progress indicator
-          Container(
+          SizedBox(
             width: 60,
             height: 60,
             child: Stack(
@@ -21,18 +21,18 @@ class HabitList extends StatelessWidget {
                   value: habitItem.progress / 100,
                   strokeWidth: 6,
                   backgroundColor: Colors.grey[300],
-                  valueColor: AlwaysStoppedAnimation<Color>(Colors.green),
+                  valueColor: const AlwaysStoppedAnimation<Color>(Colors.green),
                 ),
                 Center(
                   child: Text(
                     '${habitItem.progress}%',
-                    style: TextStyle(fontSize: 15),
+                    style: const TextStyle(fontSize: 15),
                   ),
                 ),
               ],
             ),
           ),
-          SizedBox(width: 10),
+          const SizedBox(width: 10),
           // Goal details
           Expanded(
             child: Column(
@@ -40,13 +40,13 @@ class HabitList extends StatelessWidget {
               children: [
                 Text(
                   habitItem.title,
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 Text(
                   habitItem.target,
-                  style: TextStyle(color: Colors.grey),
+                  style: const TextStyle(color: Colors.grey),
                 ),
               ],
             ),
@@ -59,7 +59,7 @@ class HabitList extends StatelessWidget {
                   : Colors.grey[300],
               borderRadius: BorderRadius.circular(12),
             ),
-            padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
             child: Text(
               habitItem.status,
               style: TextStyle(

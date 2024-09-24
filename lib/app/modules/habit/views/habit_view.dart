@@ -62,10 +62,10 @@ class HabitView extends GetView<HabitController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomAppBarWidget(),
+        bottomNavigationBar: const BottomAppBarWidget(),
         appBar: AppBar(
           automaticallyImplyLeading: false,
-          title: Text(
+          title: const Text(
             'Progress',
             style: TextStyle(
               fontSize: 30,
@@ -75,7 +75,7 @@ class HabitView extends GetView<HabitController> {
           centerTitle: false,
         ),
         body: SingleChildScrollView(
-          padding: EdgeInsets.all(16.0),
+          padding: const EdgeInsets.all(16.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -83,7 +83,7 @@ class HabitView extends GetView<HabitController> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
+                  const Text(
                     'Progress Report',
                     style: TextStyle(
                       fontSize: 20,
@@ -104,14 +104,14 @@ class HabitView extends GetView<HabitController> {
                   )
                 ],
               ),
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               // Progress Circle and Goals Summary
               Card(
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(16.0),
                   ),
                   child: Padding(
-                      padding: EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(16.0),
                       child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -119,7 +119,7 @@ class HabitView extends GetView<HabitController> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Text(
+                                const Text(
                                   'Your Goals',
                                   style: TextStyle(
                                     fontWeight: FontWeight.bold,
@@ -138,7 +138,7 @@ class HabitView extends GetView<HabitController> {
                                     // );
                                     Navigator.pushNamed(context, '/goals');
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     'See All',
                                     style: TextStyle(color: Colors.purple),
                                   ),
@@ -156,11 +156,12 @@ class HabitView extends GetView<HabitController> {
                                       value: 0.6,
                                       strokeWidth: 10,
                                       backgroundColor: Colors.grey[300],
-                                      valueColor: AlwaysStoppedAnimation<Color>(
-                                          Colors.purple),
+                                      valueColor:
+                                          const AlwaysStoppedAnimation<Color>(
+                                              Colors.purple),
                                     ),
-                                    SizedBox(height: 20),
-                                    Center(
+                                    const SizedBox(height: 20),
+                                    const Center(
                                       child: Text(
                                         '60%',
                                         style: TextStyle(
@@ -171,9 +172,9 @@ class HabitView extends GetView<HabitController> {
                                       ),
                                     ),
                                   ])),
-                              SizedBox(height: 15),
+                              const SizedBox(height: 15),
                               RichText(
-                                text: TextSpan(
+                                text: const TextSpan(
                                   children: [
                                     TextSpan(
                                       text: '✔ 11 Habits goal has achieved\n',
@@ -187,9 +188,9 @@ class HabitView extends GetView<HabitController> {
                                 ),
                               ),
                             ])),
-                            SizedBox(height: 20),
+                            const SizedBox(height: 20),
                             // ListView of Habit Items
-                            Container(
+                            SizedBox(
                               height: 300,
                               child: ListView.builder(
                                 itemCount: habitData.length,
@@ -205,14 +206,14 @@ class HabitView extends GetView<HabitController> {
                                 },
                               ),
                             ),
-                            SizedBox(height: 10),
+                            const SizedBox(height: 10),
                             Center(
                               child: TextButton(
                                 onPressed: () {
                                   // ใส่ฟังก์ชันที่ต้องการทำงานเมื่อกดปุ่ม
                                   Navigator.pushNamed(context, '/goals');
                                 },
-                                child: Text(
+                                child: const Text(
                                   'See All',
                                   style: TextStyle(color: Colors.purple),
                                 ),

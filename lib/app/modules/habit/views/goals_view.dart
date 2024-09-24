@@ -6,7 +6,7 @@ import 'package:habit_frontend/app/modules/habit/views/goals_detail.dart';
 import 'package:habit_frontend/app/modules/habit/views/habit_view.dart';
 
 class GoalsView extends StatefulWidget {
-  const GoalsView({Key? key, required this.habit}) : super(key: key);
+  const GoalsView({super.key, required this.habit});
   final HabitView habit;
   @override
   _GoalsViewState createState() => _GoalsViewState();
@@ -28,12 +28,12 @@ class _GoalsViewState extends State<GoalsView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Goals"),
+        title: const Text("Goals"),
         actions: [
           DropdownButton<String>(
             value: 'All', // The currently selected item
-            icon: Icon(Icons.arrow_drop_down),
-            underline: SizedBox(), // Remove the default underline
+            icon: const Icon(Icons.arrow_drop_down),
+            underline: const SizedBox(), // Remove the default underline
             items: dropdownItems.map((String value) {
               return DropdownMenuItem<String>(
                 value: value,
@@ -46,7 +46,7 @@ class _GoalsViewState extends State<GoalsView> {
               });
             },
           ),
-          SizedBox(
+          const SizedBox(
               width: 16), // Add some space to the right of the DropdownButton
         ],
       ),
