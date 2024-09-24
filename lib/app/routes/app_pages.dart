@@ -67,7 +67,7 @@ class AppPages {
       name: _Paths.GOALSDETAIL,
       page: () => GoalsDetail(
         report: ReportView(ReportList()),
-        index: 1,
+        index: int.parse(Get.parameters['id']!),
       ),
       binding: ReportBinding(),
     ),
