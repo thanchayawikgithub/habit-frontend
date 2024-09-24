@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
+import 'package:habit_frontend/app/modules/home/widgets/add_habit.dart';
 import 'package:habit_frontend/app/modules/home/widgets/progress_card.dart';
 import 'package:habit_frontend/app/modules/home/widgets/today_habit.dart';
 import 'package:habit_frontend/app/modules/home/widgets/your_goals.dart';
@@ -46,6 +47,7 @@ class HomeView extends GetView<HomeController> {
               ],
             ),
           ),
-        ));
+        ),
+        floatingActionButton: AddHabit());
   }
 }

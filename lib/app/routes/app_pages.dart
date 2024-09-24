@@ -63,13 +63,12 @@ class AppPages {
       binding: ReportBinding(),
     ),
     //goals_detail
-    GetPage(
-      name: _Paths.GOALSDETAIL,
-      page: () => GoalsDetail(
-        report: ReportView(ReportList()),
-        index: 1,
-      ),
-      binding: ReportBinding(),
-    ),
+    // GetPage(
+    //   name: _Paths.GOALSDETAIL,
+    //   page: () => GoalsDetail(
+    //     habit: HabitView(), index: ,
+    //   ),
+    //   binding: HabitBinding(),
+    // ),
   ];
 }
