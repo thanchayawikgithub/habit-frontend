@@ -1,20 +1,21 @@
 import 'package:get/get.dart';
-import 'package:habit_frontend/app/modules/report/report.dart';
-import 'package:habit_frontend/app/modules/report/views/goals_detail.dart';
-import 'package:habit_frontend/app/modules/report/views/goals_view.dart';
-import 'package:habit_frontend/app/modules/report/views/widget/report_list.dart';
-import 'package:habit_frontend/app/modules/report/views/widget/report_widget.dart';
-import 'package:habit_frontend/app/modules/login/bindings/login_binding.dart';
-import 'package:habit_frontend/app/modules/login/views/login_view.dart';
-import 'package:habit_frontend/app/modules/signup/bindings/signup_binding.dart';
-import 'package:habit_frontend/app/modules/signup/views/signup_view.dart';
 
-import '../modules/report/bindings/report_binding.dart';
-import '../modules/report/views/report_view.dart';
+import '../modules/habits/bindings/habits_binding.dart';
+import '../modules/habits/views/habits_view.dart';
 import '../modules/home/bindings/home_binding.dart';
 import '../modules/home/views/home_view.dart';
+import '../modules/login/bindings/login_binding.dart';
+import '../modules/login/views/login_view.dart';
 import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
+import '../modules/report/bindings/report_binding.dart';
+import '../modules/report/report.dart';
+import '../modules/report/views/goals_detail.dart';
+import '../modules/report/views/goals_view.dart';
+import '../modules/report/views/report_view.dart';
+import '../modules/report/views/widget/report_list.dart';
+import '../modules/signup/bindings/signup_binding.dart';
+import '../modules/signup/views/signup_view.dart';
 
 part 'app_routes.dart';
 
@@ -44,6 +45,12 @@ class AppPages {
       name: _Paths.HOME,
       page: () => const HomeView(),
       binding: HomeBinding(),
+    ),
+
+    GetPage(
+      name: _Paths.HABITS,
+      page: () => HabitsView(),
+      binding: HabitsBinding(),
     ),
     GetPage(
       name: _Paths.PROGRESS,

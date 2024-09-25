@@ -6,6 +6,7 @@ int index = 0;
 abstract class Routes {
   Routes._();
   static const HOME = _Paths.HOME;
+  static const HABITS = _Paths.HABITS;
   static const PROGRESS = _Paths.PROGRESS;
   static const PROFILE = _Paths.PROFILE;
   static const LOGIN = _Paths.LOGIN;
@@ -17,8 +18,9 @@ abstract class Routes {
 abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
-  static const PROGRESS = '/progress';
+  static const HABITS = '/habits';
   static const PROFILE = '/profile';
+  static const PROGRESS = '/progress';
   static const LOGIN = '/login';
   static const SIGNUP = '/signup';
   static const GOALS = '/goals';

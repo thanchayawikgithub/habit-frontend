@@ -4,7 +4,7 @@ import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
 import 'package:habit_frontend/app/modules/home/widgets/add_habit.dart';
 import 'package:habit_frontend/app/modules/home/widgets/progress_card.dart';
 import 'package:habit_frontend/app/modules/home/widgets/today_habit.dart';
-import 'package:habit_frontend/app/modules/home/widgets/your_goals.dart';
+import 'package:habit_frontend/app/modules/home/widgets/my_goal.dart';
 
 import '../controllers/home_controller.dart';
 
@@ -43,7 +43,7 @@ class HomeView extends GetView<HomeController> {
                 const SizedBox(height: 10),
                 const TodayHabit(),
                 const SizedBox(height: 10),
-                const YourGoals()
+                const MyGoals()
               ],
             ),
           ),

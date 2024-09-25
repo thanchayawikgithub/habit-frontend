@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
 
-class YourGoals extends StatelessWidget {
-  const YourGoals({super.key});
+class MyGoals extends StatelessWidget {
+  const MyGoals({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +25,7 @@ class YourGoals extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 const Text(
-                  'Your Goals',
+                  'My Goals',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
                 Text(

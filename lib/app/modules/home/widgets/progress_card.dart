@@ -20,6 +20,7 @@ class ProgressCard extends StatelessWidget {
           child: Column(
             children: [
               Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
                 children: [
                   SizedBox(
                     width: 120, // Adjust to increase size
@@ -50,6 +51,22 @@ class ProgressCard extends StatelessWidget {
                       ),
                     ),
                   ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '3 of 5 habits',
+                        style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.white,
+                            fontSize: 18),
+                      ),
+                      Text(
+                        'Completed today!',
+                        style: TextStyle(color: Colors.white, fontSize: 18),
+                      )
+                    ],
+                  )
                 ],
               )
             ],
