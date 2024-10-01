@@ -63,7 +63,7 @@ class _GoalsViewState extends State<GoalsView> {
                   //     report: ReportView(ReportList()),
                   //   ),
                   // );
-                  Get.toNamed('/goals_detail/${index}');
+                  Get.toNamed('/goals_detail/$index');
                 },
                 child: ReportWidget(
                   report: reports, // Pass the individual Report object

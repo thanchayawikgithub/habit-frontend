@@ -6,10 +6,10 @@ import 'package:habit_frontend/app/modules/report/views/widget/report_list.dart'
 class ReportWidget extends StatelessWidget {
   final Report report;
 
-  ReportWidget({
-    Key? key,
+  const ReportWidget({
+    super.key,
     required this.report,
-  }) : super(key: key);
+  });
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -89,6 +89,8 @@ class ReportWidget extends StatelessWidget {
 
 class ReportListScreen extends StatelessWidget {
   late final ReportList list;
+
+  ReportListScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

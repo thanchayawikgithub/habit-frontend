@@ -1,23 +1,16 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/data/models/habit.dart';
 
 class HabitsController extends GetxController {
-  //TODO: Implement HabitsController
+  final CollectionReference habitsCollection =
+      FirebaseFirestore.instance.collection('habits');
 
-  final count = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
+  Future<void> addData(Habit habit) async {
+    try {
+      await habitsCollection.add(habit.toMap());
+    } catch (e) {
+      print('Error adding data: $e');
+    }
   }
-
-  @override
-  void onReady() {
-    super.onReady();
-  }
-
-  @override
-  void onClose() {
-    super.onClose();
-  }
-
-  void increment() => count.value++;
 }

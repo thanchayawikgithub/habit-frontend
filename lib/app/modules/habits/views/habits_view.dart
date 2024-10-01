@@ -8,7 +8,7 @@ import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
 import '../controllers/habits_controller.dart';
 
 class HabitsView extends GetView<HabitsController> {
-  HabitsView({Key? key}) : super(key: key);
+  HabitsView({super.key});
 
   List<Habit> habits = [
     Habit(title: "Drink Water", description: "Drink Water 8 cups"),
@@ -22,13 +22,13 @@ class HabitsView extends GetView<HabitsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        bottomNavigationBar: BottomAppBarWidget(),
+        bottomNavigationBar: const BottomAppBarWidget(),
         body: Padding(
-          padding: EdgeInsets.all(16),
+          padding: const EdgeInsets.all(16),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
+              const Text(
                 'My Habits',
                 style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
               ),
@@ -50,7 +50,7 @@ class HabitsView extends GetView<HabitsController> {
               //           .toList(),
               //       options: CarouselOptions(height: 100)),
               // )
-              SizedBox(height: 20),
+              const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
                   itemCount: habits.length,

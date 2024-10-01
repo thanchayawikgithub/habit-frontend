@@ -42,7 +42,7 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
       onTap: _onItemTapped,
       showUnselectedLabels: false,
       showSelectedLabels: false,
-      items: [
+      items: const [
         BottomNavigationBarItem(
           label: "Home",
           icon: Icon(Icons.home),

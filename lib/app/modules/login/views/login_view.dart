@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controllers/login_controller.dart';
+import 'package:habit_frontend/app/modules/habits/views/habits_view.dart';
 
 class LoginView extends StatefulWidget {
   // เปลี่ยนจาก GetView เป็น StatefulWidget
@@ -16,7 +16,7 @@ class _LoginViewState extends State<LoginView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Color(0xFFF7F7F7), // Background color ตามภาพ
+      backgroundColor: const Color(0xFFF7F7F7), // Background color ตามภาพ
       body: SafeArea(
         child: SingleChildScrollView(
           // เพิ่ม SingleChildScrollView
@@ -25,12 +25,12 @@ class _LoginViewState extends State<LoginView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SizedBox(height: 20), // ระยะห่างจากด้านบนสุดของ SafeArea
+                const SizedBox(height: 20), // ระยะห่างจากด้านบนสุดของ SafeArea
                 Row(
                   mainAxisAlignment: MainAxisAlignment
                       .spaceBetween, // จัดตำแหน่งระหว่าง Log In และ Sign Up
                   children: [
-                    Text(
+                    const Text(
                       'Log In',
                       style: TextStyle(
                         fontSize: 36,
@@ -43,7 +43,7 @@ class _LoginViewState extends State<LoginView> {
                         // Navigate to Sign Up page
                         Get.toNamed('/signup'); // เปลี่ยนลิงก์ไปหน้าสมัคร
                       },
-                      child: Row(
+                      child: const Row(
                         children: [
                           Text(
                             'Sign Up',
@@ -63,11 +63,11 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 30), // ระยะห่างจาก Row ข้อความ Log In
+                const SizedBox(height: 30), // ระยะห่างจาก Row ข้อความ Log In
 
                 // ชื่อ Email
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
                   child: Text(
                     'Email',
                     style: TextStyle(
@@ -85,15 +85,15 @@ class _LoginViewState extends State<LoginView> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none, // ไม่มีเส้นขอบ
                     ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 20),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 // ชื่อ Password
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8.0),
+                const Padding(
+                  padding: EdgeInsets.only(bottom: 8.0),
                   child: Text(
                     'Password',
                     style: TextStyle(
@@ -112,11 +112,11 @@ class _LoginViewState extends State<LoginView> {
                       borderRadius: BorderRadius.circular(12),
                       borderSide: BorderSide.none, // ไม่มีเส้นขอบ
                     ),
-                    contentPadding:
-                        EdgeInsets.symmetric(vertical: 16, horizontal: 20),
+                    contentPadding: const EdgeInsets.symmetric(
+                        vertical: 16, horizontal: 20),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
 
                 // Row ของ Remember me และ Forgot Password?
                 Row(
@@ -133,7 +133,7 @@ class _LoginViewState extends State<LoginView> {
                             });
                           },
                         ),
-                        Text(
+                        const Text(
                           'Remember me',
                           style: TextStyle(
                             color: Colors.grey,
@@ -142,13 +142,13 @@ class _LoginViewState extends State<LoginView> {
                         ),
                       ],
                     ),
-                    Spacer(), // ระยะห่างระหว่าง Remember me และ Forgot Password?
+                    const Spacer(), // ระยะห่างระหว่าง Remember me และ Forgot Password?
                     // Forgot Password?
                     GestureDetector(
                       onTap: () {
                         // กำหนดฟังก์ชันว่างเปล่าไว้
                       },
-                      child: Text(
+                      child: const Text(
                         'Forgot Password?',
                         style: TextStyle(
                           color: Colors.orange,
@@ -159,12 +159,12 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ],
                 ),
-                SizedBox(height: 30),
+                const SizedBox(height: 30),
                 Container(
                   width: double.infinity,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(8),
-                    gradient: LinearGradient(
+                    gradient: const LinearGradient(
                       colors: [
                         Color(0xFF6E33FF),
                         Color(0xFFB44AC3),
@@ -176,7 +176,7 @@ class _LoginViewState extends State<LoginView> {
                     boxShadow: [
                       BoxShadow(
                         color: Colors.purple.withOpacity(0.5),
-                        offset: Offset(0, 4),
+                        offset: const Offset(0, 4),
                         blurRadius: 10,
                       ),
                     ],
@@ -184,18 +184,18 @@ class _LoginViewState extends State<LoginView> {
                   child: ElevatedButton(
                     onPressed: () {
                       // เมื่อกดปุ่ม Log In จะไปหน้าที่กำหนด
-                      Get.toNamed('/habit'); // เปลี่ยนลิงก์ไปหน้า habit
+                      Get.to(HabitsView()); // เปลี่ยนลิงก์ไปหน้า habit
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
                           Colors.transparent, // ตั้งค่าพื้นหลังโปร่งใส
                       shadowColor: Colors.transparent, // ตั้งค่าเงาโปร่งใส
-                      padding: EdgeInsets.symmetric(vertical: 18),
+                      padding: const EdgeInsets.symmetric(vertical: 18),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child: Text(
+                    child: const Text(
                       'Log In',
                       style: TextStyle(
                         fontSize: 16,
@@ -204,7 +204,7 @@ class _LoginViewState extends State<LoginView> {
                     ),
                   ),
                 ),
-                SizedBox(height: 40), // ระยะห่างระหว่างปุ่มและขอบล่าง
+                const SizedBox(height: 40), // ระยะห่างระหว่างปุ่มและขอบล่าง
               ],
             ),
           ),
