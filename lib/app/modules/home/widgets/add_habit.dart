@@ -2,7 +2,7 @@ import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 
 class AddHabit extends StatelessWidget {
-  AddHabit({Key? key}) : super(key: key);
+  AddHabit({super.key});
 
   final List<DayInWeek> _days = [
     DayInWeek("Mon", dayKey: "monday"),
@@ -16,28 +16,28 @@ class AddHabit extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final customWidgetKey = new GlobalKey<SelectWeekDaysState>();
+    final customWidgetKey = GlobalKey<SelectWeekDaysState>();
     return FloatingActionButton(
         onPressed: () => showDialog<String>(
               context: context,
               builder: (BuildContext context) => Dialog.fullscreen(
                 child: Container(
                   color: Colors.white,
-                  padding: EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: <Widget>[
-                      Text(
+                      const Text(
                         'Add Habit',
                         style: TextStyle(
                             fontSize: 24, fontWeight: FontWeight.bold),
                       ),
-                      SizedBox(height: 16),
-                      Text("Title",
+                      const SizedBox(height: 16),
+                      const Text("Title",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -45,15 +45,15 @@ class AddHabit extends StatelessWidget {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 16, horizontal: 20),
                         ),
                       ),
-                      SizedBox(height: 16),
-                      Text("Description",
+                      const SizedBox(height: 16),
+                      const Text("Description",
                           style: TextStyle(
                               fontSize: 16, fontWeight: FontWeight.bold)),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -61,12 +61,12 @@ class AddHabit extends StatelessWidget {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 16, horizontal: 20),
                         ),
                       ),
-                      SizedBox(height: 16),
-                      Row(
+                      const SizedBox(height: 16),
+                      const Row(
                         children: [
                           Text("Period",
                               style: TextStyle(
@@ -78,7 +78,7 @@ class AddHabit extends StatelessWidget {
                               ))
                         ],
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       TextField(
                         decoration: InputDecoration(
                           filled: true,
@@ -86,11 +86,11 @@ class AddHabit extends StatelessWidget {
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(12),
                           ),
-                          contentPadding: EdgeInsets.symmetric(
+                          contentPadding: const EdgeInsets.symmetric(
                               vertical: 16, horizontal: 20),
                         ),
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       SelectWeekDays(
                         key: customWidgetKey,
                         fontSize: 18,
@@ -104,14 +104,14 @@ class AddHabit extends StatelessWidget {
                         border: true,
                         borderWidth: 1,
                         width: MediaQuery.of(context).size.width,
-                        boxDecoration: BoxDecoration(
+                        boxDecoration: const BoxDecoration(
                           color: Colors.white,
                         ),
                         onSelect: (values) {
                           print(values);
                         },
                       ),
-                      SizedBox(height: 5),
+                      const SizedBox(height: 5),
                       SizedBox(
                         width: MediaQuery.of(context).size.width, // Set width
                         height: 50, // Set height
@@ -128,7 +128,7 @@ class AddHabit extends StatelessWidget {
                                   BorderRadius.circular(8), // Border radius
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Save',
                             style: TextStyle(
                               fontSize: 20,
@@ -136,7 +136,7 @@ class AddHabit extends StatelessWidget {
                           ),
                         ),
                       ),
-                      SizedBox(height: 10),
+                      const SizedBox(height: 10),
                       SizedBox(
                         width: MediaQuery.of(context).size.width, // Set width
                         height: 50, // Set height
@@ -154,7 +154,7 @@ class AddHabit extends StatelessWidget {
                                   BorderRadius.circular(8), // Border radius
                             ),
                           ),
-                          child: Text(
+                          child: const Text(
                             'Cancel',
                             style: TextStyle(
                               fontSize: 20,
@@ -167,7 +167,7 @@ class AddHabit extends StatelessWidget {
                 ),
               ),
             ),
-        child: Icon(Icons.add),
-        shape: CircleBorder());
+        shape: const CircleBorder(),
+        child: Icon(Icons.add));
   }
 }

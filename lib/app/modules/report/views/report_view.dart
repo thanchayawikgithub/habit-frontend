@@ -10,7 +10,7 @@ import 'package:habit_frontend/app/modules/report/views/widget/report_widget.dar
 import '../controllers/report_controller.dart';
 
 class ReportView extends GetView<ReportController> {
-  ReportView(this.reportList, {super.key});
+  const ReportView(this.reportList, {super.key});
   final ReportList reportList;
 
   @override
