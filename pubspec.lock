@@ -113,7 +113,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
-<<<<<<< HEAD
   file_selector_linux:
     dependency: transitive
     description:
@@ -146,7 +145,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "0.9.3+3"
-=======
   firebase_core:
     dependency: "direct main"
     description:
@@ -171,7 +169,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.18.1"
->>>>>>> a2b7902e339bd2d8face2d1dc8a6cbbf75e4a11a
   flutter:
     dependency: "direct main"
     description: flutter
@@ -458,8 +455,4 @@ packages:
     version: "1.1.0"
 sdks:
   dart: ">=3.5.1 <4.0.0"
-<<<<<<< HEAD
   flutter: ">=3.24.0"
-=======
-  flutter: ">=3.22.0"
->>>>>>> a2b7902e339bd2d8face2d1dc8a6cbbf75e4a11a
