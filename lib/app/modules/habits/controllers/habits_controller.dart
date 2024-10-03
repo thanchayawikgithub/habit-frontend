@@ -18,7 +18,6 @@ class HabitsController extends GetxController {
   Future<void> addHabit() async {
     try {
       final habit = Habit(
-          id: Uuid().v4(),
           title: titleCtrl.text,
           description: descriptionCtrl.text,
           period: int.parse(periodCtrl.text),
@@ -32,6 +31,36 @@ class HabitsController extends GetxController {
     }
   }
 
+  // Edit a habit by its ID
+  Future<void> editHabit(String id) async {
+    try {
+      final habit = Habit(
+        id: id,
+        title: titleCtrl.text,
+        description: descriptionCtrl.text,
+        period: int.parse(periodCtrl.text),
+        dayOfweeks: dayOfWeeksValue,
+      );
+
+      await habitsCollection.doc(id).update(habit.toMap());
+
+      await fetchHabits(); // Refresh the habits list
+    } catch (e) {
+      print('Error editing habit: $e');
+    }
+  }
+
+  // Delete a habit by its ID
+  Future<void> deleteHabit(String id) async {
+    try {
+      await habitsCollection.doc(id).delete();
+
+      await fetchHabits(); // Refresh the habits list
+    } catch (e) {
+      print('Error deleting habit: $e');
+    }
+  }
+
   // Fetch habits from Firestore
   Future<void> fetchHabits() async {
     try {
@@ -40,8 +69,9 @@ class HabitsController extends GetxController {
       // Clear the list and populate it with new data
       habitsList.clear();
       for (var doc in snapshot.docs) {
-        // Convert Firestore document to Habit model
+        // Convert Firestore document to Habit mode
         Habit habit = Habit.fromMap(doc.data() as Map<String, dynamic>);
+        habit.id = doc.id;
         habitsList.add(habit);
       }
     } catch (e) {
@@ -49,15 +79,18 @@ class HabitsController extends GetxController {
     }
   }
 
-  // Optionally, you can use a real-time listener with snapshots
-  void listenToHabits() {
-    habitsCollection.snapshots().listen((snapshot) {
-      habitsList.clear(); // Clear list before adding new data
-      for (var doc in snapshot.docs) {
-        Habit habit = Habit.fromMap(doc.data() as Map<String, dynamic>);
-        habitsList.add(habit);
-      }
-    });
+  void setEditedHabit(Habit habit) {
+    titleCtrl.text = habit.title;
+    descriptionCtrl.text = habit.description;
+    periodCtrl.text = habit.period.toString();
+    dayOfWeeksValue = habit.dayOfweeks;
+  }
+
+  void clearForm() {
+    titleCtrl.text = '';
+    descriptionCtrl.text = '';
+    periodCtrl.text = '';
+    dayOfWeeksValue = [];
   }
 
   @override
