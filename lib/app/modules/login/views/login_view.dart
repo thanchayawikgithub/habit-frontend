@@ -1,9 +1,11 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/modules/habits/views/habits_view.dart';
+import 'package:habit_frontend/app/modules/login/controllers/login_controller.dart';
 
 class LoginView extends StatefulWidget {
-  // เปลี่ยนจาก GetView เป็น StatefulWidget
   const LoginView({super.key});
 
   @override
@@ -11,7 +13,7 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends State<LoginView> {
-  bool isRememberMeChecked = false; // กำหนดตัวแปรเพื่อจัดการสถานะของ Checkbox
+  final LoginController controller = Get.put(LoginController());
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +21,6 @@ class _LoginViewState extends State<LoginView> {
       backgroundColor: const Color(0xFFF7F7F7), // Background color ตามภาพ
       body: SafeArea(
         child: SingleChildScrollView(
-          // เพิ่ม SingleChildScrollView
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 24.0),
             child: Column(
@@ -27,8 +28,7 @@ class _LoginViewState extends State<LoginView> {
               children: [
                 const SizedBox(height: 20), // ระยะห่างจากด้านบนสุดของ SafeArea
                 Row(
-                  mainAxisAlignment: MainAxisAlignment
-                      .spaceBetween, // จัดตำแหน่งระหว่าง Log In และ Sign Up
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
                       'Log In',
@@ -78,12 +78,13 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 TextField(
+                  onChanged: (value) => controller.email.value = value,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none, // ไม่มีเส้นขอบ
+                      borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 20),
@@ -104,13 +105,14 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 TextField(
+                  onChanged: (value) => controller.password.value = value,
                   obscureText: true,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
                     border: OutlineInputBorder(
                       borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none, // ไม่มีเส้นขอบ
+                      borderSide: BorderSide.none,
                     ),
                     contentPadding: const EdgeInsets.symmetric(
                         vertical: 16, horizontal: 20),
@@ -121,16 +123,12 @@ class _LoginViewState extends State<LoginView> {
                 // Row ของ Remember me และ Forgot Password?
                 Row(
                   children: [
-                    // Remember me
                     Row(
                       children: [
                         Checkbox(
-                          value: isRememberMeChecked, // ค่าเริ่มต้น
+                          value: false, // Adjust initial value as needed
                           onChanged: (value) {
-                            setState(() {
-                              isRememberMeChecked =
-                                  value ?? false; // อัปเดตสถานะ Checkbox
-                            });
+                            // Implement remember me functionality here
                           },
                         ),
                         const Text(
