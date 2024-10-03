@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/rx_flutter/rx_obx_widget.dart';
 
 class ProgressCard extends StatelessWidget {
   const ProgressCard({super.key});
@@ -6,6 +7,7 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     double progressValue = 0.75;
+
     return Card(
       color: Colors.deepPurple[600],
       elevation: 2,

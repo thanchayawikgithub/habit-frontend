@@ -4,7 +4,7 @@ import 'package:habit_frontend/app/data/models/habit.dart';
 import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
 
 class TodayHabit extends GetView<HabitsController> {
-  TodayHabit({super.key});
+  const TodayHabit({super.key});
 
   @override
   Widget build(BuildContext context) {
