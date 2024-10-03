@@ -183,6 +183,8 @@ class _LoginViewState extends State<LoginView> {
                     onPressed: () {
                       // เมื่อกดปุ่ม Log In จะไปหน้าที่กำหนด
                       Get.to(HabitsView()); // เปลี่ยนลิงก์ไปหน้า habit
+                      // log('sds');
+                      controller.login();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:

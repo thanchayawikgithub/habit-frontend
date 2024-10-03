@@ -7,9 +7,36 @@ class TodayHabit extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     List<Habit> todayHabits = [
-      Habit(title: "Drink Water", description: "Drink Water 8 cups"),
-      Habit(title: "Exercise", description: "30 minutes of workout"),
-      Habit(title: "Read", description: "Read for 20 minutes"),
+      Habit(
+          title: "Drink Water",
+          description: "Drink Water 8 cups",
+          period: 3,
+          dayOfweeks: ['mon']),
+      Habit(
+          title: "Exercise",
+          description: "30 minutes of workout",
+          period: 3,
+          dayOfweeks: ['mon']),
+      Habit(
+          title: "Read",
+          description: "Read for 20 minutes",
+          period: 3,
+          dayOfweeks: ['mon']),
+      Habit(
+          title: "Read",
+          description: "Read for 20 minutes",
+          period: 3,
+          dayOfweeks: ['mon']),
+      Habit(
+          title: "Read",
+          description: "Read for 20 minutes",
+          period: 3,
+          dayOfweeks: ['mon']),
+      Habit(
+          title: "Read",
+          description: "Read for 20 minutes",
+          period: 3,
+          dayOfweeks: ['mon']),
     ];
 
     return Card(

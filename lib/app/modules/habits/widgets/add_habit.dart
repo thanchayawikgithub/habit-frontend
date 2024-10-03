@@ -1,17 +1,21 @@
 import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
 
 class AddHabit extends StatelessWidget {
   AddHabit({super.key});
 
+  final HabitsController controller = Get.put(HabitsController());
+
   final List<DayInWeek> _days = [
-    DayInWeek("Mon", dayKey: "monday"),
-    DayInWeek("Thu", dayKey: "tuesday"),
-    DayInWeek("Wed", dayKey: "wednesday"),
-    DayInWeek("Thu", dayKey: "thursday"),
-    DayInWeek("Fri", dayKey: "friday"),
-    DayInWeek("Sat", dayKey: "saturday", isSelected: true),
-    DayInWeek("Sun", dayKey: "sunday", isSelected: true),
+    DayInWeek("Mon", dayKey: "mon"),
+    DayInWeek("Thu", dayKey: "tue"),
+    DayInWeek("Wed", dayKey: "wed"),
+    DayInWeek("Thu", dayKey: "thu"),
+    DayInWeek("Fri", dayKey: "fri"),
+    DayInWeek("Sat", dayKey: "sat"),
+    DayInWeek("Sun", dayKey: "sun"),
   ];
 
   @override
@@ -39,6 +43,7 @@ class AddHabit extends StatelessWidget {
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 5),
                       TextField(
+                        controller: controller.titleCtrl,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -55,6 +60,7 @@ class AddHabit extends StatelessWidget {
                               fontSize: 16, fontWeight: FontWeight.bold)),
                       const SizedBox(height: 5),
                       TextField(
+                        controller: controller.descriptionCtrl,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -80,6 +86,7 @@ class AddHabit extends StatelessWidget {
                       ),
                       const SizedBox(height: 5),
                       TextField(
+                        controller: controller.periodCtrl,
                         decoration: InputDecoration(
                           filled: true,
                           fillColor: Colors.white,
@@ -108,7 +115,7 @@ class AddHabit extends StatelessWidget {
                           color: Colors.white,
                         ),
                         onSelect: (values) {
-                          print(values);
+                          controller.dayOfWeeksValue = values;
                         },
                       ),
                       const SizedBox(height: 5),
@@ -117,7 +124,8 @@ class AddHabit extends StatelessWidget {
                         height: 50, // Set height
                         child: ElevatedButton(
                           onPressed: () {
-                            // Button action
+                            controller.addHabit();
+                            Navigator.pop(context);
                           },
                           style: ElevatedButton.styleFrom(
                             backgroundColor:
