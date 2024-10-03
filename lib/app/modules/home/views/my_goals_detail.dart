@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
 
-class MyGoals extends StatelessWidget {
-  const MyGoals({super.key});
+class MyGoalsDetail extends StatelessWidget {
+  const MyGoalsDetail({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,12 +40,17 @@ class MyGoals extends StatelessWidget {
           period: 3,
           dayOfweeks: ['mon']),
     ];
-
-    return Card(
-      color: Colors.white,
-      child: Container(
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.back(); // กลับไปยังหน้าก่อนหน้า
+          },
+        ),
+      ),
+      body: Container(
         width: MediaQuery.of(context).size.width,
-        height: 450,
         padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -54,19 +60,8 @@ class MyGoals extends StatelessWidget {
               children: [
                 const Text(
                   'My Goals',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
                 ),
-                TextButton(
-                    onPressed: () {
-                      Get.toNamed('/my_goals_detail/');
-                    },
-                    child: Text(
-                      'See all',
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold,
-                          fontSize: 16,
-                          color: Colors.deepOrange[500]),
-                    ))
               ],
             ),
             const SizedBox(
@@ -98,7 +93,27 @@ class MyGoals extends StatelessWidget {
                                       fontWeight: FontWeight.w500,
                                       fontSize: 16),
                                 ),
-                                const Icon(Icons.more_vert)
+                                PopupMenuButton<int>(
+                                  icon: Icon(Icons.more_vert), // ไอคอนสามจุด
+                                  onSelected: (value) {
+                                    // ทำงานเมื่อเลือกเมนู
+                                    if (value == 1) {
+                                      // ทำบางอย่าง
+                                    } else if (value == 2) {
+                                      // ทำบางอย่าง
+                                    }
+                                  },
+                                  itemBuilder: (context) => [
+                                    PopupMenuItem(
+                                      value: 1,
+                                      child: Text("Edit"),
+                                    ),
+                                    PopupMenuItem(
+                                      value: 2,
+                                      child: Text("Delete"),
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                             const SizedBox(height: 8),

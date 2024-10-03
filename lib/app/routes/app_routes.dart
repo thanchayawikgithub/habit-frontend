@@ -13,6 +13,7 @@ abstract class Routes {
   static const SIGNUP = _Paths.SIGNUP;
   static const GOALS = _Paths.GOALS;
   static const GOALSDETAIL = _Paths.GOALSDETAIL;
+  static const MYGOAL = _Paths.MYGOAL;
 }
 
 abstract class _Paths {
@@ -25,4 +26,5 @@ abstract class _Paths {
   static const SIGNUP = '/signup';
   static const GOALS = '/goals';
   static const GOALSDETAIL = '/goals_detail/:id';
+  static const MYGOAL = '/my_goals_detail';
 }

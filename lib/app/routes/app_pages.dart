@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/home/views/my_goals_detail.dart';
+import 'package:habit_frontend/app/modules/home/widgets/my_goal.dart';
 
 import '../modules/habits/bindings/habits_binding.dart';
 import '../modules/habits/views/habits_view.dart';
@@ -41,11 +43,6 @@ class AppPages {
       page: () => const HomeView(),
       binding: HomeBinding(),
     ),
-    GetPage(
-      name: _Paths.HOME,
-      page: () => const HomeView(),
-      binding: HomeBinding(),
-    ),
 
     GetPage(
       name: _Paths.HABITS,
@@ -77,6 +74,11 @@ class AppPages {
         index: int.parse(Get.parameters['id']!),
       ),
       binding: ReportBinding(),
+    ),
+    GetPage(
+      name: _Paths.MYGOAL,
+      page: () => MyGoalsDetail(),
+      binding: HomeBinding(),
     ),
   ];
 }

@@ -46,6 +46,14 @@ class HabitsView extends GetView<HabitsController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.back(); // กลับไปยังหน้าก่อนหน้า
+          },
+        ),
+      ),
       bottomNavigationBar: const BottomAppBarWidget(),
       body: Obx(() {
         return Padding(

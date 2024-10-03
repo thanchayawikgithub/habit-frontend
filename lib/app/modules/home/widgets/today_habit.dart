@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
 
 class TodayHabit extends StatelessWidget {
@@ -55,13 +56,17 @@ class TodayHabit extends StatelessWidget {
                   'Today Habit',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                Text(
-                  'See all',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 16,
-                      color: Colors.deepOrange[500]),
-                )
+                TextButton(
+                    onPressed: () {
+                      Get.toNamed('/habits/');
+                    },
+                    child: Text(
+                      'See all',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16,
+                          color: Colors.deepOrange[500]),
+                    ))
               ],
             ),
             const SizedBox(
