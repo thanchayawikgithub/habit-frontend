@@ -40,7 +40,7 @@ class HomeView extends GetView<HomeController> {
               const SizedBox(height: 16),
               const ProgressCard(),
               const SizedBox(height: 10),
-              const TodayHabit(),
+              TodayHabit(),
               const SizedBox(height: 10),
               const MyGoals()
             ],
