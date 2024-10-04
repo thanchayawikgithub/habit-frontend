@@ -12,7 +12,7 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/report/bindings/report_binding.dart';
 import '../modules/report/report.dart';
-import '../modules/report/views/goals_detail.dart';
+import '../modules/report/views/goals_detail_widget.dart';
 import '../modules/report/views/goals_view.dart';
 import '../modules/report/views/report_view.dart';
 import '../modules/report/views/widget/report_list.dart';

@@ -71,35 +71,48 @@ class HabitsView extends GetView<HabitsController> {
                   itemCount: controller.habitsList.length,
                   itemBuilder: (context, index) {
                     Habit habit = controller.habitsList[index];
-                    return Container(
-                      margin: const EdgeInsets.only(
-                          bottom: 8), // Space between items
-                      decoration: BoxDecoration(
-                        color: Colors.grey[100], // Grey background
-                        borderRadius:
-                            BorderRadius.circular(12), // Rounded corners
-                      ),
-                      child: ListTile(
-                        minVerticalPadding: 16,
-                        title: Text(
-                          habit.title,
-                          style: const TextStyle(fontWeight: FontWeight.w500),
+                    return InkWell(
+                      onTap: () {
+                        // Action to perform when an item is tapped
+                        print("Tapped on index: $index");
+                        // Get.to(
+                        //   () => GoalsDetail(
+                        //     index: 1,
+                        //     report: ReportView(ReportList()),
+                        //   ),
+                        // );
+                        Get.toNamed('/goals_detail/$index');
+                      },
+                      child: Container(
+                        margin: const EdgeInsets.only(
+                            bottom: 8), // Space between items
+                        decoration: BoxDecoration(
+                          color: Colors.grey[100], // Grey background
+                          borderRadius:
+                              BorderRadius.circular(12), // Rounded corners
                         ),
-                        trailing:
-                            Row(mainAxisSize: MainAxisSize.min, children: [
-                          IconButton(
-                              onPressed: () {
-                                Get.to(() => EditHabit(
-                                      habit: habit,
-                                    ));
-                              },
-                              icon: Icon(Icons.edit)),
-                          IconButton(
-                              onPressed: () {
-                                controller.deleteHabit(habit.id!);
-                              },
-                              icon: Icon(Icons.delete))
-                        ]),
+                        child: ListTile(
+                          minVerticalPadding: 16,
+                          title: Text(
+                            habit.title,
+                            style: const TextStyle(fontWeight: FontWeight.w500),
+                          ),
+                          trailing:
+                              Row(mainAxisSize: MainAxisSize.min, children: [
+                            IconButton(
+                                onPressed: () {
+                                  Get.to(() => EditHabit(
+                                        habit: habit,
+                                      ));
+                                },
+                                icon: Icon(Icons.edit)),
+                            IconButton(
+                                onPressed: () {
+                                  controller.deleteHabit(habit.id!);
+                                },
+                                icon: Icon(Icons.delete))
+                          ]),
+                        ),
                       ),
                     );
                   },

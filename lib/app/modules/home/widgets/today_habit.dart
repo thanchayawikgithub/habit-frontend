@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
 import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
+import 'package:habit_frontend/app/modules/home/controllers/home_controller.dart';
 
-class TodayHabit extends GetView<HabitsController> {
+class TodayHabit extends GetView<HomeController> {
   const TodayHabit({super.key});
 
   @override

@@ -1,19 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:get/get_state_manager/src/simple/get_view.dart';
+import 'package:habit_frontend/app/data/models/habit.dart';
+import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
 import 'package:habit_frontend/app/modules/report/views/report_view.dart';
-import 'package:habit_frontend/app/modules/report/views/widget/build_info.dart';
+import 'package:habit_frontend/app/modules/habits/widget/build_info.dart';
 import 'package:habit_frontend/app/modules/report/views/widget/calender_widget.dart';
 
-class GoalsDetail extends StatelessWidget {
+class GoalsDetail extends GetView<HabitsController> {
   final ReportView report;
   final int index;
   GoalsDetail({super.key, required this.report, required this.index});
 
   @override
   Widget build(BuildContext context) {
-    final reports = report.reportList.reportData[index];
+    Habit habit = controller.habitsList[index];
     return Scaffold(
       appBar: AppBar(
-        title: Text('Goals : ${reports.title}',
+        title: Text('Habit : ${habit.title}',
             style: TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
