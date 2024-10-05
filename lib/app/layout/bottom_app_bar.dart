@@ -11,7 +11,6 @@ class BottomAppBarWidget extends StatefulWidget {
 class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
   int _currentIndex = 0;
 
-  // ฟังก์ชันนี้จะนำทางไปยัง route ตาม index ของ BottomNavigationBarItem
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
@@ -20,15 +19,12 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
     switch (index) {
       case 0:
         Get.toNamed('/home');
-        // Navigator.pushNamed(context, '/home');
         break;
       case 1:
-        Get.toNamed('/progress');
-        // Navigator.pushNamed(context, '/habit');
+        Get.toNamed('/habits');
         break;
       case 2:
         Get.toNamed('/profile');
-        // Navigator.pushNamed(context, '/profile');
         break;
     }
   }
@@ -49,7 +45,7 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
         ),
         BottomNavigationBarItem(label: "Habit", icon: Icon(Icons.heart_broken)),
         BottomNavigationBarItem(
-            label: "Profile", icon: Icon(Icons.account_circle))
+            label: "Profile", icon: Icon(Icons.account_circle)),
       ],
     );
   }

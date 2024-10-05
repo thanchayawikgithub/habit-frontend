@@ -6,7 +6,11 @@ class HabitDetailController extends GetxController {
   final CollectionReference habitsCollection =
       FirebaseFirestore.instance.collection('habits');
 
-  var habit = Habit(title: '', description: '', period: 0, dayOfweeks: []).obs;
+  var habit = Habit(
+    title: '',
+    description: '',
+    period: 0,
+  ).obs;
 
   Future<void> fetchHabit(String id) async {
     try {

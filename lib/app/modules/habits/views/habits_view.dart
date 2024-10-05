@@ -38,41 +38,29 @@ class HabitsView extends GetView<HabitsController> {
                   itemCount: controller.habitsList.length,
                   itemBuilder: (context, index) {
                     Habit habit = controller.habitsList[index];
-                    return InkWell(
+                    return ListTile(
                       onTap: () {
                         Get.toNamed('/habits/${habit.id}');
                       },
-                      child: Container(
-                        margin: const EdgeInsets.only(
-                            bottom: 8), // Space between items
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100], // Grey background
-                          borderRadius:
-                              BorderRadius.circular(12), // Rounded corners
-                        ),
-                        child: ListTile(
-                          minVerticalPadding: 16,
-                          title: Text(
-                            habit.title,
-                            style: const TextStyle(fontWeight: FontWeight.w500),
-                          ),
-                          trailing:
-                              Row(mainAxisSize: MainAxisSize.min, children: [
-                            IconButton(
-                                onPressed: () {
-                                  Get.to(() => EditHabit(
-                                        habit: habit,
-                                      ));
-                                },
-                                icon: const Icon(Icons.edit)),
-                            IconButton(
-                                onPressed: () {
-                                  controller.deleteHabit(habit.id!);
-                                },
-                                icon: const Icon(Icons.delete))
-                          ]),
-                        ),
+                      minVerticalPadding: 16,
+                      title: Text(
+                        habit.title,
+                        style: const TextStyle(fontWeight: FontWeight.w500),
                       ),
+                      trailing: Row(mainAxisSize: MainAxisSize.min, children: [
+                        IconButton(
+                            onPressed: () {
+                              Get.to(() => EditHabit(
+                                    habit: habit,
+                                  ));
+                            },
+                            icon: const Icon(Icons.edit)),
+                        IconButton(
+                            onPressed: () {
+                              controller.deleteHabit(habit.id!);
+                            },
+                            icon: const Icon(Icons.delete))
+                      ]),
                     );
                   },
                 ),
@@ -83,7 +71,7 @@ class HabitsView extends GetView<HabitsController> {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Get.to(() => EditHabit());
+          Get.to(EditHabit());
         },
         child: const Icon(Icons.add),
       ),

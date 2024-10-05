@@ -13,14 +13,18 @@ class HabitsController extends GetxController {
 
   List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
-  var habit = Habit(title: '', description: '', period: 0, dayOfweeks: []).obs;
+  var habit = Habit(
+    title: '',
+    description: '',
+    period: 0,
+  ).obs;
   Future<void> addHabit() async {
     try {
       final habit = Habit(
-          title: titleCtrl.text,
-          description: descriptionCtrl.text,
-          period: int.parse(periodCtrl.text),
-          dayOfweeks: dayOfWeeksValue);
+        title: titleCtrl.text,
+        description: descriptionCtrl.text,
+        period: int.parse(periodCtrl.text),
+      );
 
       await habitsCollection.add(habit.toMap());
 
@@ -38,7 +42,6 @@ class HabitsController extends GetxController {
         title: titleCtrl.text,
         description: descriptionCtrl.text,
         period: int.parse(periodCtrl.text),
-        dayOfweeks: dayOfWeeksValue,
       );
 
       await habitsCollection.doc(id).update(habit.toMap());
@@ -101,14 +104,12 @@ class HabitsController extends GetxController {
     titleCtrl.text = habit.title;
     descriptionCtrl.text = habit.description;
     periodCtrl.text = habit.period.toString();
-    dayOfWeeksValue = habit.dayOfweeks;
   }
 
   void clearForm() {
     titleCtrl.text = '';
     descriptionCtrl.text = '';
     periodCtrl.text = '';
-    dayOfWeeksValue = [];
   }
 
   @override

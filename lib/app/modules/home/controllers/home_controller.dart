@@ -17,10 +17,10 @@ class HomeController extends GetxController {
   Future<void> addHabit() async {
     try {
       final habit = Habit(
-          title: titleCtrl.text,
-          description: descriptionCtrl.text,
-          period: int.parse(periodCtrl.text),
-          dayOfweeks: dayOfWeeksValue);
+        title: titleCtrl.text,
+        description: descriptionCtrl.text,
+        period: int.parse(periodCtrl.text),
+      );
 
       await habitsCollection.add(habit.toMap());
 
@@ -38,7 +38,6 @@ class HomeController extends GetxController {
         title: titleCtrl.text,
         description: descriptionCtrl.text,
         period: int.parse(periodCtrl.text),
-        dayOfweeks: dayOfWeeksValue,
       );
 
       await habitsCollection.doc(id).update(habit.toMap());
@@ -82,7 +81,6 @@ class HomeController extends GetxController {
     titleCtrl.text = habit.title;
     descriptionCtrl.text = habit.description;
     periodCtrl.text = habit.period.toString();
-    dayOfWeeksValue = habit.dayOfweeks;
   }
 
   void clearForm() {
