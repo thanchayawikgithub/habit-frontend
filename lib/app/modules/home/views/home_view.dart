@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
+
 import 'package:habit_frontend/app/modules/habits/views/edit_habit.dart';
 import 'package:habit_frontend/app/modules/home/widgets/progress_card.dart';
 import 'package:habit_frontend/app/modules/home/widgets/today_habit.dart';
@@ -9,8 +11,8 @@ import 'package:habit_frontend/app/modules/home/widgets/my_goal.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({super.key});
-
+  HomeView({super.key});
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -29,7 +31,7 @@ class HomeView extends GetView<HomeController> {
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
                   Text(
-                    'Than',
+                    _auth.currentUser?.displayName ?? 'User',
                     style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,

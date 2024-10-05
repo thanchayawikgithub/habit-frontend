@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/auth/controllers/auth_controller.dart';
 import '../controllers/signup_controller.dart';
 
 class SignupView extends GetView<SignupController> {
-  const SignupView({super.key});
+  SignupView({super.key});
 
+  final authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,7 +64,7 @@ class SignupView extends GetView<SignupController> {
                 const Padding(
                   padding: EdgeInsets.only(bottom: 8.0),
                   child: Text(
-                    'Name',
+                    'Display Name',
                     style: TextStyle(
                       color: Colors.grey,
                       fontSize: 16,
@@ -71,6 +73,7 @@ class SignupView extends GetView<SignupController> {
                   ),
                 ),
                 TextField(
+                  controller: authController.signUpDisplayNameCtrl,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -97,6 +100,7 @@ class SignupView extends GetView<SignupController> {
                   ),
                 ),
                 TextField(
+                  controller: authController.signUpEmailCtrl,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -123,6 +127,7 @@ class SignupView extends GetView<SignupController> {
                   ),
                 ),
                 TextField(
+                  controller: authController.signUpPasswordCtrl,
                   obscureText: true,
                   decoration: InputDecoration(
                     filled: true,
@@ -138,30 +143,6 @@ class SignupView extends GetView<SignupController> {
                 const SizedBox(height: 16),
 
                 // ชื่อ Password Confirmation
-                const Padding(
-                  padding: EdgeInsets.only(bottom: 8.0),
-                  child: Text(
-                    'Password Confirmation',
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-                TextField(
-                  obscureText: true,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none, // ไม่มีเส้นขอบ
-                    ),
-                    contentPadding: const EdgeInsets.symmetric(
-                        vertical: 16, horizontal: 20),
-                  ),
-                ),
                 const SizedBox(height: 30),
                 Container(
                   width: double.infinity,
@@ -187,7 +168,8 @@ class SignupView extends GetView<SignupController> {
                   child: ElevatedButton(
                     onPressed: () {
                       // เมื่อกดปุ่ม Log In จะไปหน้าที่กำหนด
-                      Get.toNamed('/login'); // เปลี่ยนลิงก์ไปหน้า login
+                      authController
+                          .createUserWithEmailAndPassword(); // เปลี่ยนลิงก์ไปหน้า login
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:

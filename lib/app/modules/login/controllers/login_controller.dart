@@ -1,28 +1,33 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class LoginController extends GetxController {
   final _auth = FirebaseAuth.instance;
-  final isLoading = false.obs;
-  final errorMessage = ''.obs;
-  var email = ''.obs;
-  var password = ''.obs;
+  final emailCtrl = TextEditingController();
+  final passwordCtrl = TextEditingController();
 
-  Future<void> login() async {
-    isLoading.value = true;
+  Future<void> signInWithEmailAndPassword() async {
     try {
-      final d = await _auth.signInWithEmailAndPassword(
-        email: email.value,
-        password: password.value,
+      UserCredential userCredential = await _auth.signInWithEmailAndPassword(
+        email: emailCtrl.text,
+        password: passwordCtrl.text,
       );
-      print(d);
-
-      // Successful login, navigate to next screen or perform other actions
-      // Get.toNamed('/habit');
+      print('User signed in successfully: ${userCredential.user}');
+      Get.toNamed('/home');
     } on FirebaseAuthException catch (e) {
-      errorMessage.value = 'Login failed: ${e.message}';
-    } finally {
-      isLoading.value = false;
+      if (e.code == 'user-not-found') {
+        print('No user found for that email.');
+      } else if (e.code == 'wrong-password') {
+        print('Wrong password provided.');
+      } else {
+        print('Error signing in: ${e.message}');
+      }
     }
+  }
+
+  Future<void> signOut() async {
+    await _auth.signOut();
+    print('User signed out successfully.');
   }
 }

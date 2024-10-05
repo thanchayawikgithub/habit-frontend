@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/auth/controllers/auth_controller.dart';
 import 'package:habit_frontend/app/modules/login/controllers/login_controller.dart';
 
 class LoginView extends StatefulWidget {
@@ -11,7 +12,7 @@ class LoginView extends StatefulWidget {
 
 class _LoginViewState extends State<LoginView> {
   final LoginController controller = Get.put(LoginController());
-
+  final authController = Get.find<AuthController>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -75,7 +76,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 TextField(
-                  onChanged: (value) => controller.email.value = value,
+                  controller: authController.signInEmailCtrl,
                   decoration: InputDecoration(
                     filled: true,
                     fillColor: Colors.white,
@@ -102,7 +103,7 @@ class _LoginViewState extends State<LoginView> {
                   ),
                 ),
                 TextField(
-                  onChanged: (value) => controller.password.value = value,
+                  controller: authController.signInPasswordCtrl,
                   obscureText: true,
                   decoration: InputDecoration(
                     filled: true,
@@ -181,7 +182,7 @@ class _LoginViewState extends State<LoginView> {
                       // เมื่อกดปุ่ม Log In จะไปหน้าที่กำหนด
                       // เปลี่ยนลิงก์ไปหน้า habit
                       // log('sds');
-                      controller.login();
+                      authController.signInWithEmailAndPassword();
                     },
                     style: ElevatedButton.styleFrom(
                       backgroundColor:
