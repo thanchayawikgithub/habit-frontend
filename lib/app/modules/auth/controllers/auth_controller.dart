@@ -5,21 +5,11 @@ import 'package:get/get.dart';
 class AuthController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Rx<User?> user = Rx<User?>(null);
-
   final signInEmailCtrl = TextEditingController();
   final signInPasswordCtrl = TextEditingController();
   final signUpDisplayNameCtrl = TextEditingController();
   final signUpEmailCtrl = TextEditingController();
   final signUpPasswordCtrl = TextEditingController();
-  @override
-  void onInit() {
-    super.onInit();
-
-    _auth.userChanges().listen((User? user) {
-      this.user.value = user;
-    });
-  }
 
   Future<void> createUserWithEmailAndPassword() async {
     try {

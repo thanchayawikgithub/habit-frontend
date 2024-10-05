@@ -6,11 +6,14 @@ class Habit {
   String title;
   String description;
   int period;
+  String? userId;
+
   Habit({
     this.id,
     required this.title,
     required this.description,
     required this.period,
+    this.userId,
   });
 
   Habit copyWith({
@@ -18,12 +21,14 @@ class Habit {
     String? title,
     String? description,
     int? period,
+    String? userId,
   }) {
     return Habit(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       period: period ?? this.period,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -33,6 +38,7 @@ class Habit {
       'title': title,
       'description': description,
       'period': period,
+      'userId': userId,
     };
   }
 
@@ -42,6 +48,7 @@ class Habit {
       title: map['title'] as String,
       description: map['description'] as String,
       period: map['period'] as int,
+      userId: map['userId'] != null ? map['userId'] as String : null,
     );
   }
 
@@ -52,7 +59,7 @@ class Habit {
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, period: $period)';
+    return 'Habit(id: $id, title: $title, description: $description, period: $period, userId: $userId)';
   }
 
   @override
@@ -62,7 +69,8 @@ class Habit {
     return other.id == id &&
         other.title == title &&
         other.description == description &&
-        other.period == period;
+        other.period == period &&
+        other.userId == userId;
   }
 
   @override
@@ -70,6 +78,7 @@ class Habit {
     return id.hashCode ^
         title.hashCode ^
         description.hashCode ^
-        period.hashCode;
+        period.hashCode ^
+        userId.hashCode;
   }
 }
