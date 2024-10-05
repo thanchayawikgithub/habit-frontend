@@ -14,7 +14,7 @@ class HabitsController extends GetxController {
 
   List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
-
+  var habit = Habit(title: '', description: '', period: 0, dayOfweeks: []).obs;
   Future<void> addHabit() async {
     try {
       final habit = Habit(
@@ -76,6 +76,25 @@ class HabitsController extends GetxController {
       }
     } catch (e) {
       print('Error fetching habits: $e');
+    }
+  }
+
+  Future<void> fetchHabit(String id) async {
+    try {
+      // Fetch the document with the specific id
+      DocumentSnapshot doc = await habitsCollection.doc(id).get();
+
+      if (doc.exists) {
+        // Convert Firestore document to Habit model
+        Habit habit = Habit.fromMap(doc.data() as Map<String, dynamic>);
+        habit.id = doc.id;
+
+        this.habit.value = habit;
+      } else {
+        print('No habit found with id: $id');
+      }
+    } catch (e) {
+      print('Error fetching habit: $e');
     }
   }
 

@@ -10,39 +10,6 @@ import '../controllers/habits_controller.dart';
 class HabitsView extends GetView<HabitsController> {
   HabitsView({super.key});
 
-  List<Habit> habits = [
-    Habit(
-        title: "Drink Water",
-        description: "Drink Water 8 cups",
-        period: 3,
-        dayOfweeks: ['mon']),
-    Habit(
-        title: "Exercise",
-        description: "30 minutes of workout",
-        period: 3,
-        dayOfweeks: ['mon']),
-    Habit(
-        title: "Read",
-        description: "Read for 20 minutes",
-        period: 3,
-        dayOfweeks: ['mon']),
-    Habit(
-        title: "Read",
-        description: "Read for 20 minutes",
-        period: 3,
-        dayOfweeks: ['mon']),
-    Habit(
-        title: "Read",
-        description: "Read for 20 minutes",
-        period: 3,
-        dayOfweeks: ['mon']),
-    Habit(
-        title: "Read",
-        description: "Read for 20 minutes",
-        period: 3,
-        dayOfweeks: ['mon']),
-  ];
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -73,15 +40,7 @@ class HabitsView extends GetView<HabitsController> {
                     Habit habit = controller.habitsList[index];
                     return InkWell(
                       onTap: () {
-                        // Action to perform when an item is tapped
-                        print("Tapped on index: $index");
-                        // Get.to(
-                        //   () => GoalsDetail(
-                        //     index: 1,
-                        //     report: ReportView(ReportList()),
-                        //   ),
-                        // );
-                        Get.toNamed('/goals_detail/$index');
+                        Get.toNamed('/habits/${habit.id}');
                       },
                       child: Container(
                         margin: const EdgeInsets.only(

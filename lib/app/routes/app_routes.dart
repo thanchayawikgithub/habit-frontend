@@ -12,19 +12,17 @@ abstract class Routes {
   static const LOGIN = _Paths.LOGIN;
   static const SIGNUP = _Paths.SIGNUP;
   static const GOALS = _Paths.GOALS;
-  static const GOALSDETAIL = _Paths.GOALSDETAIL;
-  static const MYGOAL = _Paths.MYGOAL;
+  static const HABIT = _Paths.HABIT;
 }
 
 abstract class _Paths {
   _Paths._();
   static const HOME = '/home';
   static const HABITS = '/habits';
+  static const HABIT = '/habits/:id';
   static const PROFILE = '/profile';
   static const PROGRESS = '/progress';
   static const LOGIN = '/login';
   static const SIGNUP = '/signup';
   static const GOALS = '/goals';
-  static const GOALSDETAIL = '/goals_detail/:id';
-  static const MYGOAL = '/my_goals_detail';
 }

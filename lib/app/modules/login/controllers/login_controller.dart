@@ -11,16 +11,16 @@ class LoginController extends GetxController {
   var password = ''.obs;
 
   Future<void> login() async {
-    log("email" + email.value + "password" + password.value);
     isLoading.value = true;
     try {
-      await _auth.signInWithEmailAndPassword(
+      final d = await _auth.signInWithEmailAndPassword(
         email: email.value,
         password: password.value,
       );
+      print(d);
 
       // Successful login, navigate to next screen or perform other actions
-      Get.toNamed('/habit');
+      // Get.toNamed('/habit');
     } on FirebaseAuthException catch (e) {
       errorMessage.value = 'Login failed: ${e.message}';
     } finally {

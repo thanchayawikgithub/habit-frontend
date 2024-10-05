@@ -1,7 +1,7 @@
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/habits/bindings/habits_detail_binding.dart';
+import 'package:habit_frontend/app/modules/habits/views/habit_detail.dart';
 import 'package:habit_frontend/app/modules/home/views/my_goals_detail.dart';
-import 'package:habit_frontend/app/modules/home/widgets/my_goal.dart';
-
 import '../modules/habits/bindings/habits_binding.dart';
 import '../modules/habits/views/habits_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -12,7 +12,6 @@ import '../modules/profile/bindings/profile_binding.dart';
 import '../modules/profile/views/profile_view.dart';
 import '../modules/report/bindings/report_binding.dart';
 import '../modules/report/report.dart';
-import '../modules/report/views/goals_detail_widget.dart';
 import '../modules/report/views/goals_view.dart';
 import '../modules/report/views/report_view.dart';
 import '../modules/report/views/widget/report_list.dart';
@@ -68,17 +67,9 @@ class AppPages {
     ),
     //goals_detail
     GetPage(
-      name: _Paths.GOALSDETAIL,
-      page: () => GoalsDetail(
-        report: ReportView(ReportList()),
-        index: int.parse(Get.parameters['id']!),
-      ),
-      binding: ReportBinding(),
-    ),
-    GetPage(
-      name: _Paths.MYGOAL,
-      page: () => MyGoalsDetail(),
-      binding: HomeBinding(),
+      name: _Paths.HABIT,
+      page: () => HabitDetailView(),
+      binding: HabitDetailBinding(),
     ),
   ];
 }
