@@ -3,7 +3,7 @@ import 'package:flutter/widgets.dart';
 import 'package:table_calendar/table_calendar.dart';
 
 class CalenderWidget extends StatefulWidget {
-  const CalenderWidget({Key? key}) : super(key: key);
+  const CalenderWidget({super.key});
 
   @override
   _CalenderWidgetState createState() => _CalenderWidgetState();
@@ -31,7 +31,7 @@ class _CalenderWidgetState extends State<CalenderWidget> {
             _focusedDay = focusedDay;
           });
         },
-        calendarStyle: CalendarStyle(
+        calendarStyle: const CalendarStyle(
           // Customize the style of the calendar
           todayDecoration: BoxDecoration(
             color: Colors.blueAccent,
@@ -42,7 +42,7 @@ class _CalenderWidgetState extends State<CalenderWidget> {
             shape: BoxShape.circle,
           ),
         ),
-        headerStyle: HeaderStyle(
+        headerStyle: const HeaderStyle(
           formatButtonVisible: false,
           titleCentered: true,
         ),

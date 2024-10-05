@@ -2,7 +2,6 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
-import 'package:uuid/uuid.dart';
 
 class HabitsController extends GetxController {
   final CollectionReference habitsCollection =

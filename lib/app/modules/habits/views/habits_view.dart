@@ -8,7 +8,7 @@ import 'package:habit_frontend/app/modules/habits/views/edit_habit.dart';
 import '../controllers/habits_controller.dart';
 
 class HabitsView extends GetView<HabitsController> {
-  HabitsView({super.key});
+  const HabitsView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +64,12 @@ class HabitsView extends GetView<HabitsController> {
                                         habit: habit,
                                       ));
                                 },
-                                icon: Icon(Icons.edit)),
+                                icon: const Icon(Icons.edit)),
                             IconButton(
                                 onPressed: () {
                                   controller.deleteHabit(habit.id!);
                                 },
-                                icon: Icon(Icons.delete))
+                                icon: const Icon(Icons.delete))
                           ]),
                         ),
                       ),
@@ -85,7 +85,7 @@ class HabitsView extends GetView<HabitsController> {
         onPressed: () {
           Get.to(() => EditHabit());
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

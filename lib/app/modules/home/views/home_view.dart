@@ -40,7 +40,7 @@ class HomeView extends GetView<HomeController> {
               const SizedBox(height: 16),
               const ProgressCard(),
               const SizedBox(height: 10),
-              TodayHabit(),
+              const TodayHabit(),
               const SizedBox(height: 10),
               const MyGoals()
             ],
@@ -51,7 +51,7 @@ class HomeView extends GetView<HomeController> {
         onPressed: () {
           Get.to(() => EditHabit());
         },
-        child: Icon(Icons.add),
+        child: const Icon(Icons.add),
       ),
     );
   }

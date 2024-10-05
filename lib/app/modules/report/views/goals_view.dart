@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:habit_frontend/app/modules/report/views/widget/report_list.dart';
 import 'package:habit_frontend/app/modules/report/views/widget/report_widget.dart';
 

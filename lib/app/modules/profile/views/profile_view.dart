@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/home/views/home_view.dart';
 import 'dart:io';
 import '../controllers/profile_controller.dart';
 
@@ -15,7 +16,7 @@ class ProfileView extends GetView<ProfileController> {
         leading: IconButton(
           icon: const Icon(Icons.arrow_back),
           onPressed: () {
-            // Action for back button
+            Get.to(HomeView());
           },
         ),
       ),

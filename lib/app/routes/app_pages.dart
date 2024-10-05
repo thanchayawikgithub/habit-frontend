@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/modules/habits/bindings/habits_detail_binding.dart';
 import 'package:habit_frontend/app/modules/habits/views/habit_detail.dart';
-import 'package:habit_frontend/app/modules/home/views/my_goals_detail.dart';
 import '../modules/habits/bindings/habits_binding.dart';
 import '../modules/habits/views/habits_view.dart';
 import '../modules/home/bindings/home_binding.dart';
@@ -23,7 +22,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.PROFILE;
+  static const INITIAL = Routes.HOME;
   static late ReportList reportList;
   static late Report reports;
   static final routes = [

@@ -1,8 +1,5 @@
-import 'dart:developer';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_frontend/app/modules/habits/views/habits_view.dart';
 import 'package:habit_frontend/app/modules/login/controllers/login_controller.dart';
 
 class LoginView extends StatefulWidget {

@@ -29,8 +29,8 @@ class ReportView extends GetView<ReportController> {
           ),
           centerTitle: false,
         ),
-        body: SingleChildScrollView(
-          padding: const EdgeInsets.all(16.0),
+        body: const SingleChildScrollView(
+          padding: EdgeInsets.all(16.0),
         ));
   }
 }

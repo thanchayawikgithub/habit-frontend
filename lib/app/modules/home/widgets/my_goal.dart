@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:habit_frontend/app/data/models/habit.dart';
 import 'package:habit_frontend/app/modules/home/controllers/home_controller.dart';
 
 class MyGoals extends GetView<HomeController> {

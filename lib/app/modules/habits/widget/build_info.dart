@@ -6,8 +6,7 @@ import 'package:habit_frontend/app/modules/report/views/report_view.dart';
 import 'package:habit_frontend/app/modules/report/views/widget/calender_widget.dart';
 
 class BuildInfo extends GetView<HabitsController> {
-  const BuildInfo({Key? key, required this.report, required this.index})
-      : super(key: key);
+  const BuildInfo({super.key, required this.report, required this.index});
   final ReportView report;
   final int index;
   @override
@@ -15,8 +14,8 @@ class BuildInfo extends GetView<HabitsController> {
     Habit habit = controller.habitsList[index];
     return Column(
       children: [
-        CalenderWidget(),
-        SizedBox(
+        const CalenderWidget(),
+        const SizedBox(
           height: 16,
         ),
         Row(
@@ -31,13 +30,13 @@ class BuildInfo extends GetView<HabitsController> {
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 30,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               "Hbbit Name : ",
               style: TextStyle(
                 fontSize: 19,
@@ -46,20 +45,20 @@ class BuildInfo extends GetView<HabitsController> {
             ),
             Text(
               habit.title,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,
               ),
             ),
           ],
         ),
-        SizedBox(
+        const SizedBox(
           height: 20,
         ),
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Text(
+            const Text(
               "Description:",
               style: TextStyle(
                 fontSize: 19,
@@ -67,7 +66,7 @@ class BuildInfo extends GetView<HabitsController> {
             ),
             Text(
               habit.description,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 19,
               ),
             ),

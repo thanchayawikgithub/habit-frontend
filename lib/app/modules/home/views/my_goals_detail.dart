@@ -6,7 +6,7 @@ import 'package:habit_frontend/app/modules/habits/views/edit_habit.dart';
 import 'package:habit_frontend/app/modules/home/controllers/home_controller.dart';
 
 class MyGoalsDetail extends GetView<HomeController> {
-  const MyGoalsDetail({Key? key}) : super(key: key);
+  const MyGoalsDetail({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +26,10 @@ class MyGoalsDetail extends GetView<HomeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'My Goals',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
@@ -53,7 +53,7 @@ class MyGoalsDetail extends GetView<HomeController> {
                                 BorderRadius.circular(12), // Rounded corners
                           ),
                           child: Padding(
-                            padding: EdgeInsets.all(10.0),
+                            padding: const EdgeInsets.all(10.0),
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
@@ -63,13 +63,13 @@ class MyGoalsDetail extends GetView<HomeController> {
                                   children: [
                                     Text(
                                       controller.habitsList[index].title,
-                                      style: TextStyle(
+                                      style: const TextStyle(
                                           fontWeight: FontWeight.w500,
                                           fontSize: 16),
                                     ),
                                     PopupMenuButton<int>(
-                                      icon:
-                                          Icon(Icons.more_vert), // ไอคอนสามจุด
+                                      icon: const Icon(
+                                          Icons.more_vert), // ไอคอนสามจุด
                                       onSelected: (value) {
                                         // ทำงานเมื่อเลือกเมนู
                                         if (value == 1) {
@@ -83,11 +83,11 @@ class MyGoalsDetail extends GetView<HomeController> {
                                         }
                                       },
                                       itemBuilder: (context) => [
-                                        PopupMenuItem(
+                                        const PopupMenuItem(
                                           value: 1,
                                           child: Text("Edit"),
                                         ),
-                                        PopupMenuItem(
+                                        const PopupMenuItem(
                                           value: 2,
                                           child: Text("Delete"),
                                         ),
