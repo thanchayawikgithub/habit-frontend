@@ -11,32 +11,23 @@ class EditHabit extends StatelessWidget {
   EditHabit({super.key, this.habit}) {
     if (habit != null) {
       controller.setEditedHabit(habit!);
-      _updateDaysSelection(habit!.dayOfweeks);
     } else {
       controller.clearForm();
     }
   }
 
-  final List<DayInWeek> _days = [
-    DayInWeek("Mon", dayKey: "mon"),
-    DayInWeek("Thu", dayKey: "tue"),
-    DayInWeek("Wed", dayKey: "wed"),
-    DayInWeek("Thu", dayKey: "thu"),
-    DayInWeek("Fri", dayKey: "fri"),
-    DayInWeek("Sat", dayKey: "sat"),
-    DayInWeek("Sun", dayKey: "sun"),
-  ];
-
-  void _updateDaysSelection(List<String> dayOfWeeks) {
-    for (var day in _days) {
-      day.isSelected = dayOfWeeks.contains(day.dayKey);
-    }
-  }
-
   @override
   Widget build(BuildContext context) {
-    final customWidgetKey = GlobalKey<SelectWeekDaysState>();
     return Scaffold(
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        leading: IconButton(
+          icon: const Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.back(); // กลับไปยังหน้าก่อนหน้า
+          },
+        ),
+      ),
       body: Container(
         color: Colors.white,
         padding: const EdgeInsets.all(16),
@@ -106,31 +97,28 @@ class EditHabit extends StatelessWidget {
                     const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
               ),
             ),
-            const SizedBox(height: 5),
-            SelectWeekDays(
-              key: customWidgetKey,
-              fontSize: 18,
-              fontWeight: FontWeight.w400,
-              unselectedDaysBorderColor: Colors.deepPurple[500],
-              unSelectedDayTextColor: Colors.deepPurple[500],
-              selectedDayTextColor: Colors.white,
-              selectedDaysFillColor: Colors.deepPurple[500],
-              selectedDaysBorderColor: Colors.deepPurple[500],
-              days: _days,
-              border: true,
-              borderWidth: 1,
-              width: MediaQuery.of(context).size.width,
-              boxDecoration: const BoxDecoration(
-                color: Colors.white,
+            const SizedBox(height: 20),
+            Container(
+              width: double.infinity,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(8),
+                gradient: const LinearGradient(
+                  colors: [
+                    Color(0xFF6E33FF),
+                    Color(0xFFB44AC3),
+                    Color(0xFFCE62CF)
+                  ], // สีตามในรูป
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.purple.withOpacity(0.5),
+                    offset: const Offset(0, 4),
+                    blurRadius: 10,
+                  ),
+                ],
               ),
-              onSelect: (values) {
-                controller.dayOfWeeksValue = values;
-              },
-            ),
-            const SizedBox(height: 5),
-            SizedBox(
-              width: MediaQuery.of(context).size.width, // Set width
-              height: 50, // Set height
               child: ElevatedButton(
                 onPressed: () {
                   if (habit != null) {
@@ -141,44 +129,22 @@ class EditHabit extends StatelessWidget {
                   Get.back();
                 },
                 style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.deepPurple[500], // Background color
-                  foregroundColor: Colors.white, // Text color
+                  backgroundColor: Colors.transparent, // ตั้งค่าพื้นหลังโปร่งใส
+                  shadowColor: Colors.transparent, // ตั้งค่าเงาโปร่งใส
+                  padding: const EdgeInsets.symmetric(vertical: 18),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Border radius
+                    borderRadius: BorderRadius.circular(8),
                   ),
                 ),
                 child: const Text(
                   'Save',
                   style: TextStyle(
                     fontSize: 20,
+                    color: Colors.white,
                   ),
                 ),
               ),
             ),
-            const SizedBox(height: 10),
-            SizedBox(
-              width: MediaQuery.of(context).size.width, // Set width
-              height: 50, // Set height
-              child: ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  // Button action
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.grey[100], // Background color
-                  foregroundColor: Colors.black, // Text color
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8), // Border radius
-                  ),
-                ),
-                child: const Text(
-                  'Cancel',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
-              ),
-            )
           ],
         ),
       ),

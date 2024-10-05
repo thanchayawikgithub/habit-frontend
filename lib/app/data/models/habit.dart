@@ -1,20 +1,19 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
-import 'package:flutter/foundation.dart';
-
 class Habit {
   String? id;
   String title;
   String description;
   int period;
-  List<String> dayOfweeks;
+  String? userId;
+
   Habit({
     this.id,
     required this.title,
     required this.description,
     required this.period,
-    required this.dayOfweeks,
+    this.userId,
   });
 
   Habit copyWith({
@@ -22,14 +21,14 @@ class Habit {
     String? title,
     String? description,
     int? period,
-    List<String>? dayOfweeks,
+    String? userId,
   }) {
     return Habit(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
       period: period ?? this.period,
-      dayOfweeks: dayOfweeks ?? this.dayOfweeks,
+      userId: userId ?? this.userId,
     );
   }
 
@@ -39,18 +38,17 @@ class Habit {
       'title': title,
       'description': description,
       'period': period,
-      'dayOfweeks': dayOfweeks,
+      'userId': userId,
     };
   }
 
   factory Habit.fromMap(Map<String, dynamic> map) {
     return Habit(
-      id: map['id'] ?? '',
-      title: map['title'] ?? '',
-      description: map['description'] ?? '',
-      period: map['period'] ?? 0,
-      dayOfweeks: List<String>.from(
-          map['dayOfweeks'] ?? []), // Correctly casting to List<String>
+      id: map['id'] != null ? map['id'] as String : null,
+      title: map['title'] as String,
+      description: map['description'] as String,
+      period: map['period'] as int,
+      userId: map['userId'] != null ? map['userId'] as String : null,
     );
   }
 
@@ -61,7 +59,7 @@ class Habit {
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, period: $period, dayOfweeks: $dayOfweeks)';
+    return 'Habit(id: $id, title: $title, description: $description, period: $period, userId: $userId)';
   }
 
   @override
@@ -72,7 +70,7 @@ class Habit {
         other.title == title &&
         other.description == description &&
         other.period == period &&
-        listEquals(other.dayOfweeks, dayOfweeks);
+        other.userId == userId;
   }
 
   @override
@@ -81,6 +79,6 @@ class Habit {
         title.hashCode ^
         description.hashCode ^
         period.hashCode ^
-        dayOfweeks.hashCode;
+        userId.hashCode;
   }
 }

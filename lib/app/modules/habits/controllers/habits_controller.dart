@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
@@ -6,21 +7,25 @@ import 'package:habit_frontend/app/data/models/habit.dart';
 class HabitsController extends GetxController {
   final CollectionReference habitsCollection =
       FirebaseFirestore.instance.collection('habits');
-
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   final titleCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
   final periodCtrl = TextEditingController();
 
   List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
-  var habit = Habit(title: '', description: '', period: 0, dayOfweeks: []).obs;
+  var habit = Habit(
+    title: '',
+    description: '',
+    period: 0,
+  ).obs;
   Future<void> addHabit() async {
     try {
       final habit = Habit(
           title: titleCtrl.text,
           description: descriptionCtrl.text,
           period: int.parse(periodCtrl.text),
-          dayOfweeks: dayOfWeeksValue);
+          userId: _auth.currentUser?.uid ?? '');
 
       await habitsCollection.add(habit.toMap());
 
@@ -38,7 +43,6 @@ class HabitsController extends GetxController {
         title: titleCtrl.text,
         description: descriptionCtrl.text,
         period: int.parse(periodCtrl.text),
-        dayOfweeks: dayOfWeeksValue,
       );
 
       await habitsCollection.doc(id).update(habit.toMap());
@@ -63,7 +67,9 @@ class HabitsController extends GetxController {
   // Fetch habits from Firestore
   Future<void> fetchHabits() async {
     try {
-      QuerySnapshot snapshot = await habitsCollection.get();
+      QuerySnapshot snapshot = await habitsCollection
+          .where('userId', isEqualTo: _auth.currentUser?.uid ?? '')
+          .get();
 
       // Clear the list and populate it with new data
       habitsList.clear();
@@ -101,14 +107,12 @@ class HabitsController extends GetxController {
     titleCtrl.text = habit.title;
     descriptionCtrl.text = habit.description;
     periodCtrl.text = habit.period.toString();
-    dayOfWeeksValue = habit.dayOfweeks;
   }
 
   void clearForm() {
     titleCtrl.text = '';
     descriptionCtrl.text = '';
     periodCtrl.text = '';
-    dayOfWeeksValue = [];
   }
 
   @override
