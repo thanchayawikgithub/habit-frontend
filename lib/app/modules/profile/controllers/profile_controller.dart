@@ -1,26 +1,10 @@
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:cloud_firestore/cloud_firestore.dart'; // Firebase Firestore
 
 class ProfileController extends GetxController {
-  var selectedImagePath = ''.obs;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   var displayName = ''.obs; // Observable variable to store the display name
-  final ImagePicker _picker = ImagePicker();
-
-  Future<void> pickImage() async {
-    try {
-      final XFile? pickedFile =
-          await _picker.pickImage(source: ImageSource.gallery);
-      if (pickedFile != null) {
-        selectedImagePath.value = pickedFile.path; // Update image path
-      } else {
-        Get.snackbar('Error', 'No image selected');
-      }
-    } catch (e) {
-      Get.snackbar('Error', 'Failed to pick image: $e');
-    }
-  }
 
   @override
   void onInit() {
@@ -37,9 +21,21 @@ class ProfileController extends GetxController {
   Future<void> updateDisplayName(String newName) async {
     final User? currentUser = _auth.currentUser;
     if (currentUser != null) {
-      await currentUser
-          .updateDisplayName(newName); // Update displayName in Firebase
-      displayName.value = newName; // Update the displayName in the controller
+      try {
+        // Update displayName in Firebase Auth
+        await currentUser.updateDisplayName(newName);
+
+        // Update displayName in Firestore (if you store user data there)
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(currentUser.uid)
+            .update({'name': newName});
+
+        // Update the displayName in the controller
+        displayName.value = newName;
+      } catch (e) {
+        print('Error updating name: $e');
+      }
     }
   }
 }
