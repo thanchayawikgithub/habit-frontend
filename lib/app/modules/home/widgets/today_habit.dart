@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
+import 'package:habit_frontend/app/data/models/habit_record.dart';
+import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
 import 'package:habit_frontend/app/modules/home/controllers/home_controller.dart';
 
 class TodayHabit extends GetView<HomeController> {
-  const TodayHabit({super.key});
-
+  TodayHabit({super.key});
+  HabitsController habitsCtrl = Get.put(HabitsController());
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -14,7 +16,7 @@ class TodayHabit extends GetView<HomeController> {
           color: Colors.white,
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 300,
+            height: 400,
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -45,9 +47,10 @@ class TodayHabit extends GetView<HomeController> {
                 ),
                 Expanded(
                   child: ListView.builder(
-                    itemCount: controller.habitsList.length,
+                    itemCount: habitsCtrl.habitRecordsList.length,
                     itemBuilder: (context, index) {
-                      Habit habit = controller.habitsList[index];
+                      HabitRecord habitRecord =
+                          habitsCtrl.habitRecordsList[index];
 
                       return Container(
                         margin: const EdgeInsets.only(
@@ -60,7 +63,7 @@ class TodayHabit extends GetView<HomeController> {
                         child: ListTile(
                           minVerticalPadding: 16,
                           title: Text(
-                            habit.title,
+                            habitRecord.id!,
                             style: const TextStyle(fontWeight: FontWeight.w500),
                           ),
                           trailing: Checkbox(

@@ -45,20 +45,6 @@ class HabitDetailView extends GetView<HabitDetailController> {
                     ),
                   ],
                 ),
-                SizedBox(height: 10),
-                Row(
-                  children: [
-                    Text(
-                      'Period: ',
-                      style:
-                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                    ),
-                    Text(
-                      habit.period.toString(),
-                      style: TextStyle(fontSize: 20),
-                    )
-                  ],
-                )
               ],
             ),
           ));

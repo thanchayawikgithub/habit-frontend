@@ -1,4 +1,3 @@
-import 'package:day_picker/day_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
@@ -61,32 +60,6 @@ class EditHabit extends StatelessWidget {
             const SizedBox(height: 5),
             TextField(
               controller: controller.descriptionCtrl,
-              decoration: InputDecoration(
-                filled: true,
-                fillColor: Colors.white,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                contentPadding:
-                    const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
-              ),
-            ),
-            const SizedBox(height: 16),
-            const Row(
-              children: [
-                Text("Period",
-                    style:
-                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                SizedBox(width: 5),
-                Text("(day)",
-                    style: TextStyle(
-                      fontSize: 14,
-                    ))
-              ],
-            ),
-            const SizedBox(height: 5),
-            TextField(
-              controller: controller.periodCtrl,
               decoration: InputDecoration(
                 filled: true,
                 fillColor: Colors.white,

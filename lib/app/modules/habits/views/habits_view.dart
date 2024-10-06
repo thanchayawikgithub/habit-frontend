@@ -14,11 +14,9 @@ class HabitsView extends GetView<HabitsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: IconButton(
-          icon: const Icon(Icons.arrow_back),
-          onPressed: () {
-            Get.back(); // กลับไปยังหน้าก่อนหน้า
-          },
+        title: Text(
+          'My Habits',
+          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
       bottomNavigationBar: const BottomAppBarWidget(),
@@ -28,11 +26,6 @@ class HabitsView extends GetView<HabitsController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              const Text(
-                'My Habits',
-                style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
-              const SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
                   itemCount: controller.habitsList.length,

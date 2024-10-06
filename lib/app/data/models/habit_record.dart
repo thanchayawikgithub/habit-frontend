@@ -4,20 +4,20 @@ import 'dart:convert';
 class HabitRecord {
   String? id;
   String habitId;
-  DateTime date;
-  String status;
+  String date;
+  bool status;
   HabitRecord({
     this.id,
     required this.habitId,
     required this.date,
-    required this.status,
+    this.status = false,
   });
 
   HabitRecord copyWith({
     String? id,
     String? habitId,
-    DateTime? date,
-    String? status,
+    String? date,
+    bool? status,
   }) {
     return HabitRecord(
       id: id ?? this.id,
@@ -31,7 +31,7 @@ class HabitRecord {
     return <String, dynamic>{
       'id': id,
       'habitId': habitId,
-      'date': date.millisecondsSinceEpoch,
+      'date': date,
       'status': status,
     };
   }
@@ -40,8 +40,8 @@ class HabitRecord {
     return HabitRecord(
       id: map['id'] != null ? map['id'] as String : null,
       habitId: map['habitId'] as String,
-      date: DateTime.fromMillisecondsSinceEpoch(map['date'] as int),
-      status: map['status'] as String,
+      date: map['date'] as String,
+      status: map['status'] as bool,
     );
   }
 

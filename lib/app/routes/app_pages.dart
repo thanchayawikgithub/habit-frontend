@@ -47,11 +47,7 @@ class AppPages {
       page: () => HabitsView(),
       binding: HabitsBinding(),
     ),
-    GetPage(
-      name: _Paths.PROGRESS,
-      page: () => ReportView(ReportList()),
-      binding: ReportBinding(),
-    ),
+
     GetPage(
       name: _Paths.PROFILE,
       page: () => ProfileView(),

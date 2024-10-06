@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
+import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
 
 class HomeController extends GetxController {
   final CollectionReference habitsCollection =
@@ -10,7 +11,7 @@ class HomeController extends GetxController {
   final titleCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
   final periodCtrl = TextEditingController();
-
+  HabitsController habitsCtrl = Get.put(HabitsController());
   List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
 
@@ -93,6 +94,7 @@ class HomeController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await fetchHabits();
+    // await fetchHabits();
+    await habitsCtrl.fetchHabitRecords();
   }
 }

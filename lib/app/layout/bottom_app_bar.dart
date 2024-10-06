@@ -10,32 +10,25 @@ class BottomAppBarWidget extends StatefulWidget {
 
 class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
   int _currentIndex = 0;
+  final List<String> paths = ["/home", "/habits", "/profile"];
 
   @override
   void initState() {
     super.initState();
 
-    // รับค่า index จากหน้าอื่นถ้ามีการส่งมาด้วย Get.arguments
-    _currentIndex = Get.arguments != null ? Get.arguments['index'] ?? 0 : 0;
+    // Set _currentIndex based on current route
+    final currentRoute = Get.currentRoute;
+    if (paths.contains(currentRoute)) {
+      _currentIndex = paths.indexOf(currentRoute);
+    }
   }
 
   void _onItemTapped(int index) {
+    // Navigate to the selected path
+    Get.toNamed(paths[index]);
     setState(() {
       _currentIndex = index;
     });
-
-    // ส่งค่า index ปัจจุบันไปยังหน้าถัดไป
-    switch (index) {
-      case 0:
-        Get.toNamed('/home', arguments: {'index': index});
-        break;
-      case 1:
-        Get.toNamed('/progress', arguments: {'index': index});
-        break;
-      case 2:
-        Get.toNamed('/profile', arguments: {'index': index});
-        break;
-    }
   }
 
   @override
@@ -52,9 +45,14 @@ class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
           label: "Home",
           icon: Icon(Icons.home),
         ),
-        BottomNavigationBarItem(label: "Habit", icon: Icon(Icons.heart_broken)),
         BottomNavigationBarItem(
-            label: "Profile", icon: Icon(Icons.account_circle)),
+          label: "Habits",
+          icon: Icon(Icons.favorite),
+        ),
+        BottomNavigationBarItem(
+          label: "Profile",
+          icon: Icon(Icons.account_circle),
+        ),
       ],
     );
   }

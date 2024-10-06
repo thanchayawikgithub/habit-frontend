@@ -3,10 +3,14 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
+import 'package:habit_frontend/app/data/models/habit_record.dart';
+import 'package:intl/intl.dart';
 
 class HabitsController extends GetxController {
   final CollectionReference habitsCollection =
       FirebaseFirestore.instance.collection('habits');
+  final CollectionReference habitRecordsCollection =
+      FirebaseFirestore.instance.collection('habit_records');
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final titleCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
@@ -14,6 +18,7 @@ class HabitsController extends GetxController {
 
   List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
+  var habitRecordsList = <HabitRecord>[].obs; // Observable list to store habits
   var habit = Habit(
     title: '',
     description: '',
@@ -27,7 +32,15 @@ class HabitsController extends GetxController {
           period: int.parse(periodCtrl.text),
           userId: _auth.currentUser?.uid ?? '');
 
-      await habitsCollection.add(habit.toMap());
+      final savedHabit = await habitsCollection.add(habit.toMap());
+
+      final DateTime today = DateTime.now();
+      final DateFormat formatter =
+          DateFormat('yyyy-MM-dd'); // Specify the format
+      final String formattedDate = formatter.format(today);
+      final habitRecord =
+          HabitRecord(habitId: savedHabit.id, date: formattedDate);
+      await habitRecordsCollection.add(habitRecord.toMap());
 
       await fetchHabits();
     } catch (e) {
@@ -46,7 +59,6 @@ class HabitsController extends GetxController {
       );
 
       await habitsCollection.doc(id).update(habit.toMap());
-
       await fetchHabits(); // Refresh the habits list
     } catch (e) {
       print('Error editing habit: $e');
@@ -79,6 +91,32 @@ class HabitsController extends GetxController {
         habit.id = doc.id;
         habitsList.add(habit);
       }
+    } catch (e) {
+      print('Error fetching habits: $e');
+    }
+  }
+
+  Future<void> fetchHabitRecords() async {
+    try {
+      final DateTime today = DateTime.now();
+      final DateFormat formatter =
+          DateFormat('yyyy-MM-dd'); // Specify the format
+      final String formattedDate = formatter.format(today);
+      QuerySnapshot snapshot = await habitRecordsCollection
+          .where('date', isEqualTo: formattedDate)
+          .get();
+
+      // Clear the list and populate it with new data
+      habitRecordsList.clear();
+      for (var doc in snapshot.docs) {
+        // Convert Firestore document to Habit mode
+        HabitRecord habitRecord =
+            HabitRecord.fromMap(doc.data() as Map<String, dynamic>);
+        habitRecord.id = doc.id;
+        habitRecordsList.add(habitRecord);
+      }
+
+      print(habitRecordsList.toJson());
     } catch (e) {
       print('Error fetching habits: $e');
     }
