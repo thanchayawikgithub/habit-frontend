@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
 import 'package:habit_frontend/app/modules/home/views/home_view.dart';
 import '../controllers/profile_controller.dart';
 
@@ -14,6 +15,7 @@ class ProfileView extends GetView<ProfileController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      bottomNavigationBar: BottomAppBarWidget(),
       appBar: AppBar(
         title: const Text('Profile'),
         centerTitle: true,

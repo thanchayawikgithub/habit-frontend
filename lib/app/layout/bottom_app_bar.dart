@@ -11,20 +11,29 @@ class BottomAppBarWidget extends StatefulWidget {
 class _BottomAppBarWidgetState extends State<BottomAppBarWidget> {
   int _currentIndex = 0;
 
+  @override
+  void initState() {
+    super.initState();
+
+    // รับค่า index จากหน้าอื่นถ้ามีการส่งมาด้วย Get.arguments
+    _currentIndex = Get.arguments != null ? Get.arguments['index'] ?? 0 : 0;
+  }
+
   void _onItemTapped(int index) {
     setState(() {
       _currentIndex = index;
     });
 
+    // ส่งค่า index ปัจจุบันไปยังหน้าถัดไป
     switch (index) {
       case 0:
-        Get.toNamed('/home');
+        Get.toNamed('/home', arguments: {'index': index});
         break;
       case 1:
-        Get.toNamed('/habits');
+        Get.toNamed('/progress', arguments: {'index': index});
         break;
       case 2:
-        Get.toNamed('/profile');
+        Get.toNamed('/profile', arguments: {'index': index});
         break;
     }
   }
