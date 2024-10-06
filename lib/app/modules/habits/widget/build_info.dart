@@ -22,7 +22,7 @@ class BuildInfo extends GetView<HabitsController> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              '${habit.title} ${habit.period} Day',
+              '${habit.title}  Day',
               style: const TextStyle(
                 fontSize: 19,
                 fontWeight: FontWeight.bold,

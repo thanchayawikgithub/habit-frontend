@@ -8,7 +8,9 @@ import 'package:habit_frontend/app/modules/habits/views/edit_habit.dart';
 import '../controllers/habits_controller.dart';
 
 class HabitsView extends GetView<HabitsController> {
-  const HabitsView({super.key});
+  HabitsView({super.key}) {
+    controller.fetchHabits();
+  }
 
   @override
   Widget build(BuildContext context) {

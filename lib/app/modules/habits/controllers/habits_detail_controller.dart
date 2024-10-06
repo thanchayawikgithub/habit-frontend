@@ -9,7 +9,6 @@ class HabitDetailController extends GetxController {
   var habit = Habit(
     title: '',
     description: '',
-    period: 0,
   ).obs;
 
   Future<void> fetchHabit(String id) async {

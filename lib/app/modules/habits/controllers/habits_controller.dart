@@ -14,7 +14,6 @@ class HabitsController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final titleCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
-  final periodCtrl = TextEditingController();
 
   List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
@@ -22,14 +21,13 @@ class HabitsController extends GetxController {
   var habit = Habit(
     title: '',
     description: '',
-    period: 0,
   ).obs;
+
   Future<void> addHabit() async {
     try {
       final habit = Habit(
           title: titleCtrl.text,
           description: descriptionCtrl.text,
-          period: int.parse(periodCtrl.text),
           userId: _auth.currentUser?.uid ?? '');
 
       final savedHabit = await habitsCollection.add(habit.toMap());
@@ -55,7 +53,6 @@ class HabitsController extends GetxController {
         id: id,
         title: titleCtrl.text,
         description: descriptionCtrl.text,
-        period: int.parse(periodCtrl.text),
       );
 
       await habitsCollection.doc(id).update(habit.toMap());
@@ -78,6 +75,7 @@ class HabitsController extends GetxController {
 
   // Fetch habits from Firestore
   Future<void> fetchHabits() async {
+    print("fetch habits");
     try {
       QuerySnapshot snapshot = await habitsCollection
           .where('userId', isEqualTo: _auth.currentUser?.uid ?? '')
@@ -96,26 +94,47 @@ class HabitsController extends GetxController {
     }
   }
 
-  Future<void> fetchHabitRecords() async {
+  Future<void> fetchTodayHabits() async {
+    print('fetch today habits');
+    List<HabitRecord> habitRecordsInstance = [];
     try {
-      final DateTime today = DateTime.now();
-      final DateFormat formatter =
-          DateFormat('yyyy-MM-dd'); // Specify the format
-      final String formattedDate = formatter.format(today);
-      QuerySnapshot snapshot = await habitRecordsCollection
-          .where('date', isEqualTo: formattedDate)
+      // Fetch habits for the current user
+      QuerySnapshot habitSnapshot = await habitsCollection
+          .where('userId', isEqualTo: _auth.currentUser?.uid ?? '')
           .get();
 
-      // Clear the list and populate it with new data
-      habitRecordsList.clear();
-      for (var doc in snapshot.docs) {
-        // Convert Firestore document to Habit mode
-        HabitRecord habitRecord =
-            HabitRecord.fromMap(doc.data() as Map<String, dynamic>);
-        habitRecord.id = doc.id;
-        habitRecordsList.add(habitRecord);
-      }
+      // Get today's date and format it
+      final DateTime today = DateTime.now();
+      final DateFormat formatter = DateFormat('yyyy-MM-dd');
+      final String formattedDate = formatter.format(today);
 
+      // Clear the list before fetching new data
+
+      // Loop through each habit and fetch the corresponding records
+      for (var habitDoc in habitSnapshot.docs) {
+        final String habitId = habitDoc.id; // Get the habitId from the document
+
+        Habit habit = Habit.fromMap(habitDoc.data() as Map<String, dynamic>);
+        habit.id = habitDoc.id;
+        // Fetch records for today's date and the current habitId
+        QuerySnapshot habitRecSnapshot = await habitRecordsCollection
+            .where('date', isEqualTo: formattedDate)
+            .where('habitId',
+                isEqualTo: habitId) // Use the habitId from the document
+            .get();
+
+        // Populate the habitRecordsList with the retrieved records
+
+        for (var doc in habitRecSnapshot.docs) {
+          print('Habit record docs' + doc.id);
+          HabitRecord habitRecord =
+              HabitRecord.fromMap(doc.data() as Map<String, dynamic>);
+          habitRecord.id = doc.id; // Set the id of the HabitRecord
+          habitRecord.habit = habit;
+          habitRecordsInstance.add(habitRecord);
+        }
+      }
+      habitRecordsList.value = habitRecordsInstance;
       print(habitRecordsList.toJson());
     } catch (e) {
       print('Error fetching habits: $e');
@@ -144,18 +163,24 @@ class HabitsController extends GetxController {
   void setEditedHabit(Habit habit) {
     titleCtrl.text = habit.title;
     descriptionCtrl.text = habit.description;
-    periodCtrl.text = habit.period.toString();
   }
 
   void clearForm() {
     titleCtrl.text = '';
     descriptionCtrl.text = '';
-    periodCtrl.text = '';
   }
 
   @override
   void onInit() async {
     super.onInit();
-    await fetchHabits();
+    // await fetchHabits();
+  }
+
+  Future<void> changeHabitRecordStatus(HabitRecord habitRecord) async {
+    habitRecord.status = !habitRecord.status;
+    await habitRecordsCollection
+        .doc(habitRecord.id)
+        .update(habitRecord.toMap());
+    await fetchTodayHabits();
   }
 }

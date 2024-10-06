@@ -20,7 +20,6 @@ class HomeController extends GetxController {
       final habit = Habit(
         title: titleCtrl.text,
         description: descriptionCtrl.text,
-        period: int.parse(periodCtrl.text),
       );
 
       await habitsCollection.add(habit.toMap());
@@ -38,7 +37,6 @@ class HomeController extends GetxController {
         id: id,
         title: titleCtrl.text,
         description: descriptionCtrl.text,
-        period: int.parse(periodCtrl.text),
       );
 
       await habitsCollection.doc(id).update(habit.toMap());
@@ -81,7 +79,6 @@ class HomeController extends GetxController {
   void setEditedHabit(Habit habit) {
     titleCtrl.text = habit.title;
     descriptionCtrl.text = habit.description;
-    periodCtrl.text = habit.period.toString();
   }
 
   void clearForm() {
@@ -95,6 +92,6 @@ class HomeController extends GetxController {
   void onInit() async {
     super.onInit();
     // await fetchHabits();
-    await habitsCtrl.fetchHabitRecords();
+    await habitsCtrl.fetchTodayHabits();
   }
 }

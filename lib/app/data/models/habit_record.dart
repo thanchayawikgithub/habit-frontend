@@ -1,16 +1,20 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:habit_frontend/app/data/models/habit.dart';
+
 class HabitRecord {
   String? id;
   String habitId;
   String date;
   bool status;
+  Habit? habit;
   HabitRecord({
     this.id,
     required this.habitId,
     required this.date,
     this.status = false,
+    this.habit,
   });
 
   HabitRecord copyWith({
@@ -18,12 +22,14 @@ class HabitRecord {
     String? habitId,
     String? date,
     bool? status,
+    Habit? habit,
   }) {
     return HabitRecord(
       id: id ?? this.id,
       habitId: habitId ?? this.habitId,
       date: date ?? this.date,
       status: status ?? this.status,
+      habit: habit ?? this.habit,
     );
   }
 
@@ -33,6 +39,7 @@ class HabitRecord {
       'habitId': habitId,
       'date': date,
       'status': status,
+      'habit': habit?.toMap(),
     };
   }
 
@@ -42,6 +49,9 @@ class HabitRecord {
       habitId: map['habitId'] as String,
       date: map['date'] as String,
       status: map['status'] as bool,
+      habit: map['habit'] != null
+          ? Habit.fromMap(map['habit'] as Map<String, dynamic>)
+          : null,
     );
   }
 
@@ -52,7 +62,7 @@ class HabitRecord {
 
   @override
   String toString() {
-    return 'HabitRecord(id: $id, habitId: $habitId, date: $date, status: $status)';
+    return 'HabitRecord(id: $id, habitId: $habitId, date: $date, status: $status, habit: $habit)';
   }
 
   @override
@@ -62,11 +72,16 @@ class HabitRecord {
     return other.id == id &&
         other.habitId == habitId &&
         other.date == date &&
-        other.status == status;
+        other.status == status &&
+        other.habit == habit;
   }
 
   @override
   int get hashCode {
-    return id.hashCode ^ habitId.hashCode ^ date.hashCode ^ status.hashCode;
+    return id.hashCode ^
+        habitId.hashCode ^
+        date.hashCode ^
+        status.hashCode ^
+        habit.hashCode;
   }
 }

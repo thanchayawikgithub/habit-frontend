@@ -1,34 +1,38 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
+
+import 'package:flutter/foundation.dart';
+
+import 'package:habit_frontend/app/data/models/habit_record.dart';
+
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 
 class Habit {
   String? id;
   String title;
   String description;
-  int period;
   String? userId;
-
+  List<HabitRecord>? habitRecords;
   Habit({
     this.id,
     required this.title,
     required this.description,
-    required this.period,
     this.userId,
+    this.habitRecords,
   });
 
   Habit copyWith({
     String? id,
     String? title,
     String? description,
-    int? period,
     String? userId,
+    List<HabitRecord>? habitRecords,
   }) {
     return Habit(
       id: id ?? this.id,
       title: title ?? this.title,
       description: description ?? this.description,
-      period: period ?? this.period,
       userId: userId ?? this.userId,
+      habitRecords: habitRecords ?? this.habitRecords,
     );
   }
 
@@ -37,8 +41,8 @@ class Habit {
       'id': id,
       'title': title,
       'description': description,
-      'period': period,
       'userId': userId,
+      'habitRecords': habitRecords?.map((x) => x.toMap()).toList(),
     };
   }
 
@@ -47,8 +51,14 @@ class Habit {
       id: map['id'] != null ? map['id'] as String : null,
       title: map['title'] as String,
       description: map['description'] as String,
-      period: map['period'] as int,
       userId: map['userId'] != null ? map['userId'] as String : null,
+      habitRecords: map['habitRecords'] != null
+          ? List<HabitRecord>.from(
+              (map['habitRecords'] as List<int>).map<HabitRecord?>(
+                (x) => HabitRecord.fromMap(x as Map<String, dynamic>),
+              ),
+            )
+          : null,
     );
   }
 
@@ -59,7 +69,7 @@ class Habit {
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, period: $period, userId: $userId)';
+    return 'Habit(id: $id, title: $title, description: $description, userId: $userId, habitRecords: $habitRecords)';
   }
 
   @override
@@ -69,8 +79,8 @@ class Habit {
     return other.id == id &&
         other.title == title &&
         other.description == description &&
-        other.period == period &&
-        other.userId == userId;
+        other.userId == userId &&
+        listEquals(other.habitRecords, habitRecords);
   }
 
   @override
@@ -78,7 +88,7 @@ class Habit {
     return id.hashCode ^
         title.hashCode ^
         description.hashCode ^
-        period.hashCode ^
-        userId.hashCode;
+        userId.hashCode ^
+        habitRecords.hashCode;
   }
 }
