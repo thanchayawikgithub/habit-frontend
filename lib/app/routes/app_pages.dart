@@ -33,7 +33,7 @@ class AppPages {
     ),
     GetPage(
       name: _Paths.LOGIN,
-      page: () => LoginView(),
+      page: () => const LoginView(),
       binding: LoginBinding(),
     ),
     GetPage(
@@ -63,7 +63,7 @@ class AppPages {
     //goals_detail
     GetPage(
       name: _Paths.HABIT,
-      page: () => HabitDetailView(),
+      page: () => const HabitDetailView(),
       binding: HabitDetailBinding(),
     ),
   ];

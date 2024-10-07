@@ -1,40 +1,79 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_picker/image_picker.dart'; // นำเข้า image_picker
+import 'package:image_picker/image_picker.dart';
 import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
 import 'package:habit_frontend/app/modules/home/views/home_view.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart'; // Firebase Storage
 import 'package:cloud_firestore/cloud_firestore.dart'; // Firebase Firestore
-import 'package:firebase_auth/firebase_auth.dart'; // Firebase Auth
 import '../controllers/profile_controller.dart';
 
 class ProfileView extends GetView<ProfileController> {
   ProfileView({super.key});
 
-  final TextEditingController nameController =
-      TextEditingController(); // Controller for name field
-  final ImagePicker _picker = ImagePicker(); // สร้าง instance ของ ImagePicker
-  RxString imagePath =
-      ''.obs; // ตัวแปร observable เพื่อเก็บเส้นทางของรูปภาพที่เลือก
+  final TextEditingController nameController = TextEditingController();
+  final ImagePicker _picker = ImagePicker();
+  RxString imagePath = ''.obs;
+  RxString imageUrl = ''.obs; // URL ของรูปภาพที่จะดึงจาก Firebase
 
-  // ฟังก์ชันเพื่อเลือกภาพจากแกลเลอรี่
-  Future<void> _pickImage() async {
+  // ฟังก์ชันเพื่อเลือกภาพจากแกลเลอรี่และอัปโหลดไปยัง Firebase
+  Future<void> _pickAndUploadImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
     if (image != null) {
       imagePath.value = image.path; // อัปเดตเส้นทางของภาพที่เลือก
+
+      // อัปโหลดรูปไปยัง Firebase Storage
+      File file = File(image.path);
+      try {
+        String uid = FirebaseAuth.instance.currentUser!.uid;
+        String fileName = 'profile_pictures/$uid/profile.jpg';
+
+        // อัปโหลดรูปไปที่ path ใน Firebase Storage
+        TaskSnapshot snapshot =
+            await FirebaseStorage.instance.ref(fileName).putFile(file);
+
+        // ดึง URL ของรูปที่อัปโหลดมาเก็บไว้ใน Firestore
+        String downloadUrl = await snapshot.ref.getDownloadURL();
+        imageUrl.value = downloadUrl; // อัปเดต URL ของรูปภาพ
+
+        // อัปเดตข้อมูล URL ใน Firestore
+        await FirebaseFirestore.instance
+            .collection('users')
+            .doc(uid)
+            .update({'profileImageUrl': downloadUrl});
+
+        Get.snackbar('Success', 'Profile picture updated successfully!');
+      } catch (e) {
+        Get.snackbar('Error', 'Failed to upload image: $e');
+      }
     }
   }
 
   // ฟังก์ชัน Logout
   Future<void> _logout() async {
-    await FirebaseAuth.instance.signOut(); // ทำการ Sign out ผู้ใช้จาก Firebase
-    Get.offAllNamed('/login'); // เปลี่ยนไปยังหน้า Login
+    await FirebaseAuth.instance.signOut();
+    Get.offAllNamed('/login');
+  }
+
+  // ฟังก์ชันสำหรับดึงรูปภาพจาก Firestore (ตอนเปิดหน้าครั้งแรก)
+  Future<void> _loadProfileImage() async {
+    String uid = FirebaseAuth.instance.currentUser!.uid;
+    DocumentSnapshot userDoc =
+        await FirebaseFirestore.instance.collection('users').doc(uid).get();
+
+    if (userDoc.exists && userDoc['profileImageUrl'] != null) {
+      imageUrl.value = userDoc['profileImageUrl'];
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    // โหลดรูปโปรไฟล์จาก Firebase เมื่อหน้าเพจนี้ถูกสร้างขึ้น
+    _loadProfileImage();
+
     return Scaffold(
-      bottomNavigationBar: BottomAppBarWidget(),
+      bottomNavigationBar: const BottomAppBarWidget(),
       appBar: AppBar(
         title: const Text('Profile'),
         centerTitle: true,
@@ -48,7 +87,7 @@ class ProfileView extends GetView<ProfileController> {
           IconButton(
             icon: const Icon(Icons.logout),
             onPressed: () {
-              _logout(); // เรียกฟังก์ชัน Logout เมื่อกดปุ่ม
+              _logout();
             },
           ),
         ],
@@ -59,24 +98,36 @@ class ProfileView extends GetView<ProfileController> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              const SizedBox(height: 20), // Spacing from AppBar
+              const SizedBox(height: 20),
 
               // Profile Picture Section
               Obx(() {
                 return GestureDetector(
-                  onTap: _pickImage, // คลิกเพื่อเลือกภาพจากแกลเลอรี่
+                  onTap: _pickAndUploadImage,
                   child: CircleAvatar(
                     radius: 50,
-                    backgroundImage: imagePath.value.isNotEmpty
-                        ? FileImage(File(imagePath.value))
-                        : null, // ถ้าไม่มีภาพจะใช้ค่า null
-                    child: imagePath.value.isEmpty
-                        ? const Icon(Icons.person, size: 50) // ใช้ icon แทน
-                        : null, // ถ้ามีภาพแล้วจะไม่แสดง icon
+                    backgroundImage: imageUrl.value.isNotEmpty
+                        ? NetworkImage(imageUrl.value)
+                        : null, // แสดงรูปจาก URL
+                    child: imageUrl.value.isEmpty
+                        ? const Icon(Icons.person, size: 50)
+                        : null,
                   ),
                 );
               }),
               const SizedBox(height: 10),
+
+              // Edit Profile Picture Button
+              ElevatedButton.icon(
+                onPressed: _pickAndUploadImage,
+                icon: const Icon(Icons.edit),
+                label: const Text("Edit Profile Picture"),
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
 
               const SizedBox(height: 20),
 
@@ -95,15 +146,13 @@ class ProfileView extends GetView<ProfileController> {
 
               // Name Field (Read-only) with Edit Button
               Obx(() {
-                nameController.text = controller.displayName
-                    .value; // Set the controller text from the observable
+                nameController.text = controller.displayName.value;
                 return Stack(
                   alignment: Alignment.centerRight,
                   children: [
                     TextFormField(
-                      controller:
-                          nameController, // Use controller to edit/display the name
-                      readOnly: true, // Set the field as read-only
+                      controller: nameController,
+                      readOnly: true,
                       decoration: InputDecoration(
                         border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(10),
@@ -113,7 +162,6 @@ class ProfileView extends GetView<ProfileController> {
                     IconButton(
                       icon: const Icon(Icons.edit),
                       onPressed: () {
-                        // เปลี่ยน TextFormField ให้เป็น editable mode
                         nameController.text = controller.displayName.value;
                         showDialog(
                           context: context,
@@ -130,15 +178,14 @@ class ProfileView extends GetView<ProfileController> {
                                 ElevatedButton(
                                   onPressed: () async {
                                     String newName = nameController.text;
-                                    await controller.updateDisplayName(
-                                        newName); // อัปเดตชื่อใน Firebase
-                                    Get.back(); // ปิด dialog
+                                    await controller.updateDisplayName(newName);
+                                    Get.back();
                                   },
                                   child: const Text("Save"),
                                 ),
                                 ElevatedButton(
                                   onPressed: () {
-                                    Get.back(); // ปิด dialog โดยไม่บันทึก
+                                    Get.back();
                                   },
                                   child: const Text("Cancel"),
                                 ),
@@ -156,21 +203,17 @@ class ProfileView extends GetView<ProfileController> {
 
               // Save Button with Gradient
               SizedBox(
-                width: double
-                    .infinity, // ทำให้ปุ่มมีความกว้างเต็มตามขนาดของ parent
+                width: double.infinity,
                 child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(0),
-                    backgroundColor: Colors
-                        .transparent, // ลบ padding เดิมของปุ่มเพื่อให้จัดการความสูงใน Container แทน
+                    backgroundColor: Colors.transparent,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
-                    ), // ทำให้ปุ่มเป็นโปร่งใส เพื่อใช้ gradient
-                    shadowColor: Colors.transparent, // ลบเงาเดิมของปุ่มออก
+                    ),
+                    shadowColor: Colors.transparent,
                   ),
-                  onPressed: () {
-                    // Save action (if needed for other fields)
-                  },
+                  onPressed: () {},
                   child: Ink(
                     decoration: BoxDecoration(
                       gradient: const LinearGradient(
@@ -185,7 +228,7 @@ class ProfileView extends GetView<ProfileController> {
                       borderRadius: BorderRadius.circular(10),
                     ),
                     child: Container(
-                      height: 50, // กำหนดความสูงให้กับปุ่ม
+                      height: 50,
                       alignment: Alignment.center,
                       child: const Text(
                         'SAVE',

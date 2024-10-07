@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
 import 'package:habit_frontend/app/modules/habits/views/edit_habit.dart';
 import 'package:habit_frontend/app/modules/home/controllers/home_controller.dart';

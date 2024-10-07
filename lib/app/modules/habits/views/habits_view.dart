@@ -16,7 +16,7 @@ class HabitsView extends GetView<HabitsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text(
+        title: const Text(
           'My Habits',
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),

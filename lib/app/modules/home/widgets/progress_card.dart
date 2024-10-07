@@ -7,6 +7,8 @@ class ProgressCard extends StatelessWidget {
   int completedHabitsCount = 0;
   int allHabitsCount = 0;
   double progressValue = 0.0;
+
+  ProgressCard({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(() {
@@ -65,13 +67,13 @@ class ProgressCard extends StatelessWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${completedHabitsCount} of ${allHabitsCount} habits',
-                          style: TextStyle(
+                          '$completedHabitsCount of $allHabitsCount habits',
+                          style: const TextStyle(
                               fontWeight: FontWeight.bold,
                               color: Colors.white,
                               fontSize: 18),
                         ),
-                        Text(
+                        const Text(
                           'Completed today!',
                           style: TextStyle(color: Colors.white, fontSize: 18),
                         )

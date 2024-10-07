@@ -7,7 +7,6 @@ import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.
 import 'package:habit_frontend/app/modules/habits/views/edit_habit.dart';
 import 'package:habit_frontend/app/modules/home/widgets/progress_card.dart';
 import 'package:habit_frontend/app/modules/home/widgets/today_habit.dart';
-import 'package:habit_frontend/app/modules/home/widgets/my_goal.dart';
 
 import '../controllers/home_controller.dart';
 

@@ -28,20 +28,20 @@ class HabitDetailView extends GetView<HabitDetailController> {
           body: Container(
             width: double.infinity,
             color: Colors.white,
-            padding: EdgeInsets.all(20),
+            padding: const EdgeInsets.all(20),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Row(
                   children: [
-                    Text(
+                    const Text(
                       'Description: ',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                     ),
                     Text(
                       habit.description,
-                      style: TextStyle(fontSize: 20),
+                      style: const TextStyle(fontSize: 20),
                     ),
                   ],
                 ),

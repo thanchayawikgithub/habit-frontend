@@ -7,6 +7,8 @@ import 'package:habit_frontend/app/modules/home/controllers/home_controller.dart
 
 class TodayHabit extends GetView<HomeController> {
   HabitsController habitsCtrl = Get.put(HabitsController());
+
+  TodayHabit({super.key});
   @override
   Widget build(BuildContext context) {
     return Obx(
@@ -20,10 +22,10 @@ class TodayHabit extends GetView<HomeController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
+                const Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    const Text(
+                    Text(
                       'Today Habit',
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 20),

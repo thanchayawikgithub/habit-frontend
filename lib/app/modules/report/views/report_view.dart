@@ -3,10 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/layout/bottom_app_bar.dart';
 
-import 'package:habit_frontend/app/modules/report/report.dart';
-import 'package:habit_frontend/app/modules/report/views/widget/my_goal.dart';
 import 'package:habit_frontend/app/modules/report/views/widget/report_list.dart';
-import 'package:habit_frontend/app/modules/report/views/widget/report_widget.dart';
 
 import '../controllers/report_controller.dart';
 
