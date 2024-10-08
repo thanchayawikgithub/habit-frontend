@@ -69,14 +69,27 @@ class HabitsView extends GetView<HabitsController> {
                         leading: Icon(
                           habit.icon,
                           color: habit.color,
+                          size: 30,
                         ),
-                        title: Text(
-                          habit.title,
-                          style: const TextStyle(
-                            fontWeight: FontWeight.w500,
-                            color: Colors
-                                .black, // สีข้อความเป็นสีดำเพื่อความชัดเจน
-                          ),
+                        title: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              habit.title,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w500,
+                                color: Colors
+                                    .black, // สีข้อความเป็นสีดำเพื่อความชัดเจน
+                              ),
+                            ),
+                            Text(
+                              habit.description,
+                              style: const TextStyle(
+                                color: Colors
+                                    .black87, // สีข้อความเป็นสีดำเพื่อความชัดเจน
+                              ),
+                            )
+                          ],
                         ),
                         trailing: Row(
                           mainAxisSize: MainAxisSize.min,

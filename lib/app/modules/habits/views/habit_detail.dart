@@ -115,6 +115,22 @@ class HabitDetailView extends GetView<HabitDetailController> {
             SizedBox(
               height: 10,
             ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Reminder: ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(
+                  habit.reminderTime ?? 'off',
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TableCalendar(
@@ -127,11 +143,6 @@ class HabitDetailView extends GetView<HabitDetailController> {
                 ),
                 calendarBuilders: CalendarBuilders(
                   markerBuilder: (context, date, events) {
-                    // if (date.isSameDate(DateTime.now()) ||
-                    //     date.isAfter(DateTime.now())) {
-                    //   return null;
-                    // }
-
                     for (var recordDate in habitStatusMap.keys) {
                       if (recordDate.isSameDate(date)) {
                         String status = habitStatusMap[recordDate]!;
@@ -139,7 +150,7 @@ class HabitDetailView extends GetView<HabitDetailController> {
 
                         switch (status) {
                           case 'Complete':
-                            color = Colors.green;
+                            color = Colors.lightGreen;
                             break;
                           case 'Missing':
                             color = Colors.grey; // Use gray for "Missing"
@@ -190,7 +201,7 @@ class HabitDetailView extends GetView<HabitDetailController> {
                   child: Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: Colors.green,
+                      color: Colors.lightGreen,
                       shape: BoxShape.circle,
                     ),
                   ),

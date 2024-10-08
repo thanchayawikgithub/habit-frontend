@@ -19,9 +19,6 @@ class ProfileView extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    // โหลดรูปโปรไฟล์จาก Firebase เมื่อหน้าเพจนี้ถูกสร้างขึ้น
-    // _loadProfileImage();
-
     return Scaffold(
       bottomNavigationBar: const BottomAppBarWidget(),
       appBar: AppBar(
@@ -47,74 +44,81 @@ class ProfileView extends GetView<ProfileController> {
       ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            const SizedBox(height: 20),
-
-            // Profile Picture Section
-
-            GestureDetector(
-              onTap: controller.pickAndUploadImage,
-              child: CircleAvatar(
-                radius: 70,
-                backgroundImage: _auth.currentUser?.photoURL != null
-                    ? NetworkImage(_auth.currentUser!.photoURL!)
-                    : null, // แสดงรูปจาก URL
-                child: _auth.currentUser?.photoURL == null
-                    ? const Icon(Icons.person, size: 50)
-                    : null,
-              ),
-            ),
-
-            const SizedBox(height: 10),
-
-            Center(
-                child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
+        child: GetBuilder<ProfileController>(
+          // Using GetBuilder
+          builder: (controller) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Text(
-                  _auth.currentUser?.displayName ?? '',
-                  style: const TextStyle(
-                      fontWeight: FontWeight.bold, fontSize: 24),
+                const SizedBox(height: 20),
+
+                // Profile Picture Section
+                GestureDetector(
+                  onTap: controller.pickAndUploadImage,
+                  child: CircleAvatar(
+                    radius: 70,
+                    backgroundImage: _auth.currentUser?.photoURL != null
+                        ? NetworkImage(_auth.currentUser!.photoURL!)
+                        : null, // Show image from URL
+                    child: _auth.currentUser?.photoURL == null
+                        ? const Icon(Icons.person, size: 50)
+                        : null,
+                  ),
                 ),
-                IconButton(
-                  icon: const Icon(Icons.edit),
-                  onPressed: () {
-                    showDialog(
-                      context: context,
-                      builder: (context) {
-                        return AlertDialog(
-                          title: const Text("Edit Name"),
-                          content: TextFormField(
-                            controller: controller.displayNameCtrl,
-                            decoration: const InputDecoration(
-                              labelText: "Enter your name",
-                            ),
-                          ),
-                          actions: [
-                            ElevatedButton(
-                              onPressed: () async {
-                                await controller.updateDisplayName();
-                                Get.back();
-                              },
-                              child: const Text("Save"),
-                            ),
-                            ElevatedButton(
-                              onPressed: () {
-                                Get.back();
-                              },
-                              child: const Text("Cancel"),
-                            ),
-                          ],
-                        );
-                      },
-                    );
-                  },
+
+                const SizedBox(height: 10),
+
+                Center(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        _auth.currentUser?.displayName ?? '',
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 24),
+                      ),
+                      IconButton(
+                        icon: const Icon(Icons.edit),
+                        onPressed: () {
+                          showDialog(
+                            context: context,
+                            builder: (context) {
+                              return AlertDialog(
+                                title: const Text("Edit Name"),
+                                content: TextFormField(
+                                  controller: controller.displayNameCtrl,
+                                  decoration: const InputDecoration(
+                                    labelText: "Enter your name",
+                                  ),
+                                ),
+                                actions: [
+                                  ElevatedButton(
+                                    onPressed: () async {
+                                      await controller.updateDisplayName();
+                                      Get.back();
+                                      // Notify GetBuilder to update
+                                      controller.update();
+                                    },
+                                    child: const Text("Save"),
+                                  ),
+                                  ElevatedButton(
+                                    onPressed: () {
+                                      Get.back();
+                                    },
+                                    child: const Text("Cancel"),
+                                  ),
+                                ],
+                              );
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
                 ),
               ],
-            ))
-          ],
+            );
+          },
         ),
       ),
     );

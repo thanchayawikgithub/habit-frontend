@@ -17,7 +17,7 @@ class TodayHabit extends GetView<HomeController> {
           color: Colors.white,
           child: Container(
             width: MediaQuery.of(context).size.width,
-            height: 470,
+            height: 520,
             padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

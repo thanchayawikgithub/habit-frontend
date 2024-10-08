@@ -39,7 +39,8 @@ class ProfileController extends GetxController {
 
         // Show a success message
         Get.snackbar('Success', 'Profile picture updated successfully!');
-        await _auth.currentUser?.reload();
+
+        update();
       } catch (e) {
         print(e);
         // Handle upload error
@@ -54,6 +55,7 @@ class ProfileController extends GetxController {
     if (currentUser != null) {
       await currentUser.updateDisplayName(
           displayNameCtrl.text); // Update displayName in Firebase
+      update();
     }
   }
 }

@@ -65,6 +65,7 @@ class HabitsController extends GetxController {
       }
 
       await fetchHabits();
+      await fetchTodayHabits();
     } catch (e) {
       print('Error adding data: $e');
     }
