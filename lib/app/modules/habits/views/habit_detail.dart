@@ -203,7 +203,7 @@ class HabitDetailView extends GetView<HabitDetailController> {
                   child: Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: Colors.red,
+                      color: Colors.grey,
                       shape: BoxShape.circle,
                     ),
                   ),
@@ -220,7 +220,7 @@ class HabitDetailView extends GetView<HabitDetailController> {
                   child: Container(
                     padding: EdgeInsets.all(6),
                     decoration: BoxDecoration(
-                      color: const Color.fromARGB(255, 183, 171, 248),
+                      color: Colors.orange,
                       shape: BoxShape.circle,
                     ),
                   ),
