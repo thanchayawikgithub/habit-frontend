@@ -38,6 +38,7 @@ class HabitsView extends GetView<HabitsController> {
                         Get.toNamed('/habits/${habit.id}');
                       },
                       minVerticalPadding: 16,
+                      leading: Icon(habit.icon),
                       title: Text(
                         habit.title,
                         style: const TextStyle(fontWeight: FontWeight.w500),

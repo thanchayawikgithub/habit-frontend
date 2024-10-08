@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 
 import 'package:habit_frontend/app/data/models/habit_record.dart';
 
@@ -12,12 +13,15 @@ class Habit {
   String description;
   String? userId;
   List<HabitRecord>? habitRecords;
+  IconData? icon;
+
   Habit({
     this.id,
     required this.title,
     required this.description,
     this.userId,
     this.habitRecords,
+    this.icon,
   });
 
   Habit copyWith({
@@ -26,6 +30,7 @@ class Habit {
     String? description,
     String? userId,
     List<HabitRecord>? habitRecords,
+    IconData? icon,
   }) {
     return Habit(
       id: id ?? this.id,
@@ -33,6 +38,7 @@ class Habit {
       description: description ?? this.description,
       userId: userId ?? this.userId,
       habitRecords: habitRecords ?? this.habitRecords,
+      icon: icon ?? this.icon,
     );
   }
 
@@ -43,6 +49,7 @@ class Habit {
       'description': description,
       'userId': userId,
       'habitRecords': habitRecords?.map((x) => x.toMap()).toList(),
+      'icon': icon?.codePoint,
     };
   }
 
@@ -59,6 +66,9 @@ class Habit {
               ),
             )
           : null,
+      icon: map['icon'] != null
+          ? IconData(map['icon'] as int, fontFamily: 'MaterialIcons')
+          : null,
     );
   }
 
@@ -69,7 +79,7 @@ class Habit {
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, userId: $userId, habitRecords: $habitRecords)';
+    return 'Habit(id: $id, title: $title, description: $description, userId: $userId, habitRecords: $habitRecords, icon: $icon)';
   }
 
   @override
@@ -80,7 +90,8 @@ class Habit {
         other.title == title &&
         other.description == description &&
         other.userId == userId &&
-        listEquals(other.habitRecords, habitRecords);
+        listEquals(other.habitRecords, habitRecords) &&
+        other.icon == icon;
   }
 
   @override
@@ -89,6 +100,7 @@ class Habit {
         title.hashCode ^
         description.hashCode ^
         userId.hashCode ^
-        habitRecords.hashCode;
+        habitRecords.hashCode ^
+        icon.hashCode;
   }
 }

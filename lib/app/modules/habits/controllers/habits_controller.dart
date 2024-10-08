@@ -14,7 +14,7 @@ class HabitsController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final titleCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
-
+  Rx<IconData?> selectedIcon = Rx<IconData?>(null);
   List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
   var habitRecordsList = <HabitRecord>[].obs; // Observable list to store habits
@@ -28,7 +28,8 @@ class HabitsController extends GetxController {
       final habit = Habit(
           title: titleCtrl.text,
           description: descriptionCtrl.text,
-          userId: _auth.currentUser?.uid ?? '');
+          userId: _auth.currentUser?.uid ?? '',
+          icon: selectedIcon.value);
 
       final savedHabit = await habitsCollection.add(habit.toMap());
 
@@ -49,13 +50,11 @@ class HabitsController extends GetxController {
   // Edit a habit by its ID
   Future<void> editHabit(String id) async {
     try {
-      final habit = Habit(
-        id: id,
-        title: titleCtrl.text,
-        description: descriptionCtrl.text,
-      );
-
-      await habitsCollection.doc(id).update(habit.toMap());
+      await habitsCollection.doc(id).update({
+        'title': titleCtrl.text,
+        'description': descriptionCtrl.text,
+        'icon': selectedIcon.value?.codePoint
+      });
       await fetchHabits(); // Refresh the habits list
     } catch (e) {
       print('Error editing habit: $e');
@@ -181,11 +180,13 @@ class HabitsController extends GetxController {
   void setEditedHabit(Habit habit) {
     titleCtrl.text = habit.title;
     descriptionCtrl.text = habit.description;
+    selectedIcon.value = habit.icon;
   }
 
   void clearForm() {
     titleCtrl.text = '';
     descriptionCtrl.text = '';
+    selectedIcon.value = null;
   }
 
   Future<void> changeHabitRecordStatus(HabitRecord habitRecord) async {

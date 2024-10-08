@@ -53,6 +53,7 @@ class TodayHabit extends GetView<HomeController> {
                               ),
                               child: ListTile(
                                 minVerticalPadding: 16,
+                                leading: Icon(habitRecord.habit?.icon),
                                 title: Text(
                                   habitRecord.habit?.title ?? '',
                                   style: const TextStyle(
