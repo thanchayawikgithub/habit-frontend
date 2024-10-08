@@ -23,6 +23,15 @@ class HabitDetailView extends GetView<HabitDetailController> {
   Widget build(BuildContext context) {
     return Obx(() {
       Habit habit = habitsCtrl.habit.value;
+      Map<DateTime, String> habitStatusMap = {};
+      for (var record in habit.habitRecords) {
+        DateTime date = DateTime.parse(record.date);
+        String status = record.status == 'Complete' || record.status == true
+            ? 'Complete'
+            : 'Pending';
+        habitStatusMap[date] = status; // เก็บสถานะใน Map
+      }
+
       return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.white,
@@ -41,139 +50,169 @@ class HabitDetailView extends GetView<HabitDetailController> {
           width: double.infinity,
           color: Colors.white,
           padding: EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'Description: ',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  Text(
-                    habit.description,
-                    style: const TextStyle(fontSize: 20),
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Row(
-                children: [
-                  const Text(
-                    'Icon: ',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                  ),
-                  Icon(habit.icon),
-                ],
-              ),
-              SizedBox(
-                height: 10,
-              ),
-              Expanded(
-                  child: ListView.builder(
-                itemCount: habit.habitRecords.length,
-                itemBuilder: (context, index) {
-                  HabitRecord habitRecord = habit.habitRecords[index];
-                  DateTime focusedDay = habitRecord.date != null
-                      ? DateTime.parse(habitRecord.date)
-                      : DateTime.now();
-                  DateTime selectedDay = DateTime.parse(habitRecord.date);
-                  return Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Status :',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          Container(
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: TableCalendar(
+                focusedDay: DateTime.now(),
+                firstDay: DateTime(2010, 10, 16),
+                lastDay: DateTime(2030, 3, 14),
+                headerStyle: HeaderStyle(
+                  formatButtonVisible: false, // ซ่อนปุ่ม "2 weeks"
+                  titleCentered: true, // จัดกลางหัวข้อ
+                ),
+                calendarBuilders: CalendarBuilders(
+                  markerBuilder: (context, date, events) {
+                    if (date.isSameDate(DateTime.now()) ||
+                        date.isAfter(DateTime.now())) {
+                      return null;
+                    }
+
+                    for (var recordDate in habitStatusMap.keys) {
+                      if (recordDate.isSameDate(date)) {
+                        String status = habitStatusMap[recordDate]!;
+                        Color color =
+                            (status == 'Complete') ? Colors.green : Colors.red;
+
+                        return Align(
+                          alignment: Alignment.center,
+                          child: Container(
                             decoration: BoxDecoration(
-                              color: (habitRecord.status == 'Complete' ||
-                                      habitRecord.status == true)
-                                  ? Colors.green[100]
-                                  : Colors.grey[300],
-                              borderRadius: BorderRadius.circular(12),
+                              color: color,
+                              shape: BoxShape.circle,
                             ),
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
-                            child: Text(
-                              ' ${habitRecord.status == 'Complete' || habitRecord.status == true ? 'Complete' : 'Pending'} ', // แสดงสถานะ
-                              style: TextStyle(
-                                  color: (habitRecord.status == 'Complete' ||
-                                          habitRecord.status == true)
-                                      ? Colors.green
-                                      : Colors.grey,
-                                  fontSize: 15),
+                            width: 30,
+                            height: 30,
+                            child: Center(
+                              child: Text(
+                                '${date.day}',
+                                style: TextStyle(color: Colors.white),
+                              ),
                             ),
                           ),
-                        ],
-                      ),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            'Date: ',
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          Text(
-                            habitRecord.date,
-                            style: const TextStyle(fontSize: 20),
-                          ),
-                        ],
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.all(16.0),
-                        child: TableCalendar(
-                            focusedDay: focusedDay,
-                            firstDay: DateTime(2010, 10, 16),
-                            lastDay: DateTime(2030, 3, 14),
-                            selectedDayPredicate: (day) {
-                              return isSameDay(selectedDay,
-                                  day); // กำหนดว่าเมื่อไหร่ที่จะแสดงว่าเป็นวัน selected
-                            },
-                            onDaySelected: (selectedDay, focusedDay) {
-                              selectedDay = selectedDay;
-                              focusedDay = focusedDay;
-                            },
-                            calendarBuilders: CalendarBuilders(
-                                selectedBuilder: (context, date, _) {
-                              // กำหนดสีของ selectedDay ขึ้นอยู่กับสถานะ
-                              Color color = habitRecord.status
-                                  ? Colors.green
-                                  : Colors.red; // สีที่ใช้แสดง
-                              return Container(
-                                decoration: BoxDecoration(
-                                  color: color, // กำหนดสีที่เลือก
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Center(
-                                  child: Text(
-                                    '${date.day}',
-                                    style: TextStyle(
-                                        color:
-                                            Colors.white), // เปลี่ยนสีข้อความ
-                                  ),
-                                ),
-                              );
-                            })),
-                      ),
-                    ],
-                  );
-                },
-              )),
-            ],
-          ),
+                        );
+                      }
+                    }
+
+                    return null;
+                  },
+                ),
+                onDaySelected: (selectedDay, focusedDay) {},
+              ),
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'Complete',
+                  style: TextStyle(fontSize: 12),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(6),
+                  child: Container(
+                    padding: EdgeInsets.all(6), // ระยะห่างภายใน
+                    decoration: BoxDecoration(
+                      color: Colors.green, // สีพื้นหลัง
+                      shape: BoxShape.circle, // รูปทรงกลม
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  'Missing',
+                  style: TextStyle(fontSize: 12),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(6),
+                  child: Container(
+                    padding: EdgeInsets.all(6), // ระยะห่างภายใน
+                    decoration: BoxDecoration(
+                      color: Colors.red, // สีพื้นหลัง
+                      shape: BoxShape.circle, // รูปทรงกลม
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  width: 15,
+                ),
+                Text(
+                  'Pending',
+                  style: TextStyle(fontSize: 12),
+                ),
+                Padding(
+                  padding: EdgeInsets.all(6),
+                  child: Container(
+                    padding: EdgeInsets.all(6), // ระยะห่างภายใน
+                    decoration: BoxDecoration(
+                      color: const Color.fromARGB(
+                          255, 183, 171, 248), // สีพื้นหลัง
+                      shape: BoxShape.circle, // รูปทรงกลม
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Title',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(
+                  habit.title,
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Description: ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(
+                  habit.description,
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              children: [
+                const Text(
+                  'Icon: ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Icon(habit.icon),
+              ],
+            ),
+            SizedBox(
+              height: 5,
+            ),
+          ]),
         ),
       );
     });
+  }
+}
+
+extension DateOnlyCompare on DateTime {
+  bool isSameDate(DateTime date) {
+    return this.year == date.year &&
+        this.month == date.month &&
+        this.day == date.day;
   }
 }
