@@ -52,7 +52,7 @@ class HabitDetailView extends GetView<HabitDetailController> {
 
       return Scaffold(
         appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: habit.color.withOpacity(50 / 255),
             leading: IconButton(
               icon: const Icon(Icons.arrow_back),
               onPressed: () {
@@ -61,7 +61,11 @@ class HabitDetailView extends GetView<HabitDetailController> {
             ),
             title: Row(
               children: [
-                Icon(habit.icon),
+                Icon(
+                  habit.icon,
+                  color: habit.color,
+                  size: 30,
+                ),
                 SizedBox(width: 5),
                 Text(habit.title,
                     style: const TextStyle(

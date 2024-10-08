@@ -15,23 +15,31 @@ class HabitsView extends GetView<HabitsController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: ShaderMask(
-          shaderCallback: (bounds) => const LinearGradient(
-            colors: [Colors.purple, Colors.blue], // ไล่เฉดสีม่วง-น้ำเงิน
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ).createShader(bounds),
-          child: const Text(
-            'My Habits',
-            style: TextStyle(
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-              color: Colors
-                  .white, // ต้องการให้สีตัวอักษรเป็นสีขาวในกรณีที่ใช้ Shader
-            ),
+          title: Text(
+        "My Habits",
+        style: TextStyle(
+            fontSize: 24,
+            fontWeight: FontWeight.bold,
+            color: Colors.deepOrange[500]),
+      )
+
+          // ShaderMask(
+          //   shaderCallback: (bounds) => const LinearGradient(
+          //     colors: [Colors.purple, Colors.blue], // ไล่เฉดสีม่วง-น้ำเงิน
+          //     begin: Alignment.topLeft,
+          //     end: Alignment.bottomRight,
+          //   ).createShader(bounds),
+          //   child: const Text(
+          //     'My Habits',
+          //     style: TextStyle(
+          //       fontSize: 24,
+          //       fontWeight: FontWeight.bold,
+          //       color: Colors
+          //           .white, // ต้องการให้สีตัวอักษรเป็นสีขาวในกรณีที่ใช้ Shader
+          //     ),
+          //   ),
+          // ),
           ),
-        ),
-      ),
       bottomNavigationBar: const BottomAppBarWidget(),
       body: Obx(() {
         return Padding(
@@ -45,25 +53,23 @@ class HabitsView extends GetView<HabitsController> {
                   itemBuilder: (context, index) {
                     Habit habit = controller.habitsList[index];
                     return Container(
-                      margin: const EdgeInsets.symmetric(
-                          vertical: 8), // กำหนดระยะห่างระหว่างรายการ
+                      margin: EdgeInsets.only(bottom: 8),
                       decoration: BoxDecoration(
-                        gradient: const LinearGradient(
-                          colors: [
-                            Colors.white,
-                            Colors.lightBlueAccent
-                          ], // ไล่สีขาว-ฟ้าอ่อน
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        ),
-                        borderRadius: BorderRadius.circular(10), // มุมโค้งมน
+                        color: habit.color.withOpacity(
+                            50 / 255), // Background color of the ListTile
+                        borderRadius:
+                            BorderRadius.circular(16), // Rounds the corners
                       ),
                       child: ListTile(
                         onTap: () {
                           Get.toNamed('/habits/${habit.id}');
                         },
+                        tileColor: Colors.transparent,
                         minVerticalPadding: 16,
-                        leading: Icon(habit.icon),
+                        leading: Icon(
+                          habit.icon,
+                          color: habit.color,
+                        ),
                         title: Text(
                           habit.title,
                           style: const TextStyle(
@@ -76,48 +82,17 @@ class HabitsView extends GetView<HabitsController> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             IconButton(
-                              onPressed: () {
-                                Get.to(() => EditHabit(
-                                      habit: habit,
-                                    ));
-                              },
-                              icon: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  gradient: const LinearGradient(
-                                    colors: [
-                                      Colors.purple,
-                                      Colors.blue
-                                    ], // ไล่สีม่วง-น้ำเงินสำหรับปุ่มแก้ไข
-                                    begin: Alignment.topLeft,
-                                    end: Alignment.bottomRight,
-                                  ),
-                                ),
-                                padding: const EdgeInsets.all(
-                                    8.0), // พื้นที่ภายในปุ่ม
-                                child: const Icon(
-                                  Icons.edit,
-                                  color: Colors.white, // สีของไอคอนแก้ไข
-                                ),
-                              ),
-                            ),
+                                onPressed: () {
+                                  Get.to(() => EditHabit(
+                                        habit: habit,
+                                      ));
+                                },
+                                icon: Icon(Icons.edit)),
                             IconButton(
-                              onPressed: () {
-                                controller.deleteHabit(habit.id!);
-                              },
-                              icon: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.red, // สีของปุ่มลบ
-                                ),
-                                padding: const EdgeInsets.all(
-                                    8.0), // พื้นที่ภายในปุ่ม
-                                child: const Icon(
-                                  Icons.delete,
-                                  color: Colors.white, // สีของไอคอนลบ
-                                ),
-                              ),
-                            ),
+                                onPressed: () {
+                                  controller.deleteHabit(habit.id!);
+                                },
+                                icon: Icon(Icons.delete)),
                           ],
                         ),
                       ),

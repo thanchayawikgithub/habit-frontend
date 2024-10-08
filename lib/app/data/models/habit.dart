@@ -15,6 +15,7 @@ class Habit {
   List<HabitRecord> habitRecords;
   IconData? icon;
   String? reminderTime;
+  Color color;
   Habit({
     this.id,
     required this.title,
@@ -23,6 +24,7 @@ class Habit {
     required this.habitRecords,
     this.icon,
     this.reminderTime,
+    required this.color,
   });
 
   Habit copyWith({
@@ -33,6 +35,7 @@ class Habit {
     List<HabitRecord>? habitRecords,
     IconData? icon,
     String? reminderTime,
+    Color? color,
   }) {
     return Habit(
       id: id ?? this.id,
@@ -42,6 +45,7 @@ class Habit {
       habitRecords: habitRecords ?? this.habitRecords,
       icon: icon ?? this.icon,
       reminderTime: reminderTime ?? this.reminderTime,
+      color: color ?? this.color,
     );
   }
 
@@ -54,6 +58,7 @@ class Habit {
       'habitRecords': habitRecords.map((x) => x.toMap()).toList(),
       'icon': icon?.codePoint,
       'reminderTime': reminderTime,
+      'color': color.value,
     };
   }
 
@@ -73,6 +78,7 @@ class Habit {
           : null,
       reminderTime:
           map['reminderTime'] != null ? map['reminderTime'] as String : null,
+      color: Color(map['color'] as int),
     );
   }
 
@@ -83,7 +89,7 @@ class Habit {
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, userId: $userId, habitRecords: $habitRecords, icon: $icon, reminderTime: $reminderTime)';
+    return 'Habit(id: $id, title: $title, description: $description, userId: $userId, habitRecords: $habitRecords, icon: $icon, reminderTime: $reminderTime, color: $color)';
   }
 
   @override
@@ -96,7 +102,8 @@ class Habit {
         other.userId == userId &&
         listEquals(other.habitRecords, habitRecords) &&
         other.icon == icon &&
-        other.reminderTime == reminderTime;
+        other.reminderTime == reminderTime &&
+        other.color == color;
   }
 
   @override
@@ -107,6 +114,7 @@ class Habit {
         userId.hashCode ^
         habitRecords.hashCode ^
         icon.hashCode ^
-        reminderTime.hashCode;
+        reminderTime.hashCode ^
+        color.hashCode;
   }
 }

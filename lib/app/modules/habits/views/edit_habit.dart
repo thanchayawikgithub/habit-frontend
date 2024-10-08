@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 import 'package:flutter_iconpicker/Models/configuration.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
@@ -36,6 +37,10 @@ class EditHabit extends StatelessWidget {
       return Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.white,
+          title: Text(
+            (habit != null) ? 'Edit Habit' : 'Add Habit',
+            style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+          ),
           leading: IconButton(
             icon: const Icon(Icons.arrow_back),
             onPressed: () {
@@ -50,11 +55,6 @@ class EditHabit extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: <Widget>[
-              Text(
-                (habit != null) ? 'Edit Habit' : 'Add Habit',
-                style:
-                    const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
-              ),
               const SizedBox(height: 16),
               const Text("Title",
                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -87,30 +87,129 @@ class EditHabit extends StatelessWidget {
                       const EdgeInsets.symmetric(vertical: 16, horizontal: 20),
                 ),
               ),
-              const SizedBox(height: 10),
-              const Text("Icon",
-                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-              const SizedBox(height: 5),
-              Row(
-                children: [
-                  AnimatedSwitcher(
-                    duration: const Duration(milliseconds: 300),
-                    child: controller.selectedIcon.value != null
-                        ? Icon(
-                            controller.selectedIcon.value,
-                            size: 40,
-                          )
-                        : const Text('Empty'),
-                  ),
-                  const SizedBox(
-                    width: 10,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {
-                        pickIcon(context);
-                      },
-                      child: const Text('Pick Icon'))
-                ],
+              const SizedBox(height: 15),
+              GridView.builder(
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2, // Set the number of columns you want
+                  crossAxisSpacing: 10,
+                  mainAxisSpacing: 10,
+                  childAspectRatio: 2, // Adjust to fit content better
+                ),
+                shrinkWrap: true,
+                physics:
+                    const NeverScrollableScrollPhysics(), // Prevent scrolling
+                itemCount: 2, // Since you have 2 items (Icon and Color)
+                itemBuilder: (context, index) {
+                  if (index == 0) {
+                    return Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const Text("Icon",
+                              style: TextStyle(
+                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          const SizedBox(height: 5),
+                          AnimatedSwitcher(
+                              duration: const Duration(milliseconds: 300),
+                              child: Obx(() {
+                                return controller.selectedIcon.value != null
+                                    ? GestureDetector(
+                                        onTap: () => pickIcon(context),
+                                        child: Icon(
+                                          controller.selectedIcon.value,
+                                          color: controller.selectedColor.value,
+                                          size: 40,
+                                        ),
+                                      )
+                                    : OutlinedButton(
+                                        onPressed: () {
+                                          pickIcon(context);
+                                        },
+                                        child: const Text('Pick Icon'));
+                              }))
+                        ]);
+                  } else {
+                    return Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Text("Color",
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.bold)),
+                        const SizedBox(height: 5),
+                        Row(
+                          children: [
+                            GestureDetector(
+                                onTap: () {
+                                  showDialog(
+                                      context: context,
+                                      builder: (BuildContext context) {
+                                        return AlertDialog(
+                                          title: const Text('Pick a color!'),
+                                          content: SingleChildScrollView(
+                                            child: BlockPicker(
+                                              pickerColor: controller
+                                                  .selectedColor.value,
+                                              onColorChanged: (color) {
+                                                controller.selectedColor.value =
+                                                    color;
+                                              },
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            ElevatedButton(
+                                              child: const Text('OK'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      });
+                                }, // Detects tap on the widget
+                                child: Obx(
+                                  () => Container(
+                                    width: 40.0,
+                                    height: 40.0,
+                                    decoration: BoxDecoration(
+                                      color: controller.selectedColor.value,
+                                      shape: BoxShape.circle,
+                                    ),
+                                  ),
+                                )),
+                            // ElevatedButton(
+                            //     onPressed: () {
+                            //       showDialog(
+                            //           context: context,
+                            //           builder: (BuildContext context) {
+                            //             return AlertDialog(
+                            //               title: const Text('Pick a color!'),
+                            //               content: SingleChildScrollView(
+                            //                 child: BlockPicker(
+                            //                   pickerColor: controller
+                            //                       .selectedColor.value,
+                            //                   onColorChanged: (color) {
+                            //                     controller.selectedColor.value =
+                            //                         color;
+                            //                   },
+                            //                 ),
+                            //               ),
+                            //               actions: <Widget>[
+                            //                 ElevatedButton(
+                            //                   child: const Text('Got it'),
+                            //                   onPressed: () {
+                            //                     Navigator.of(context).pop();
+                            //                   },
+                            //                 ),
+                            //               ],
+                            //             );
+                            //           });
+                            //     },
+                            //     child: const Text('Pick Color')),
+                          ],
+                        ),
+                      ],
+                    );
+                  }
+                },
               ),
               const SizedBox(height: 10),
               Row(

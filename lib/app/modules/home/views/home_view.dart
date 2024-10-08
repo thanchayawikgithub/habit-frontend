@@ -35,24 +35,12 @@ class HomeView extends GetView<HomeController> {
                     'Hello,',
                     style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                   ),
-                  ShaderMask(
-                    shaderCallback: (bounds) => const LinearGradient(
-                      colors: [
-                        Colors.purple,
-                        Colors.blue
-                      ], // ไล่เฉดสีม่วง-น้ำเงิน
-                      begin: Alignment.topLeft,
-                      end: Alignment.bottomRight,
-                    ).createShader(bounds),
-                    child: Text(
-                      _auth.currentUser?.displayName ?? '',
-                      style: const TextStyle(
+                  Text(
+                    _auth.currentUser?.displayName ?? '',
+                    style: TextStyle(
                         fontSize: 24,
                         fontWeight: FontWeight.bold,
-                        color: Colors
-                            .white, // สีตัวอักษรต้องเป็นสีขาวเพื่อแสดงผลไล่สี
-                      ),
-                    ),
+                        color: Colors.deepOrange[500]),
                   ),
                 ],
               ),

@@ -17,6 +17,7 @@ class HabitsController extends GetxController {
   final descriptionCtrl = TextEditingController();
   Rx<String?> reminderTime = Rx<String?>(null);
   Rx<IconData?> selectedIcon = Rx<IconData?>(null);
+  Rx<Color> selectedColor = Rx<Color>(Colors.black);
   var habitsList = <Habit>[].obs; // Observable list to store habits
   var habitRecordsList = <HabitRecord>[].obs; // Observable list to store habits
   var habit = Habit(
@@ -26,7 +27,8 @@ class HabitsController extends GetxController {
           habitRecords: [],
           id: null,
           userId: null,
-          reminderTime: null)
+          reminderTime: null,
+          color: Colors.black)
       .obs;
 
   Future<void> addHabit() async {
@@ -37,7 +39,8 @@ class HabitsController extends GetxController {
           userId: _auth.currentUser?.uid ?? '',
           habitRecords: [],
           icon: selectedIcon.value,
-          reminderTime: reminderTime.value);
+          reminderTime: reminderTime.value,
+          color: selectedColor.value);
 
       final savedHabit = await habitsCollection.add(habit.toMap());
 
@@ -75,7 +78,8 @@ class HabitsController extends GetxController {
         'title': titleCtrl.text,
         'description': descriptionCtrl.text,
         'icon': selectedIcon.value?.codePoint,
-        'reminderTime': reminderTime.value
+        'reminderTime': reminderTime.value,
+        'color': selectedColor.value
       });
       await fetchHabits(); // Refresh the habits list
     } catch (e) {
@@ -204,6 +208,7 @@ class HabitsController extends GetxController {
     descriptionCtrl.text = habit.description;
     selectedIcon.value = habit.icon;
     reminderTime.value = habit.reminderTime;
+    selectedColor.value = habit.color;
   }
 
   void clearForm() {
@@ -211,6 +216,7 @@ class HabitsController extends GetxController {
     descriptionCtrl.text = '';
     selectedIcon.value = null;
     reminderTime.value = null;
+    selectedColor.value = Colors.black;
   }
 
   TimeOfDay timeFromString(String timeString) {

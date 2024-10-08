@@ -32,9 +32,6 @@ class TodayHabit extends GetView<HomeController> {
                     ),
                   ],
                 ),
-                const SizedBox(
-                  height: 12,
-                ),
                 Expanded(
                   child: habitsCtrl.habitRecordsList.isNotEmpty
                       ? ListView.builder(
@@ -42,25 +39,22 @@ class TodayHabit extends GetView<HomeController> {
                           itemBuilder: (context, index) {
                             HabitRecord habitRecord =
                                 habitsCtrl.habitRecordsList[index];
-
                             return Container(
                               margin: const EdgeInsets.only(
                                   bottom: 8), // Space between items
                               decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Colors.white,
-                                    Colors.lightBlueAccent
-                                  ], // ไล่สีจาก Colors.white ไป Colors.lightBlueAccent
-                                  begin: Alignment.topLeft,
-                                  end: Alignment.bottomRight,
-                                ),
-                                borderRadius:
-                                    BorderRadius.circular(12), // มุมโค้งมน
+                                color: habitRecord.habit!.color.withOpacity(50 /
+                                    255), // Background color of the ListTile
+                                borderRadius: BorderRadius.circular(
+                                    16), // Rounds the corners
                               ),
                               child: ListTile(
+                                tileColor: Colors.transparent,
                                 minVerticalPadding: 16,
-                                leading: Icon(habitRecord.habit?.icon),
+                                leading: Icon(
+                                  habitRecord.habit?.icon,
+                                  color: habitRecord.habit!.color,
+                                ),
                                 title: Text(
                                   habitRecord.habit?.title ?? '',
                                   style: const TextStyle(
