@@ -75,7 +75,8 @@ class ProfileView extends GetView<ProfileController> {
               children: [
                 Text(
                   _auth.currentUser?.displayName ?? '',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 24),
                 ),
                 IconButton(
                   icon: const Icon(Icons.edit),

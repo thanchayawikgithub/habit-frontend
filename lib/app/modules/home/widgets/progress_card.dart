@@ -21,7 +21,6 @@ class ProgressCard extends StatelessWidget {
         progressValue = completedHabitsCount / allHabitsCount;
       }
       return Card(
-        color: Colors.deepPurple[600],
         elevation: 2,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
@@ -30,6 +29,25 @@ class ProgressCard extends StatelessWidget {
           padding: const EdgeInsets.all(16.0),
           child: Container(
             width: MediaQuery.of(context).size.width,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10), // ปรับขอบให้โค้ง
+              gradient: const LinearGradient(
+                colors: [
+                  Color(0xFF6E33FF), // ไล่สีเหมือนในตัวอย่างที่ให้มา
+                  Color(0xFFB44AC3),
+                  Color(0xFFCE62CF)
+                ],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.purple.withOpacity(0.5),
+                  offset: const Offset(0, 4),
+                  blurRadius: 10,
+                ),
+              ],
+            ),
             padding: const EdgeInsets.all(16.0),
             child: Column(
               children: [

@@ -68,7 +68,7 @@ class HabitDetailView extends GetView<HabitDetailController> {
                     Icon(habit.icon),
                   ],
                 ),
-                Text(
+                const Text(
                   'Records',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),

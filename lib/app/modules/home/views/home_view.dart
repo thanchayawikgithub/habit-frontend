@@ -48,17 +48,34 @@ class HomeView extends GetView<HomeController> {
               ProgressCard(),
               const SizedBox(height: 10),
               TodayHabit(),
-              // const SizedBox(height: 10),
-              // const MyGoals()
             ],
           ),
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(() => EditHabit());
-        },
-        child: const Icon(Icons.add),
+      floatingActionButton: Container(
+        height: 55, // ปรับขนาดปุ่มให้เล็กลง
+        width: 55, // ปรับขนาดปุ่มให้เล็กลง
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          gradient: const LinearGradient(
+            colors: [Color(0xFF00E676), Color(0xFF00C853)],
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+          ),
+        ),
+        child: FloatingActionButton(
+          onPressed: () {
+            Get.to(() => EditHabit());
+          },
+          backgroundColor: Colors.transparent,
+          elevation: 0, // เอาเงาออก
+          highlightElevation: 0, // เอาเงาตอนชี้ออก
+          child: const Icon(
+            Icons.add,
+            size: 30,
+            color: Colors.white,
+          ),
+        ),
       ),
     );
   }
