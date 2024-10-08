@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
 import 'package:habit_frontend/app/data/models/habit_record.dart';
+import 'package:habit_frontend/app/services/local_notification.dart';
 import 'package:intl/intl.dart';
 
 class HabitsController extends GetxController {
@@ -46,8 +47,21 @@ class HabitsController extends GetxController {
       final String formattedDate = formatter.format(today);
       final habitRecord =
           HabitRecord(habitId: savedHabit.id, date: formattedDate);
-      await habitRecordsCollection.add(habitRecord.toMap());
-
+      final savedHabitRecordRef =
+          await habitRecordsCollection.add(habitRecord.toMap());
+      if (habit.reminderTime != null) {
+        final savedHabitRecordSnapshot = await savedHabitRecordRef.get();
+        if (savedHabitRecordSnapshot.exists) {
+          HabitRecord savedhabitRecord = HabitRecord.fromMap(
+              savedHabitRecordSnapshot.data() as Map<String, dynamic>);
+          LocalNotifications.showScheduleNotification(
+              title: '${habit.title} Reminder',
+              body: "It's Time To ${habit.title}",
+              payload: "It's Time To ${habit.title}",
+              date: savedhabitRecord.date,
+              time: habit.reminderTime!);
+        }
+      }
       await fetchHabits();
     } catch (e) {
       print('Error adding data: $e');
@@ -229,9 +243,23 @@ class HabitsController extends GetxController {
 
     for (var habitDoc in habitSnapshot.docs) {
       final String habitId = habitDoc.id; // Get the habitId from the document
-
+      Habit habit = Habit.fromMap(habitDoc.data() as Map<String, dynamic>);
       final habitRecord = HabitRecord(habitId: habitId, date: formattedDate);
-      await habitRecordsCollection.add(habitRecord.toMap());
+      final savedHabitRecordRef =
+          await habitRecordsCollection.add(habitRecord.toMap());
+      if (habit.reminderTime != null) {
+        final savedHabitRecordSnapshot = await savedHabitRecordRef.get();
+        if (savedHabitRecordSnapshot.exists) {
+          HabitRecord savedhabitRecord = HabitRecord.fromMap(
+              savedHabitRecordSnapshot.data() as Map<String, dynamic>);
+          LocalNotifications.showScheduleNotification(
+              title: '${habit.title} Reminder',
+              body: "It's Time To ${habit.title}",
+              payload: "It's Time To ${habit.title}",
+              date: savedhabitRecord.date,
+              time: habit.reminderTime!);
+        }
+      }
     }
   }
 }
