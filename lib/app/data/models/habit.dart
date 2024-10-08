@@ -14,6 +14,7 @@ class Habit {
   String? userId;
   List<HabitRecord> habitRecords;
   IconData? icon;
+  String? reminderTime;
   Habit({
     this.id,
     required this.title,
@@ -21,6 +22,7 @@ class Habit {
     this.userId,
     required this.habitRecords,
     this.icon,
+    this.reminderTime,
   });
 
   Habit copyWith({
@@ -30,6 +32,7 @@ class Habit {
     String? userId,
     List<HabitRecord>? habitRecords,
     IconData? icon,
+    String? reminderTime,
   }) {
     return Habit(
       id: id ?? this.id,
@@ -38,6 +41,7 @@ class Habit {
       userId: userId ?? this.userId,
       habitRecords: habitRecords ?? this.habitRecords,
       icon: icon ?? this.icon,
+      reminderTime: reminderTime ?? this.reminderTime,
     );
   }
 
@@ -49,6 +53,7 @@ class Habit {
       'userId': userId,
       'habitRecords': habitRecords.map((x) => x.toMap()).toList(),
       'icon': icon?.codePoint,
+      'reminderTime': reminderTime,
     };
   }
 
@@ -66,6 +71,8 @@ class Habit {
       icon: map['icon'] != null
           ? IconData(map['icon'] as int, fontFamily: 'MaterialIcons')
           : null,
+      reminderTime:
+          map['reminderTime'] != null ? map['reminderTime'] as String : null,
     );
   }
 
@@ -76,7 +83,7 @@ class Habit {
 
   @override
   String toString() {
-    return 'Habit(id: $id, title: $title, description: $description, userId: $userId, habitRecords: $habitRecords, icon: $icon)';
+    return 'Habit(id: $id, title: $title, description: $description, userId: $userId, habitRecords: $habitRecords, icon: $icon, reminderTime: $reminderTime)';
   }
 
   @override
@@ -88,7 +95,8 @@ class Habit {
         other.description == description &&
         other.userId == userId &&
         listEquals(other.habitRecords, habitRecords) &&
-        other.icon == icon;
+        other.icon == icon &&
+        other.reminderTime == reminderTime;
   }
 
   @override
@@ -98,6 +106,7 @@ class Habit {
         description.hashCode ^
         userId.hashCode ^
         habitRecords.hashCode ^
-        icon.hashCode;
+        icon.hashCode ^
+        reminderTime.hashCode;
   }
 }
