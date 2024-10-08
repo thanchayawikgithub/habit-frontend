@@ -7,7 +7,7 @@ plugins {
 
 android {
     namespace = "com.than.habit_frontend"
-    compileSdk = flutter.compileSdkVersion // You can hardcode this if needed (e.g., 33)
+    compileSdk = 34
 
     ndkVersion = flutter.ndkVersion
 
@@ -23,7 +23,7 @@ android {
 
     defaultConfig {
         applicationId = "com.than.habit_frontend"
-        minSdk = 23 // Ensure minSdk is 23 for Firebase Auth compatibility
+        minSdk = 23 
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode
         versionName = flutter.versionName

@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:cron/cron.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -8,6 +9,8 @@ import 'package:habit_frontend/app/services/local_notification.dart';
 import 'package:intl/intl.dart';
 
 class HabitsController extends GetxController {
+  final cron = Cron();
+  final Map<String, ScheduledTask> scheduledJobs = {};
   final CollectionReference habitsCollection =
       FirebaseFirestore.instance.collection('habits');
   final CollectionReference habitRecordsCollection =
@@ -42,29 +45,25 @@ class HabitsController extends GetxController {
           reminderTime: reminderTime.value,
           color: selectedColor.value);
 
-      final savedHabit = await habitsCollection.add(habit.toMap());
+      final savedHabitRef = await habitsCollection.add(habit.toMap());
+      final savedHabitDoc = await savedHabitRef.get();
+      if (savedHabitDoc.exists) {
+        Habit savedHabit =
+            Habit.fromMap(savedHabitDoc.data() as Map<String, dynamic>);
+        savedHabit.id = savedHabitDoc.id;
+        final DateTime today = DateTime.now();
+        final DateFormat formatter =
+            DateFormat('yyyy-MM-dd'); // Specify the format
+        final String formattedDate = formatter.format(today);
+        final habitRecord =
+            HabitRecord(habitId: savedHabit.id!, date: formattedDate);
+        await habitRecordsCollection.add(habitRecord.toMap());
 
-      final DateTime today = DateTime.now();
-      final DateFormat formatter =
-          DateFormat('yyyy-MM-dd'); // Specify the format
-      final String formattedDate = formatter.format(today);
-      final habitRecord =
-          HabitRecord(habitId: savedHabit.id, date: formattedDate);
-      final savedHabitRecordRef =
-          await habitRecordsCollection.add(habitRecord.toMap());
-      if (habit.reminderTime != null) {
-        final savedHabitRecordSnapshot = await savedHabitRecordRef.get();
-        if (savedHabitRecordSnapshot.exists) {
-          HabitRecord savedhabitRecord = HabitRecord.fromMap(
-              savedHabitRecordSnapshot.data() as Map<String, dynamic>);
-          LocalNotifications.showScheduleNotification(
-              title: '${habit.title} Reminder',
-              body: "It's Time To ${habit.title}",
-              payload: "It's Time To ${habit.title}",
-              date: savedhabitRecord.date,
-              time: habit.reminderTime!);
+        if (savedHabit.reminderTime != null) {
+          _registerReminder(savedHabit);
         }
       }
+
       await fetchHabits();
     } catch (e) {
       print('Error adding data: $e');
@@ -79,8 +78,18 @@ class HabitsController extends GetxController {
         'description': descriptionCtrl.text,
         'icon': selectedIcon.value?.codePoint,
         'reminderTime': reminderTime.value,
-        'color': selectedColor.value
+        'color': selectedColor.value.value
       });
+
+      DocumentSnapshot updatedDoc = await habitsCollection.doc(id).get();
+      if (updatedDoc.exists) {
+        Habit updatedHabit =
+            Habit.fromMap(updatedDoc.data() as Map<String, dynamic>);
+        updatedHabit.id = updatedDoc.id;
+        stopReminder(updatedDoc.id);
+        _registerReminder(updatedHabit);
+      }
+
       await fetchHabits(); // Refresh the habits list
     } catch (e) {
       print('Error editing habit: $e');
@@ -91,8 +100,8 @@ class HabitsController extends GetxController {
   Future<void> deleteHabit(String id) async {
     try {
       await habitsCollection.doc(id).delete();
-
       await fetchHabits(); // Refresh the habits list
+      stopReminder(id);
     } catch (e) {
       print('Error deleting habit: $e');
     }
@@ -249,23 +258,41 @@ class HabitsController extends GetxController {
 
     for (var habitDoc in habitSnapshot.docs) {
       final String habitId = habitDoc.id; // Get the habitId from the document
-      Habit habit = Habit.fromMap(habitDoc.data() as Map<String, dynamic>);
       final habitRecord = HabitRecord(habitId: habitId, date: formattedDate);
-      final savedHabitRecordRef =
-          await habitRecordsCollection.add(habitRecord.toMap());
-      if (habit.reminderTime != null) {
-        final savedHabitRecordSnapshot = await savedHabitRecordRef.get();
-        if (savedHabitRecordSnapshot.exists) {
-          HabitRecord savedhabitRecord = HabitRecord.fromMap(
-              savedHabitRecordSnapshot.data() as Map<String, dynamic>);
-          LocalNotifications.showScheduleNotification(
-              title: '${habit.title} Reminder',
-              body: "It's Time To ${habit.title}",
-              payload: "It's Time To ${habit.title}",
-              date: savedhabitRecord.date,
-              time: habit.reminderTime!);
-        }
-      }
+      await habitRecordsCollection.add(habitRecord.toMap());
+    }
+  }
+
+  void _registerReminder(Habit habit) {
+    print('register reminder');
+    print(habit);
+    // Create a unique identifier for the habit (you could use habit.id or something unique)
+    String cronId = habit.id!;
+
+    // Assuming habit.reminderTime is in 'HH:mm' format
+    List<String> timeParts = habit.reminderTime!.split(':');
+    int hour = int.parse(timeParts[0]);
+    int minute = int.parse(timeParts[1]);
+
+    // Schedule the cron job to run daily at the specific time
+    scheduledJobs[cronId] =
+        cron.schedule(Schedule.parse('$minute $hour * * *'), () async {
+      LocalNotifications.showSimpleNotification(
+        title: 'Habit Reminder',
+        body: "It's Time To ${habit.title}!",
+        payload: "It's Time To ${habit.title}!",
+      );
+    });
+  }
+
+// Function to stop a specific cron job by its identifier
+  void stopReminder(String cronId) {
+    if (scheduledJobs.containsKey(cronId)) {
+      scheduledJobs[cronId]?.cancel();
+      scheduledJobs.remove(cronId); // Remove from map after stopping
+      print('Cron job with ID $cronId stopped.');
+    } else {
+      print('No cron job found with ID $cronId.');
     }
   }
 }
