@@ -195,4 +195,20 @@ class HabitsController extends GetxController {
         .update(habitRecord.toMap());
     await fetchTodayHabits();
   }
+
+  Future<void> createDailyHabitsRecord() async {
+    print('create daily habit record');
+    QuerySnapshot habitSnapshot = await habitsCollection.get();
+
+    final DateTime today = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formattedDate = formatter.format(today);
+
+    for (var habitDoc in habitSnapshot.docs) {
+      final String habitId = habitDoc.id; // Get the habitId from the document
+
+      final habitRecord = HabitRecord(habitId: habitId, date: formattedDate);
+      await habitRecordsCollection.add(habitRecord.toMap());
+    }
+  }
 }
