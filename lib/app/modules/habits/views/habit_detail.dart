@@ -45,6 +45,10 @@ class HabitDetailView extends GetView<HabitDetailController> {
                     ),
                   ],
                 ),
+                Text(
+                  'Records',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
               ],
             ),
           ));

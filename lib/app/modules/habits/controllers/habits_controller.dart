@@ -147,11 +147,29 @@ class HabitsController extends GetxController {
       DocumentSnapshot doc = await habitsCollection.doc(id).get();
 
       if (doc.exists) {
+        List<HabitRecord> habitRecordsInstance = [];
         // Convert Firestore document to Habit model
         Habit habit = Habit.fromMap(doc.data() as Map<String, dynamic>);
         habit.id = doc.id;
 
         this.habit.value = habit;
+        QuerySnapshot habitRecSnapshot = await habitRecordsCollection
+            .where('habitId',
+                isEqualTo: habit.id) // Use the habitId from the document
+            .get();
+
+        // Populate the habitRecordsList with the retrieved records
+
+        for (var doc in habitRecSnapshot.docs) {
+          print('Habit record docs' + doc.id);
+          HabitRecord habitRecord =
+              HabitRecord.fromMap(doc.data() as Map<String, dynamic>);
+          habitRecord.id = doc.id; // Set the id of the HabitRecord
+          habitRecord.habit = habit;
+          habitRecordsInstance.add(habitRecord);
+        }
+
+        habit.habitRecords = habitRecordsInstance;
       } else {
         print('No habit found with id: $id');
       }

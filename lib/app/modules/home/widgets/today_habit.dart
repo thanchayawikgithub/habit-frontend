@@ -36,39 +36,48 @@ class TodayHabit extends GetView<HomeController> {
                   height: 12,
                 ),
                 Expanded(
-                  child: ListView.builder(
-                    itemCount: habitsCtrl.habitRecordsList.length,
-                    itemBuilder: (context, index) {
-                      HabitRecord habitRecord =
-                          habitsCtrl.habitRecordsList[index];
+                  child: habitsCtrl.habitRecordsList.isNotEmpty
+                      ? ListView.builder(
+                          itemCount: habitsCtrl.habitRecordsList.length,
+                          itemBuilder: (context, index) {
+                            HabitRecord habitRecord =
+                                habitsCtrl.habitRecordsList[index];
 
-                      return Container(
-                        margin: const EdgeInsets.only(
-                            bottom: 8), // Space between items
-                        decoration: BoxDecoration(
-                          color: Colors.grey[100], // Grey background
-                          borderRadius:
-                              BorderRadius.circular(12), // Rounded corners
-                        ),
-                        child: ListTile(
-                          minVerticalPadding: 16,
-                          title: Text(
-                            habitRecord.habit?.title ?? '',
-                            style: const TextStyle(fontWeight: FontWeight.w500),
+                            return Container(
+                              margin: const EdgeInsets.only(
+                                  bottom: 8), // Space between items
+                              decoration: BoxDecoration(
+                                color: Colors.grey[100], // Grey background
+                                borderRadius: BorderRadius.circular(
+                                    12), // Rounded corners
+                              ),
+                              child: ListTile(
+                                minVerticalPadding: 16,
+                                title: Text(
+                                  habitRecord.habit?.title ?? '',
+                                  style: const TextStyle(
+                                      fontWeight: FontWeight.w500),
+                                ),
+                                trailing: Checkbox(
+                                  value: habitRecord
+                                      .status, // Set this based on your state
+                                  onChanged: (bool? value) {
+                                    if (value != null) {
+                                      habitsCtrl
+                                          .changeHabitRecordStatus(habitRecord);
+                                    }
+                                  },
+                                ),
+                              ),
+                            );
+                          },
+                        )
+                      : Center(
+                          child: Text(
+                            'Empty',
+                            style: TextStyle(fontSize: 20),
                           ),
-                          trailing: Checkbox(
-                            value: habitRecord
-                                .status, // Set this based on your state
-                            onChanged: (bool? value) {
-                              if (value != null) {
-                                habitsCtrl.changeHabitRecordStatus(habitRecord);
-                              }
-                            },
-                          ),
                         ),
-                      );
-                    },
-                  ),
                 ),
               ],
             ),

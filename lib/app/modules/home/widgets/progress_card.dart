@@ -12,12 +12,14 @@ class ProgressCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      completedHabitsCount = habitsCtrl.habitRecordsList
-          .where((habitRecord) => habitRecord.status == true)
-          .length;
-      allHabitsCount = habitsCtrl.habitRecordsList.length;
+      if (habitsCtrl.habitRecordsList.isNotEmpty) {
+        completedHabitsCount = habitsCtrl.habitRecordsList
+            .where((habitRecord) => habitRecord.status == true)
+            .length;
+        allHabitsCount = habitsCtrl.habitRecordsList.length;
 
-      progressValue = completedHabitsCount / allHabitsCount;
+        progressValue = completedHabitsCount / allHabitsCount;
+      }
       return Card(
         color: Colors.deepPurple[600],
         elevation: 2,
