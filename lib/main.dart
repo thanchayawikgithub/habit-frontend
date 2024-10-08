@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
+import 'package:habit_frontend/app/services/local_notification.dart';
 
 import 'package:habit_frontend/firebase_options.dart';
 
@@ -12,9 +13,11 @@ import 'app/routes/app_pages.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotifications.init();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
 // Define your function to insert data into Firebase
 
