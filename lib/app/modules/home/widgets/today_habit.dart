@@ -47,9 +47,16 @@ class TodayHabit extends GetView<HomeController> {
                               margin: const EdgeInsets.only(
                                   bottom: 8), // Space between items
                               decoration: BoxDecoration(
-                                color: Colors.grey[100], // Grey background
-                                borderRadius: BorderRadius.circular(
-                                    12), // Rounded corners
+                                gradient: const LinearGradient(
+                                  colors: [
+                                    Colors.white,
+                                    Colors.lightBlueAccent
+                                  ], // ไล่สีจาก Colors.white ไป Colors.lightBlueAccent
+                                  begin: Alignment.topLeft,
+                                  end: Alignment.bottomRight,
+                                ),
+                                borderRadius:
+                                    BorderRadius.circular(12), // มุมโค้งมน
                               ),
                               child: ListTile(
                                 minVerticalPadding: 16,
@@ -57,7 +64,10 @@ class TodayHabit extends GetView<HomeController> {
                                 title: Text(
                                   habitRecord.habit?.title ?? '',
                                   style: const TextStyle(
-                                      fontWeight: FontWeight.w500),
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors
+                                          .black // สีข้อความเป็นสีดำเพื่อความชัดเจน
+                                      ),
                                 ),
                                 trailing: Checkbox(
                                   value: habitRecord
