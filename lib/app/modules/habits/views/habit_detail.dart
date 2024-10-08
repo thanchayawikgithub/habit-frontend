@@ -1,16 +1,25 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:habit_frontend/app/data/models/habit.dart';
+import 'package:habit_frontend/app/data/models/habit_record.dart';
+import 'package:habit_frontend/app/modules/habits/controllers/habits_controller.dart';
 
 import 'package:habit_frontend/app/modules/habits/controllers/habits_detail_controller.dart';
 
 class HabitDetailView extends GetView<HabitDetailController> {
-  const HabitDetailView({super.key});
+  HabitsController habitsCtrl = Get.put(HabitsController());
+  String? habitId = Get.parameters['id'];
+  HabitDetailView({super.key}) {
+    if (habitId != null) {
+      habitsCtrl.fetchHabit(habitId!);
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      Habit habit = controller.habit.value;
+      Habit habit = habitsCtrl.habit.value;
+
       return Scaffold(
           appBar: AppBar(
               backgroundColor: Colors.white,
@@ -63,6 +72,18 @@ class HabitDetailView extends GetView<HabitDetailController> {
                   'Records',
                   style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
                 ),
+                Expanded(
+                    child: ListView.builder(
+                  itemCount: habit.habitRecords.length,
+                  itemBuilder: (context, index) {
+                    HabitRecord habitRecord = habit.habitRecords[index];
+                    return ListTile(
+                      title: Text('Date : ${habitRecord.date}'),
+                      trailing: Text(
+                          'Status ${habitRecord.status == true ? 'Complete' : 'Pending'}'),
+                    );
+                  },
+                ))
               ],
             ),
           ));

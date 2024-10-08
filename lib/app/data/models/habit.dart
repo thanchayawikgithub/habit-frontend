@@ -12,15 +12,14 @@ class Habit {
   String title;
   String description;
   String? userId;
-  List<HabitRecord>? habitRecords;
+  List<HabitRecord> habitRecords;
   IconData? icon;
-
   Habit({
     this.id,
     required this.title,
     required this.description,
     this.userId,
-    this.habitRecords,
+    required this.habitRecords,
     this.icon,
   });
 
@@ -48,7 +47,7 @@ class Habit {
       'title': title,
       'description': description,
       'userId': userId,
-      'habitRecords': habitRecords?.map((x) => x.toMap()).toList(),
+      'habitRecords': habitRecords.map((x) => x.toMap()).toList(),
       'icon': icon?.codePoint,
     };
   }
@@ -59,13 +58,11 @@ class Habit {
       title: map['title'] as String,
       description: map['description'] as String,
       userId: map['userId'] != null ? map['userId'] as String : null,
-      habitRecords: map['habitRecords'] != null
-          ? List<HabitRecord>.from(
-              (map['habitRecords'] as List<int>).map<HabitRecord?>(
-                (x) => HabitRecord.fromMap(x as Map<String, dynamic>),
-              ),
-            )
-          : null,
+      habitRecords: List<HabitRecord>.from(
+        (map['habitRecords'] as List<dynamic>).map<HabitRecord>(
+          (x) => HabitRecord.fromMap(x as Map<String, dynamic>),
+        ),
+      ),
       icon: map['icon'] != null
           ? IconData(map['icon'] as int, fontFamily: 'MaterialIcons')
           : null,

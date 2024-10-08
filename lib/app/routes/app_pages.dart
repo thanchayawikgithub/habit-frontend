@@ -63,7 +63,7 @@ class AppPages {
     //goals_detail
     GetPage(
       name: _Paths.HABIT,
-      page: () => const HabitDetailView(),
+      page: () => HabitDetailView(),
       binding: HabitDetailBinding(),
     ),
   ];

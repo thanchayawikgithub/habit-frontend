@@ -19,9 +19,13 @@ class HabitsController extends GetxController {
   var habitsList = <Habit>[].obs; // Observable list to store habits
   var habitRecordsList = <HabitRecord>[].obs; // Observable list to store habits
   var habit = Habit(
-    title: '',
-    description: '',
-  ).obs;
+          title: '',
+          description: '',
+          icon: null,
+          habitRecords: [],
+          id: null,
+          userId: null)
+      .obs;
 
   Future<void> addHabit() async {
     try {
@@ -29,6 +33,7 @@ class HabitsController extends GetxController {
           title: titleCtrl.text,
           description: descriptionCtrl.text,
           userId: _auth.currentUser?.uid ?? '',
+          habitRecords: [],
           icon: selectedIcon.value);
 
       final savedHabit = await habitsCollection.add(habit.toMap());
@@ -151,7 +156,6 @@ class HabitsController extends GetxController {
         Habit habit = Habit.fromMap(doc.data() as Map<String, dynamic>);
         habit.id = doc.id;
 
-        this.habit.value = habit;
         QuerySnapshot habitRecSnapshot = await habitRecordsCollection
             .where('habitId',
                 isEqualTo: habit.id) // Use the habitId from the document
@@ -169,6 +173,7 @@ class HabitsController extends GetxController {
         }
 
         habit.habitRecords = habitRecordsInstance;
+        this.habit.value = habit;
       } else {
         print('No habit found with id: $id');
       }
