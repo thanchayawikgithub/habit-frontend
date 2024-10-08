@@ -95,10 +95,12 @@ class EditHabit extends StatelessWidget {
                 children: [
                   AnimatedSwitcher(
                     duration: const Duration(milliseconds: 300),
-                    child: Icon(
-                      controller.selectedIcon.value,
-                      size: 40,
-                    ),
+                    child: controller.selectedIcon.value != null
+                        ? Icon(
+                            controller.selectedIcon.value,
+                            size: 40,
+                          )
+                        : Text('Empty'),
                   ),
                   SizedBox(
                     width: 10,
@@ -108,6 +110,42 @@ class EditHabit extends StatelessWidget {
                         pickIcon(context);
                       },
                       child: Text('Pick Icon'))
+                ],
+              ),
+              const SizedBox(height: 10),
+              Row(
+                children: [
+                  const Text("Reminder",
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Switch(
+                    value: controller.reminderTime.value != null,
+                    onChanged: (value) async {
+                      if (value == true) {
+                        final TimeOfDay? selectedTime = await showTimePicker(
+                            context: context, initialTime: TimeOfDay.now());
+                        if (selectedTime != null) {
+                          controller.reminderTime.value = selectedTime.hour
+                                  .toString()
+                                  .padLeft(2, '0') +
+                              ':' +
+                              selectedTime.minute.toString().padLeft(2, '0');
+                        }
+                      } else {
+                        // Set reminderTime to null when the switch is turned off
+                        controller.reminderTime.value = null;
+                      }
+                    },
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
+                  Text(controller.reminderTime.value != null
+                      ? '(${controller.reminderTime.value})'
+                      : '')
                 ],
               ),
               const SizedBox(height: 20),

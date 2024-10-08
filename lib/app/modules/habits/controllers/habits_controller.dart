@@ -14,8 +14,8 @@ class HabitsController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final titleCtrl = TextEditingController();
   final descriptionCtrl = TextEditingController();
+  Rx<String?> reminderTime = Rx<String?>(null);
   Rx<IconData?> selectedIcon = Rx<IconData?>(null);
-  List<String> dayOfWeeksValue = [];
   var habitsList = <Habit>[].obs; // Observable list to store habits
   var habitRecordsList = <HabitRecord>[].obs; // Observable list to store habits
   var habit = Habit(
@@ -24,7 +24,8 @@ class HabitsController extends GetxController {
           icon: null,
           habitRecords: [],
           id: null,
-          userId: null)
+          userId: null,
+          reminderTime: null)
       .obs;
 
   Future<void> addHabit() async {
@@ -34,7 +35,8 @@ class HabitsController extends GetxController {
           description: descriptionCtrl.text,
           userId: _auth.currentUser?.uid ?? '',
           habitRecords: [],
-          icon: selectedIcon.value);
+          icon: selectedIcon.value,
+          reminderTime: reminderTime.value);
 
       final savedHabit = await habitsCollection.add(habit.toMap());
 
@@ -58,7 +60,8 @@ class HabitsController extends GetxController {
       await habitsCollection.doc(id).update({
         'title': titleCtrl.text,
         'description': descriptionCtrl.text,
-        'icon': selectedIcon.value?.codePoint
+        'icon': selectedIcon.value?.codePoint,
+        'reminderTime': reminderTime.value
       });
       await fetchHabits(); // Refresh the habits list
     } catch (e) {
@@ -186,12 +189,26 @@ class HabitsController extends GetxController {
     titleCtrl.text = habit.title;
     descriptionCtrl.text = habit.description;
     selectedIcon.value = habit.icon;
+    reminderTime.value = habit.reminderTime;
   }
 
   void clearForm() {
     titleCtrl.text = '';
     descriptionCtrl.text = '';
     selectedIcon.value = null;
+    reminderTime.value = null;
+  }
+
+  TimeOfDay timeFromString(String timeString) {
+    // Split the string into hour and minute parts
+    List<String> parts = timeString.split(':');
+
+    // Parse the hour and minute
+    int hour = int.parse(parts[0]);
+    int minute = int.parse(parts[1]);
+
+    // Create and return a TimeOfDay object
+    return TimeOfDay(hour: hour, minute: minute);
   }
 
   Future<void> changeHabitRecordStatus(HabitRecord habitRecord) async {
