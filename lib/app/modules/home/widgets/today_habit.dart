@@ -73,7 +73,7 @@ class TodayHabit extends GetView<HomeController> {
                             );
                           },
                         )
-                      : Center(
+                      : const Center(
                           child: Text(
                             'Empty',
                             style: TextStyle(fontSize: 20),

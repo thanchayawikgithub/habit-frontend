@@ -21,7 +21,7 @@ class EditHabit extends StatelessWidget {
     // Open the icon picker and get the selected icon
     IconPickerIcon? icon = await showIconPicker(
       context,
-      configuration: SinglePickerConfiguration(
+      configuration: const SinglePickerConfiguration(
         iconPackModes: [IconPack.material],
       ),
     );
@@ -100,16 +100,16 @@ class EditHabit extends StatelessWidget {
                             controller.selectedIcon.value,
                             size: 40,
                           )
-                        : Text('Empty'),
+                        : const Text('Empty'),
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   ElevatedButton(
                       onPressed: () {
                         pickIcon(context);
                       },
-                      child: Text('Pick Icon'))
+                      child: const Text('Pick Icon'))
                 ],
               ),
               const SizedBox(height: 10),
@@ -118,7 +118,7 @@ class EditHabit extends StatelessWidget {
                   const Text("Reminder",
                       style:
                           TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Switch(
@@ -128,11 +128,8 @@ class EditHabit extends StatelessWidget {
                         final TimeOfDay? selectedTime = await showTimePicker(
                             context: context, initialTime: TimeOfDay.now());
                         if (selectedTime != null) {
-                          controller.reminderTime.value = selectedTime.hour
-                                  .toString()
-                                  .padLeft(2, '0') +
-                              ':' +
-                              selectedTime.minute.toString().padLeft(2, '0');
+                          controller.reminderTime.value =
+                              '${selectedTime.hour.toString().padLeft(2, '0')}:${selectedTime.minute.toString().padLeft(2, '0')}';
                         }
                       } else {
                         // Set reminderTime to null when the switch is turned off
@@ -140,7 +137,7 @@ class EditHabit extends StatelessWidget {
                       }
                     },
                   ),
-                  SizedBox(
+                  const SizedBox(
                     width: 10,
                   ),
                   Text(controller.reminderTime.value != null

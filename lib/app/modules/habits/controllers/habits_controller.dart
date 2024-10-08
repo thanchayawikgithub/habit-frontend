@@ -167,7 +167,7 @@ class HabitsController extends GetxController {
         // Populate the habitRecordsList with the retrieved records
 
         for (var doc in habitRecSnapshot.docs) {
-          print('Habit record docs' + doc.id);
+          print('Habit record docs${doc.id}');
           HabitRecord habitRecord =
               HabitRecord.fromMap(doc.data() as Map<String, dynamic>);
           habitRecord.id = doc.id; // Set the id of the HabitRecord
