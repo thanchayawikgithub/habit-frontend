@@ -20,12 +20,34 @@ class HabitDetailView extends GetView<HabitDetailController> {
     return Obx(() {
       Habit habit = habitsCtrl.habit.value;
       Map<DateTime, String> habitStatusMap = {};
+
       for (var record in habit.habitRecords) {
-        DateTime date = DateTime.parse(record.date);
-        String status = record.status == 'Complete' || record.status == true
-            ? 'Complete'
-            : 'Pending';
-        habitStatusMap[date] = status;
+        DateTime recordDate =
+            DateTime.parse(record.date); // Parsing string date
+        DateTime today = DateTime.now();
+        String status;
+
+        // Compare only the date part (ignoring the time part).
+        bool isToday = recordDate.year == today.year &&
+            recordDate.month == today.month &&
+            recordDate.day == today.day;
+
+        switch (record.status) {
+          case true:
+            status = 'Complete';
+            break;
+          case false:
+            if (isToday) {
+              status = 'Pending'; // Status is 'Pending' for today's record.
+            } else {
+              status = 'Missing'; // Status is 'Missing' for past records.
+            }
+            break;
+          default:
+            status = 'Pending'; // Fallback for any other cases.
+        }
+
+        habitStatusMap[recordDate] = status;
       }
 
       return Scaffold(
@@ -37,17 +59,58 @@ class HabitDetailView extends GetView<HabitDetailController> {
                 Get.back();
               },
             ),
-            title: Text(habit.title,
-                style: const TextStyle(
-                  fontSize: 24,
-                  fontWeight: FontWeight.bold,
-                ))),
+            title: Row(
+              children: [
+                Icon(habit.icon),
+                SizedBox(width: 5),
+                Text(habit.title,
+                    style: const TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                    ))
+              ],
+            )),
         body: Container(
           width: double.infinity,
           color: Colors.white,
           padding: EdgeInsets.all(20),
           child:
               Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Title',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(
+                  habit.title,
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  'Description: ',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                ),
+                Text(
+                  habit.description,
+                  style: const TextStyle(fontSize: 20),
+                ),
+              ],
+            ),
+            SizedBox(
+              height: 10,
+            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: TableCalendar(
@@ -60,16 +123,30 @@ class HabitDetailView extends GetView<HabitDetailController> {
                 ),
                 calendarBuilders: CalendarBuilders(
                   markerBuilder: (context, date, events) {
-                    if (date.isSameDate(DateTime.now()) ||
-                        date.isAfter(DateTime.now())) {
-                      return null;
-                    }
+                    // if (date.isSameDate(DateTime.now()) ||
+                    //     date.isAfter(DateTime.now())) {
+                    //   return null;
+                    // }
 
                     for (var recordDate in habitStatusMap.keys) {
                       if (recordDate.isSameDate(date)) {
                         String status = habitStatusMap[recordDate]!;
-                        Color color =
-                            (status == 'Complete') ? Colors.green : Colors.red;
+                        Color color;
+
+                        switch (status) {
+                          case 'Complete':
+                            color = Colors.green;
+                            break;
+                          case 'Missing':
+                            color = Colors.grey; // Use gray for "Missing"
+                            break;
+                          case 'Pending':
+                            color = Colors.orange;
+                            break;
+                          default:
+                            color = Colors
+                                .grey; // Default color, in case of any other status
+                        }
 
                         return Align(
                           alignment: Alignment.center,
@@ -149,53 +226,6 @@ class HabitDetailView extends GetView<HabitDetailController> {
                   ),
                 ),
               ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Title',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(
-                  habit.title,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  'Description: ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Text(
-                  habit.description,
-                  style: const TextStyle(fontSize: 20),
-                ),
-              ],
-            ),
-            SizedBox(
-              height: 10,
-            ),
-            Row(
-              children: [
-                const Text(
-                  'Icon: ',
-                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
-                ),
-                Icon(habit.icon),
-              ],
-            ),
-            SizedBox(
-              height: 5,
             ),
           ]),
         ),
