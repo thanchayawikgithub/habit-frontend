@@ -14,7 +14,6 @@ class BuildInfo extends GetView<HabitsController> {
     Habit habit = controller.habitsList[index];
     return Column(
       children: [
-        const CalenderWidget(),
         const SizedBox(
           height: 16,
         ),
