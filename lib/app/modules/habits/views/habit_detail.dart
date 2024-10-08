@@ -43,6 +43,20 @@ class HabitDetailView extends GetView<HabitDetailController> {
                       habit.description,
                       style: const TextStyle(fontSize: 20),
                     ),
+                    Text(
+                      habit.description,
+                      style: const TextStyle(fontSize: 20),
+                    ),
+                  ],
+                ),
+                Row(
+                  children: [
+                    const Text(
+                      'Icon: ',
+                      style:
+                          TextStyle(fontWeight: FontWeight.bold, fontSize: 20),
+                    ),
+                    Icon(habit.icon),
                   ],
                 ),
                 Text(
