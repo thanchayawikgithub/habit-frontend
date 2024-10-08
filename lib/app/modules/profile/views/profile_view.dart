@@ -45,77 +45,75 @@ class ProfileView extends GetView<ProfileController> {
           ),
         ],
       ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              const SizedBox(height: 20),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 20.0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            const SizedBox(height: 20),
 
-              // Profile Picture Section
+            // Profile Picture Section
 
-              GestureDetector(
-                onTap: controller.pickAndUploadImage,
-                child: CircleAvatar(
-                  radius: 70,
-                  backgroundImage: _auth.currentUser?.photoURL != null
-                      ? NetworkImage(_auth.currentUser!.photoURL!)
-                      : null, // แสดงรูปจาก URL
-                  child: _auth.currentUser?.photoURL == null
-                      ? const Icon(Icons.person, size: 50)
-                      : null,
-                ),
+            GestureDetector(
+              onTap: controller.pickAndUploadImage,
+              child: CircleAvatar(
+                radius: 70,
+                backgroundImage: _auth.currentUser?.photoURL != null
+                    ? NetworkImage(_auth.currentUser!.photoURL!)
+                    : null, // แสดงรูปจาก URL
+                child: _auth.currentUser?.photoURL == null
+                    ? const Icon(Icons.person, size: 50)
+                    : null,
               ),
+            ),
 
-              const SizedBox(height: 10),
+            const SizedBox(height: 10),
 
-              Center(
-                  child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text(
-                    _auth.currentUser?.displayName ?? '',
-                    style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
-                  ),
-                  IconButton(
-                    icon: const Icon(Icons.edit),
-                    onPressed: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            title: const Text("Edit Name"),
-                            content: TextFormField(
-                              controller: controller.displayNameCtrl,
-                              decoration: const InputDecoration(
-                                labelText: "Enter your name",
-                              ),
+            Center(
+                child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  _auth.currentUser?.displayName ?? '',
+                  style: TextStyle(fontWeight: FontWeight.bold, fontSize: 24),
+                ),
+                IconButton(
+                  icon: const Icon(Icons.edit),
+                  onPressed: () {
+                    showDialog(
+                      context: context,
+                      builder: (context) {
+                        return AlertDialog(
+                          title: const Text("Edit Name"),
+                          content: TextFormField(
+                            controller: controller.displayNameCtrl,
+                            decoration: const InputDecoration(
+                              labelText: "Enter your name",
                             ),
-                            actions: [
-                              ElevatedButton(
-                                onPressed: () async {
-                                  await controller.updateDisplayName();
-                                  Get.back();
-                                },
-                                child: const Text("Save"),
-                              ),
-                              ElevatedButton(
-                                onPressed: () {
-                                  Get.back();
-                                },
-                                child: const Text("Cancel"),
-                              ),
-                            ],
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ))
-            ],
-          ),
+                          ),
+                          actions: [
+                            ElevatedButton(
+                              onPressed: () async {
+                                await controller.updateDisplayName();
+                                Get.back();
+                              },
+                              child: const Text("Save"),
+                            ),
+                            ElevatedButton(
+                              onPressed: () {
+                                Get.back();
+                              },
+                              child: const Text("Cancel"),
+                            ),
+                          ],
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ))
+          ],
         ),
       ),
     );

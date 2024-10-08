@@ -9,19 +9,7 @@ import 'package:image_picker/image_picker.dart';
 class ProfileController extends GetxController {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController displayNameCtrl = TextEditingController();
-  RxString imagePath = ''.obs;
   final ImagePicker _picker = ImagePicker();
-  // RxString imageUrl = ''.obs; // URL ของรูปภาพที่จะดึงจาก Firebase
-  // @override
-  // void onInit() {
-  //   super.onInit();
-  //   // Load the current user's displayName
-  //   final User? currentUser = _auth.currentUser;
-  //   if (currentUser != null) {
-  //     displayName.value = currentUser.displayName ??
-  //         ''; // Set displayName to the observable variable
-  //   }
-  // }
 
   Future<void> pickAndUploadImage() async {
     final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
@@ -51,6 +39,7 @@ class ProfileController extends GetxController {
 
         // Show a success message
         Get.snackbar('Success', 'Profile picture updated successfully!');
+        await _auth.currentUser?.reload();
       } catch (e) {
         print(e);
         // Handle upload error
