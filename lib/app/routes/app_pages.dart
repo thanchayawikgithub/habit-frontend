@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:habit_frontend/app/modules/auth/auth_guard.dart';
 import 'package:habit_frontend/app/modules/habits/bindings/habits_detail_binding.dart';
 import 'package:habit_frontend/app/modules/habits/views/habit_detail.dart';
 import '../modules/habits/bindings/habits_binding.dart';
@@ -22,7 +23,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.HOME;
   static late ReportList reportList;
   static late Report reports;
   static final routes = [
@@ -37,22 +38,22 @@ class AppPages {
       binding: LoginBinding(),
     ),
     GetPage(
-      name: _Paths.HOME,
-      page: () => HomeView(),
-      binding: HomeBinding(),
-    ),
+        name: _Paths.HOME,
+        page: () => HomeView(),
+        binding: HomeBinding(),
+        middlewares: [AuthGuard()]),
 
     GetPage(
-      name: _Paths.HABITS,
-      page: () => HabitsView(),
-      binding: HabitsBinding(),
-    ),
+        name: _Paths.HABITS,
+        page: () => HabitsView(),
+        binding: HabitsBinding(),
+        middlewares: [AuthGuard()]),
 
     GetPage(
-      name: _Paths.PROFILE,
-      page: () => ProfileView(),
-      binding: ProfileBinding(),
-    ),
+        name: _Paths.PROFILE,
+        page: () => ProfileView(),
+        binding: ProfileBinding(),
+        middlewares: [AuthGuard()]),
     GetPage(
       name: _Paths.GOALS,
       page: () => GoalsView(
@@ -62,9 +63,9 @@ class AppPages {
     ),
     //goals_detail
     GetPage(
-      name: _Paths.HABIT,
-      page: () => HabitDetailView(),
-      binding: HabitDetailBinding(),
-    ),
+        name: _Paths.HABIT,
+        page: () => HabitDetailView(),
+        binding: HabitDetailBinding(),
+        middlewares: [AuthGuard()]),
   ];
 }

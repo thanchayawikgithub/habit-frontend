@@ -12,11 +12,13 @@ import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
   HabitsController habitsCtrl = Get.put(HabitsController());
+  final FirebaseAuth _auth = FirebaseAuth.instance;
   HomeView({super.key}) {
+    // if (_auth.currentUser == null) {
+    //   Get.toNamed('/login');
+    // }
     habitsCtrl.fetchTodayHabits();
   }
-
-  final FirebaseAuth _auth = FirebaseAuth.instance;
 
   @override
   Widget build(BuildContext context) {
