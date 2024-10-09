@@ -265,9 +265,9 @@ class HabitsController extends GetxController {
   }
 
   void _registerReminder(Habit habit) {
-    print('register reminder');
-    print(habit);
-    // Create a unique identifier for the habit (you could use habit.id or something unique)
+    print('register reminder for habit: ${habit.title}');
+
+    // Create a unique identifier for the habit (e.g., habit.id or something unique)
     String cronId = habit.id!;
 
     // Assuming habit.reminderTime is in 'HH:mm' format
@@ -278,6 +278,25 @@ class HabitsController extends GetxController {
     // Schedule the cron job to run daily at the specific time
     scheduledJobs[cronId] =
         cron.schedule(Schedule.parse('$minute $hour * * *'), () async {
+      print('Cron job triggered for habit: ${habit.title}');
+
+      // Fetch today's habit record
+      HabitRecord? habitRecordToday = await fetchHabitRecordForToday(habit.id!);
+
+      // Check if the habit record for today exists
+      if (habitRecordToday == null) {
+        print('Notification not sent, habit record not found for today');
+        return; // Exit early if no habit record found
+      }
+
+      // Check if the habit is already completed for today
+      if (habitRecordToday.status == true) {
+        print('Notification not sent, habit already completed for today');
+        return; // Exit early if habit is completed
+      }
+
+      // If habit is not completed, send the notification
+      print('Notification sent for habit: ${habit.title}');
       LocalNotifications.showSimpleNotification(
         title: 'Habit Reminder',
         body: "It's Time To ${habit.title}!",
@@ -295,5 +314,26 @@ class HabitsController extends GetxController {
     } else {
       print('No cron job found with ID $cronId.');
     }
+  }
+
+  Future<HabitRecord?> fetchHabitRecordForToday(String habitId) async {
+    final DateTime today = DateTime.now();
+    final DateFormat formatter = DateFormat('yyyy-MM-dd');
+    final String formattedDate = formatter.format(today);
+
+    QuerySnapshot habitRecSnapshot = await habitRecordsCollection
+        .where('date', isEqualTo: formattedDate)
+        .where('habitId',
+            isEqualTo: habitId) // Use the habitId from the document
+        .get();
+
+    if (habitRecSnapshot.docs.isNotEmpty) {
+      DocumentSnapshot document = habitRecSnapshot.docs.first;
+      HabitRecord habitRecord =
+          HabitRecord.fromMap(document.data() as Map<String, dynamic>);
+      habitRecord.id = document.id; // Set the id of the HabitRecord
+      return habitRecord;
+    }
+    return null;
   }
 }
